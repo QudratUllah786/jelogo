@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/constants/app_fonts.dart';
 import 'package:jelogo/view/auth/pin_screen.dart';
+import 'package:jelogo/view/auth/type_code_signup.dart';
+import 'package:jelogo/widgets/my_phone_widget.dart';
 
 import '../../constants/app_Colors.dart';
 import '../../constants/assets_images.dart';
@@ -22,7 +24,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
 
   bool isCheck = false;
-
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,25 +86,28 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(height: 20.h),
                             
                     /// Email Field
-                            
-                    MyTextField(
-                      hintText: 'Name',
-                    ),
-                            
-                    MyTextField(
-                      hintText: 'Phone Number',
-                      keyboardType: TextInputType.phone,
-                    ),
-                    MyTextField(
-                      // labelText: 'Email/Phone Number',
-                      hintText: 'Password',
-                      isObSecure: true,
-                      haveSuffix: true,
-                      suffixIcon: Icon(
-                        Icons.remove_red_eye_outlined,
-                        size: 20.sp,
-                      ),
-                    ),
+
+                    // MyTextField(
+                    //   hintText: 'Name',
+                    // ),
+
+                    // MyTextField(
+                    //   hintText: 'Phone Number',
+                    //   keyboardType: TextInputType.phone,
+                    // ),
+                    // MyTextField(
+                    //   // labelText: 'Email/Phone Number',
+                    //   hintText: 'Password',
+                    //   isObSecure: true,
+                    //   haveSuffix: true,
+                    //   suffixIcon: Icon(
+                    //     Icons.remove_red_eye_outlined,
+                    //     size: 20.sp,
+                    //   ),
+                    // ),
+
+
+                    MyPhoneTextField(formKey: _formKey),
                             
                     SizedBox(height: 8.h),
                     Row(
@@ -164,7 +169,9 @@ class _SignUpState extends State<SignUp> {
                       child: ElevatedButton(
                         onPressed: () {
 
-                          Get.to(()=> PinScreen());
+                          Get.to(()=> TypeCodeSignUp());
+
+                        //  Get.to(()=> PinScreen());
 
 
                         },

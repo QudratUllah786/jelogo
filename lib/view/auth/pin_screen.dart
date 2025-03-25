@@ -28,18 +28,16 @@ class _PinScreenState extends State<PinScreen> {
       });
 
       if (pin.length == 4) {
-
-        if(widget.fromTransfer == true){
-
+        if (widget.fromTransfer == true) {
           Get.to(Confirm());
           return;
-
         }
 
-        Get.offAll(()=>JelogoBottomBar());
+        Get.offAll(() => JelogoBottomBar());
       }
     }
   }
+
   void _onDelete() {
     if (pin.isNotEmpty) {
       setState(() {
@@ -51,39 +49,48 @@ class _PinScreenState extends State<PinScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simpleAppBar(title: 'JELOGO',haveLeading: false,bgColor: Colors.grey[200],centerTitle: true,
-      actions: [
-        MyText(text: 'Disconnection',color: Colors.redAccent,size: 14.sp,weight: FontWeight.w600,paddingRight: 10,)
-
-      ]
-      ),
+      appBar: simpleAppBar(
+          title: 'JELOGO',
+          haveLeading: false,
+          bgColor: Colors.grey[200],
+          centerTitle: true,
+          actions: [
+            MyText(
+              text: 'Disconnection',
+              color: Colors.redAccent,
+              size: 14.sp,
+              weight: FontWeight.w600,
+              paddingRight: 10,
+            )
+          ]),
       backgroundColor: Colors.grey[200],
       body: Padding(
         padding: EdgeInsets.only(top: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-             MyText(
-             text:  "Enter your secret code",
-            size: 18.sp,
-               weight: FontWeight.w600,
+            MyText(
+              text: "Enter your secret code",
+              size: 18.sp,
+              weight: FontWeight.w600,
             ),
 
-
-             MyText(
-              text:  "Please enter your security code",
-               size: 14,color: kSubheadingColor,
+            MyText(
+              text: "Please enter your security code",
+              size: 14,
+              color: kSubheadingColor,
             ),
-            SizedBox(height: 5.h,),
+            SizedBox(
+              height: 5.h,
+            ),
 
-            Icon(Icons.lock_outlined,color: Colors.black,size: 40. sp,),
+            Icon(
+              Icons.lock_outlined,
+              color: Colors.black,
+              size: 40.sp,
+            ),
 
-             SizedBox(height: 40.sp),
-
-
-
-
+            SizedBox(height: 40.sp),
 
             /// Dots for entered PIN
             Row(
@@ -91,13 +98,16 @@ class _PinScreenState extends State<PinScreen> {
               children: List.generate(4, (index) {
                 return Container(
                   margin: const EdgeInsets.symmetric(horizontal: 5),
-                  width: 50.w, // Adjust width
-                  height: 50.h, // Adjust height
+                  width: 50.w,
+                  // Adjust width
+                  height: 50.h,
+                  // Adjust height
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black, width: 1.5),
                     borderRadius: BorderRadius.circular(8),
-                    color: index < pin.length ? Colors.black : Colors.transparent,
+                    color:
+                        index < pin.length ? Colors.black : Colors.transparent,
                   ),
                   child: Text(
                     index < pin.length ? pin[index] : "",
@@ -112,13 +122,14 @@ class _PinScreenState extends State<PinScreen> {
             ),
             const SizedBox(height: 30),
 
-
             MyText(
-              text:  "Forgotten secret code",
-              size: 14,color: Colors.lightBlue,
+              text: "Forgotten secret code",
+              size: 14,
+              color: Colors.lightBlue,
             ),
 
             Spacer(),
+
             /// Number Pad
             Expanded(
               child: GridView.builder(
@@ -130,7 +141,20 @@ class _PinScreenState extends State<PinScreen> {
                 ),
                 itemCount: 12,
                 itemBuilder: (context, index) {
-                  List<String> keys = ["9", "7", "5", "8", "3", "0", "2", "6", "꩜", "1", "4", "⌫"];
+                  List<String> keys = [
+                    "9",
+                    "7",
+                    "5",
+                    "8",
+                    "3",
+                    "0",
+                    "2",
+                    "6",
+                    "꩜",
+                    "1",
+                    "4",
+                    "⌫"
+                  ];
 
                   return InkWell(
                     onTap: () {
@@ -142,25 +166,26 @@ class _PinScreenState extends State<PinScreen> {
                         _onNumberPress(keys[index]);
                       }
                     },
-                    borderRadius: BorderRadius.circular(10), // Gives a nice ripple effect
+                    borderRadius: BorderRadius.circular(10),
+                    // Gives a nice ripple effect
                     child: Container(
                       alignment: Alignment.center,
                       width: double.infinity, // Ensures it takes full space
                       height: double.infinity, // Ensures it takes full space
                       child: Text(
                         keys[index],
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                     ),
                   );
                 },
-
               ),
             ),
 
-
-            SizedBox(height: 60.h,)
-
+            SizedBox(
+              height: 60.h,
+            )
           ],
         ),
       ),

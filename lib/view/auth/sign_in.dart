@@ -12,10 +12,12 @@ import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 import 'package:jelogo/widgets/my_text_field_widget.dart';
 
+import '../../widgets/my_phone_widget.dart';
 import '../bottombar/jelogo_bottom_bar.dart';
 
 class SignIn extends StatelessWidget {
-  const SignIn({super.key});
+   SignIn({super.key});
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +80,15 @@ class SignIn extends StatelessWidget {
                     SizedBox(height: 20.h),
                 
                     /// Email Field
-                
-                    MyTextField(
-                      hintText: 'Phone Number',
-                      keyboardType: TextInputType.phone,
 
-                    ),
+
+
+                    MyPhoneTextField(formKey: _formKey),
+                    // MyTextField(
+                    //   hintText: 'Phone Number',
+                    //   keyboardType: TextInputType.phone,
+                    //
+                    // ),
                     // MyTextField(
                     //   // labelText: 'Email/Phone Number',
                     //   hintText: 'Password',
@@ -136,22 +141,22 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                 
-                    // SizedBox(height: 100.h,),
-                    //
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //
-                    //     MyText(text: 'Don\'t have an account? ',color: Color(0xff343434),),
-                    //     SizedBox(width: 10.w,),
-                    //     MyText(text: 'Sign up', color: kSecondaryColor,weight: FontWeight.w600,onTap: (){
-                    //       Get.to(()=>SignUp());
-                    //
-                    //     },),
-                    //
-                    //   ],
-                    // )
-                
+                    SizedBox(height: 100.h,),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+
+                        MyText(text: 'Don\'t have an account? ',color: Color(0xff343434),),
+                        SizedBox(width: 10.w,),
+                        MyText(text: 'Sign up', color: kSecondaryColor,weight: FontWeight.w600,onTap: (){
+                          Get.to(()=>SignUp());
+
+                        },),
+
+                      ],
+                    )
+
                 
                   ],
                 ),

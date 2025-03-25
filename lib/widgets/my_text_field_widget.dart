@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:jelogo/constants/app_colors.dart';
 import '../constants/app_fonts.dart';
 import 'my_text.dart';
@@ -257,13 +258,17 @@ class _MyDropdownState extends State<MyDropdown> {
 }
 ///
 
-/*
 class From_date extends StatefulWidget {
   final String label;
   final DateTime? selectedDate;
   final Function(DateTime)? onDateSelected;
-  const From_date(
-      {super.key, this.onDateSelected, this.selectedDate, required this.label});
+
+  const From_date({
+    super.key,
+    this.onDateSelected,
+    this.selectedDate,
+    required this.label,
+  });
 
   @override
   State<From_date> createState() => _From_dateState();
@@ -280,122 +285,112 @@ class _From_dateState extends State<From_date> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        MyText(
-          text: widget.label,
-          size: 17.sp,
-          weight: FontWeight.w700,
-          color: kSecondaryColor,
-          paddingBottom: 3,
-          fontFamily: AppFonts.URBANIST,
-        ),
-
-        TextFormField(
-          style: TextStyle(
-            fontSize: 15.5.sp,
-            color: kSecondaryColor,
-            fontWeight: FontWeight.w500,
-            fontFamily: AppFonts.URBANIST,
-          ),
-          cursorColor: kSecondaryColor,
-          showCursor: true,
-          decoration: InputDecoration(
-            hintText: 'DD/MM/YYYY',
-            hintStyle: TextStyle(
-              fontSize: 16.sp,
-              color:  khintColor,
-              fontFamily: AppFonts.URBANIST,
+    return Padding(
+      padding: EdgeInsets.only(bottom: 12), // Same as MyTextField
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (widget.label.isNotEmpty)
+            MyText(
+              text: widget.label,
+              size: 12.sp,
+              weight: FontWeight.w600,
+              color: kSubheadingColor,
+              paddingBottom: 3,
+              fontFamily: AppFonts.POPPINS,
             ),
-            labelStyle: const TextStyle(color: Color.fromRGBO(72, 71, 71, 1)),
-            fillColor: kFillColor,
-            filled: true,
-
-            contentPadding: EdgeInsets.symmetric( horizontal: 3.w,
-                vertical:1.65.h),
-            focusedBorder:  OutlineInputBorder(
-              borderSide: const BorderSide(
-                  color: kBordercolor, width: 1),
-              borderRadius: BorderRadius.circular(12.sp),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24), // Same as MyTextField
+              boxShadow: [
+                BoxShadow(
+                  color: kSecondaryColor.withOpacity(0.03),
+                  blurRadius: 47,
+                  offset: const Offset(-2, 6),
+                ),
+              ],
             ),
-            enabledBorder:  OutlineInputBorder(
-              borderSide: const BorderSide(
-                  color: kBordercolor, width: 1),
-              borderRadius: BorderRadius.circular(12.sp),
-            ),
-
-
-          ),
-          controller: dateinput,
-          readOnly: true,
-          onTap: () async {
-            DateTime? pickedDate = await showDatePicker(
-              context: context,
-              initialDate: widget.selectedDate ?? DateTime.now(),
-              firstDate:DateTime.now(),
-              lastDate: DateTime(2050),
-              builder: (BuildContext context, Widget? child) {
-                return Theme(
-                  data: ThemeData(
-                    colorScheme: const ColorScheme(
-                      primary: kPinFillcolor,
-                      onPrimary: kPrimaryColor,
-                      onPrimaryContainer: kSecondaryColor,
-                      secondary: kSecondaryColor,
-                      onSecondary: kSecondaryColor,
-                      surface: kPrimaryColor,
-                      onSurface: kSecondaryColor,
-                      background: kPrimaryColor,
-                      onBackground: kSecondaryColor,
-                      error: kRed,
-                      onError: kPrimaryColor,
-                      brightness: Brightness.light,
+            child: TextFormField(
+              style: TextStyle(
+                fontSize: 15.5.sp,
+                color: kTertiaryColor,
+                fontWeight: FontWeight.w500,
+                fontFamily: AppFonts.POPPINS,
+              ),
+              controller: dateinput,
+              cursorColor: kSecondaryColor,
+              readOnly: true,
+              decoration: InputDecoration(
+                fillColor: kFillColor,
+                filled: true,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 3.w,
+                  vertical: 15,
+                ),
+                hintText: 'DD/MM/YYYY',
+                hintStyle: TextStyle(
+                  fontSize: 16.sp,
+                  color: khintColor,
+                  fontFamily: AppFonts.POPPINS,
+                ),
+                suffixIconConstraints: BoxConstraints(
+                  minWidth: 40,
+                ),
+                suffixIcon: Padding(
+                  padding: EdgeInsets.only(right: 2.w),
+                  child: GestureDetector(
+                    onTap: _selectDate,
+                    child: Icon(
+                      Icons.calendar_today_outlined,
+                      color: khintColor,
                     ),
-                    dialogBackgroundColor: kPrimaryColor,
-                    textButtonTheme: TextButtonThemeData(
-                      style: TextButton.styleFrom(
-                          foregroundColor: kSecondaryColor
-                      ),
-
-                    ),
-                    textTheme: TextTheme(
-                      headlineMedium: TextStyle(
-                        fontSize: 15.5.sp,
-                        color: kSecondaryColor,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: AppFonts.URBANIST,
-                      ),
-                      titleMedium: TextStyle(
-                        fontSize: 15.5.sp,
-                        color: kSecondaryColor,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: AppFonts.URBANIST,
-                      ),
-                    ),
-
                   ),
-                  child: child!,
-                );
-              },
-            );
-
-            if (pickedDate != null) {
-              String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
-              dateinput.text = formattedDate;
-
-              // Call the callback function with the selected date
-              if (widget.onDateSelected != null) {
-                widget.onDateSelected!(pickedDate);
-              }
-            }
-          },
-
-        ),
-      ],
+                ),
+                border: InputBorder.none,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 1,
+                    color: kBordercolor,
+                  ),
+                  borderRadius: BorderRadius.circular(12.sp),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.sp),
+                  borderSide: BorderSide(
+                    width: 1,
+                    color: kBordercolor,
+                  ),
+                ),
+              ),
+              onTap: _selectDate,
+            ),
+          ),
+        ],
+      ),
     );
   }
+
+  Future<void> _selectDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: widget.selectedDate ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2050),
+    );
+
+    if (pickedDate != null) {
+      String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
+      setState(() {
+        dateinput.text = formattedDate;
+      });
+
+      if (widget.onDateSelected != null) {
+        widget.onDateSelected!(pickedDate);
+      }
+    }
+  }
 }
+
 
 
 class CustomTextField4 extends StatefulWidget {
@@ -537,7 +532,7 @@ class _CustomTextField4State extends State<CustomTextField4> {
       ),
     );
   }
-}*/
+}
 
 
 /*
