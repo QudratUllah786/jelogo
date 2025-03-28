@@ -169,4 +169,27 @@ class AssetsImages {
   /// Assets for visa
   /// assets/images/visa.png
   static const String visa = "assets/images/visa.png";
+
+  /// Assets for sodeci
+  /// assets/images/sodeci.png
+  static const String sodeci = "assets/images/sodeci.png";
+
+  /// Assets for canal
+  /// assets/images/canal.png
+  static const String canal = "assets/images/canal.png";
+
+  /// Assets for star_times
+  /// assets/images/star_times.png
+  static const String star_times = "assets/images/star_times.png";
+
+  /// Assets for ponthkb
+  /// assets/images/ponthkb.png
+  static const String ponthkb = "assets/images/ponthkb.png";
+
+
+  /// Assets for cie
+  /// assets/images/cie.png
+  static const String cie = "assets/images/cie.png";
+
+
 }

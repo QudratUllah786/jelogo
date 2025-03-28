@@ -78,13 +78,14 @@ class Transport extends StatelessWidget {
 class ReusableCard extends StatelessWidget {
   final String imagePath; // Image path for the icon
   final String title; // Title text
-  final Function()? onTap; // Function to handle tap on the icon button
-
+  final Function()? onTap;// Function to handle tap on the icon button
+  final Color? bgColor;
   const ReusableCard({
     super.key,
     required this.imagePath,
     required this.title,
     required this.onTap,
+    this.bgColor
   });
 
   @override
@@ -104,7 +105,7 @@ class ReusableCard extends StatelessWidget {
                   offset: Offset(2, 2), // Shadow position (X, Y)
                 ),
               ],
-              color: Colors.white, // Background color
+              color:bgColor?? Colors.white, // Background color
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

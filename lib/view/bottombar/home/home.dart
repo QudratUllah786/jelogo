@@ -183,12 +183,9 @@ class Home extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 20.sp),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          Color(0xFF0A47B7),
-                          Color(0xFFAEA8F4),
-                        ],
+                        colors: [Color(0xFF001F3F), Color(0xFF003366)], // Dark blue gradient
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(16.sp),
                       image: DecorationImage(
@@ -201,11 +198,12 @@ class Home extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         // Card Title
-                        MyText(
-                          paddingTop: 20.sp,
-                          text: 'Lorem Ipsum',
-                          size: 16.sp,
+                        GeneralImageWidget(
+                          imagePath: AssetsImages.logo,
+                          width: 70.w,
+                          height: 40.h,
                           color: Colors.white,
+
                         ),
                         // Balance and Eye Icon
                         Row(

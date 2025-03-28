@@ -17,10 +17,12 @@ class GeneralImageWidget extends StatelessWidget {
   final BoxFit fit;
   final String placeHolder;
   final Color? borderColor;
+  final Color? color;
 
   GeneralImageWidget({super.key,
     this.url,
     this.imagePath,
+    this.color,
     this.svgPath,
     this.file,
     this.height,
@@ -117,6 +119,7 @@ class GeneralImageWidget extends StatelessWidget {
             height: height,
             width: width,
             fit: fit,
+            color: color,
           ),
         ),
       );

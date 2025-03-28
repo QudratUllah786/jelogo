@@ -66,8 +66,12 @@ class CustomDrawer extends StatelessWidget {
                 Get.to(()=> Settings());
               }),
               DrawerListTile(icon: Icons.newspaper, title: "News", onTap: () {
-          
-                Get.to(()=> NewsScreen());
+             Get.to(()=>    NewsDetailScreen({
+               'title': "Profitez des soldes",
+               'subtitle': "Gagnez jusqu’à 100.000 XOF",
+               'description': "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
+               'referralCode': "IOJLFH",
+             }));
               }),
               DrawerListTile(icon: Icons.discount, title: "Coupon", onTap: () {
           

@@ -11,6 +11,8 @@ import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 
 import '../../../constants/assets_images.dart';
+import '../../../widgets/news_card.dart';
+import '../../news_screen.dart';
 class SendingMoney extends StatelessWidget {
    SendingMoney({super.key});
 
@@ -58,25 +60,52 @@ class SendingMoney extends StatelessWidget {
 body: Scaffold(
   body: Padding(
     padding: EdgeInsets.symmetric(horizontal: 20,vertical: 16),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+    child: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+      
+          MyText(text: 'Select An  Option',color: kSubheadingColor,size: 12,weight: FontWeight.w600,),
+      
+      
+          SizedBox(height: 20.h,),
+      
+         ListView.builder(
+           physics: NeverScrollableScrollPhysics(),
+           shrinkWrap:true,
+           itemCount: listItems.length,
+           itemBuilder: (context, index) {
+           return ReusableCard(
+               imagePath: listItems[index]['icon'],
+               title: listItems[index]['label'],
+               onTap: listItems[index]['route']);
+         },),
+      
+          SizedBox(height: 20.h,),
 
-        MyText(text: 'Select An  Option',color: kSubheadingColor,size: 12,weight: FontWeight.w600,),
+          MyText(text: 'News',size: 18.sp,weight: FontWeight.w600,),
 
-
-        SizedBox(height: 20.h,),
-
-       ListView.builder(
-         shrinkWrap:true,
-         itemCount: listItems.length,
-         itemBuilder: (context, index) {
-         return ReusableCard(
-             imagePath: listItems[index]['icon'],
-             title: listItems[index]['label'],
-             onTap: listItems[index]['route']);
-       },)
-      ],
+          InkWell(
+            onTap: () {
+              Get.to(()=> NewsDetailScreen({
+                'title': "Profitez des soldes",
+                'subtitle': "Gagnez jusqu’à 100.000 XOF",
+                'description': "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
+                'referralCode': "IOJLFH",
+              }),);
+            },
+            child: NewsCard(
+              title: "Profitez des soldes",
+              subtitle: "Gagnez jusqu’à 100.000 XOF",
+              description: "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
+              referralCode: "IOJLFH",
+            ),
+          )
+      
+      
+      
+        ],
+      ),
     ),
   ),
   
