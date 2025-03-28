@@ -49,16 +49,25 @@ class _PersonalInformationState extends State<PersonalInformation> {
       ),
       body: Padding(
         padding: AppSizes.HORIZONTAL,
-        child:isAccount? Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20.h),
-            _buildToggleButtons(),
-            SizedBox(height: 30.h),
-            _buildProfileSection(),
-            SizedBox(height: 40.h),
-            _buildPersonalInformationSection(),
-          ],
+        child:isAccount? SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20.h),
+              _buildToggleButtons(),
+              SizedBox(height: 30.h),
+              _buildProfileSection(),
+              SizedBox(height: 40.h),
+              _buildPersonalInformationSection(),
+              SizedBox(height: 20.h,),
+
+              BlueButton(ButtonText: 'Update', onTap: () {
+
+              },),
+
+              SizedBox(height: 10.h,)
+            ],
+          ),
         ):
 
             /// Documents section
@@ -182,39 +191,49 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
   /// Custom Widget for Personal Information Section
   Widget _buildPersonalInformationSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        MyText(
-          text: 'Personal Information',
-          color: kSecondaryColor,
-          size: 17.sp,
-          weight: FontWeight.w600,
-        ),
-        SizedBox(height: 20.h),
-        _buildInfoRow('Account Number', '3024982387'),
-        SizedBox(height: 10.h),
-        _buildInfoRow('Username', '3024982387'),
-        SizedBox(height: 10.h),
-        _buildInfoRow('Email', 'aryan.stirk2nd@gmail.com'),
-        SizedBox(height: 10.h),
-        _buildInfoRow('Mobile Phone', '+620932938232'),
-        SizedBox(height: 10.h),
-        _buildInfoRow('Address', 'Gotham Road 21', isAddress: true),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          MyText(
+            text: 'Personal Information',
+            color: kSecondaryColor,
+            size: 17.sp,
+            weight: FontWeight.w600,
+          ),
+          SizedBox(height: 20.h),
+          _buildEditableInfoRow('Account Number', '3024982387'),
+          SizedBox(height: 10.h),
+          _buildEditableInfoRow('Username', '3024982387'),
+          SizedBox(height: 10.h),
+          _buildEditableInfoRow('Email', 'aryan.stirk2nd@gmail.com'),
+          SizedBox(height: 10.h),
+          _buildEditableInfoRow('Mobile Phone', '+620932938232'),
+          SizedBox(height: 10.h),
+          _buildEditableInfoRow('Address', 'Gotham Road 21', isAddress: true),
+        ],
+      ),
     );
   }
 
   /// Custom Widget for Information Row
-  Widget _buildInfoRow(String label, String value, {bool isAddress = false}) {
+  Widget _buildEditableInfoRow(
+      String label,
+      String initialValue,
+      {
+        bool isAddress = false,
+        TextEditingController? controller,
+        void Function(String)? onChanged,
+      }
+      ) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       decoration: BoxDecoration(
         color: Color(0xffF2F1F9),
         borderRadius: BorderRadius.circular(15),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MyText(
             text: label,
@@ -222,24 +241,50 @@ class _PersonalInformationState extends State<PersonalInformation> {
             weight: FontWeight.w500,
             color: kSecondaryColor,
           ),
-          if (isAddress)
-            SizedBox(
-              width: Get.width * 0.3,
-              child: MyText(
-                text: value,
-                size: 12.sp,
-                weight: FontWeight.w400,
+          SizedBox(height: 8), // Add some spacing between label and input
+          // if (isAddress)
+          //   SizedBox(
+          //     width: Get.width * 0.7, // Increased width for text field
+          //     child: TextField(
+          //       controller: controller ?? TextEditingController(text: initialValue),
+          //       onChanged: onChanged,
+          //       maxLines: 1,
+          //       style: TextStyle(
+          //         fontSize: 12.sp,
+          //         fontWeight: FontWeight.w400,
+          //         color: kSubheadingColor,
+          //       ),
+          //       decoration: InputDecoration(
+          //         isDense: true,
+          //         contentPadding: EdgeInsets.symmetric(vertical: 8),
+          //         border: UnderlineInputBorder(
+          //           borderSide: BorderSide(color: kSubheadingColor.withOpacity(0.3)),
+          //         ),
+          //         focusedBorder: UnderlineInputBorder(
+          //           borderSide: BorderSide(color: kSecondaryColor),
+          //         ),
+          //       ),
+          //     ),
+          //   )
+          // else
+            TextField(
+              controller: controller ?? TextEditingController(text: initialValue),
+              onChanged: onChanged,
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
                 color: kSubheadingColor,
-                maxLines: 1,
-                textOverflow: TextOverflow.ellipsis,
               ),
-            )
-          else
-            MyText(
-              text: value,
-              size: 12.sp,
-              weight: FontWeight.w400,
-              color: kSubheadingColor,
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.symmetric(vertical: 8),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: kSubheadingColor.withOpacity(0.3)),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: kSecondaryColor),
+                ),
+              ),
             ),
         ],
       ),

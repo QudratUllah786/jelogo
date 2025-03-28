@@ -8,6 +8,8 @@ import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/blue_button.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
+
+import '../../../constants/app_Colors.dart';
 class CreditCard extends StatelessWidget {
   const CreditCard({super.key});
 
@@ -23,15 +25,42 @@ class CreditCard extends StatelessWidget {
       ),
       body: Column(
         children: [
-          GeneralImageWidget(
-            imagePath: AssetsImages.card,
-          ),
+
+
+
+          // GeneralImageWidget(
+          //   imagePath: AssetsImages.card,
+          // ),
 
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
+
+
+                Container(
+                  width: Get.width,
+                  height: Get.height*0.25,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.sp),
+                    boxShadow: [
+                      BoxShadow(
+                        color: kSecondaryColor.withOpacity(0.1),
+                        blurRadius: 10,
+                        offset: Offset(2, 2),
+                      ),
+                    ],
+                    color: Colors.white,
+                  ),
+                  child: IconButton(onPressed: () {
+
+                  }, icon: Icon(Icons.add,size: 50.sp,color: kSubheadingColor,)),
+                ),
+
+
+                SizedBox(height: 30.h,),
+
                 MyText(text: 'You don’t have a registered credit card',size: 16.sp,
                 weight: FontWeight.w600,
                 ),

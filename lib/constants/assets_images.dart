@@ -166,5 +166,7 @@ class AssetsImages {
   static const String uber = "assets/images/uber.png";
 
 
-
+  /// Assets for visa
+  /// assets/images/visa.png
+  static const String visa = "assets/images/visa.png";
 }

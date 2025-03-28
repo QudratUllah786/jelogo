@@ -7,7 +7,9 @@ import 'package:jelogo/constants/app_Colors.dart';
 import 'package:jelogo/view/bottombar/home/transfer.dart';
 import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
+import 'package:jelogo/widgets/my_phone_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
+import 'package:jelogo/widgets/my_text_field_widget.dart';
 
 import '../../../../constants/assets_images.dart';
 
@@ -128,10 +130,15 @@ class ReusableCard extends StatelessWidget {
                       ),
                       SizedBox(width: 20.w), // Spacing between icon and text
                       // Title Text
-                      MyText(
-                        text: title, // Dynamic title
-                        size: 16.sp, // Responsive font size
-                        weight: FontWeight.w600,
+                      SizedBox(
+                        width: Get.width*0.4,
+                        child: MyText(
+                          maxLines: 2,
+                          textOverflow: TextOverflow.ellipsis,
+                          text: title, // Dynamic title
+                          size: 16.sp, // Responsive font size
+                          weight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),
@@ -152,3 +159,6 @@ class ReusableCard extends StatelessWidget {
     );
   }
 }
+
+
+

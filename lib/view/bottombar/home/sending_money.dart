@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jelogo/constants/app_Colors.dart';
 import 'package:jelogo/view/bottombar/home/transfer.dart';
+import 'package:jelogo/view/banques.dart';
 import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
@@ -37,7 +38,7 @@ class SendingMoney extends StatelessWidget {
     {
       "icon": AssetsImages.image11,
       "label": "Banques",
-      "route": () => Get.to(Transfer()),
+      "route": () => Get.to(Banques()),
     },
     {
       "icon": AssetsImages.image12,
