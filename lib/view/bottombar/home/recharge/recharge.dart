@@ -77,25 +77,25 @@ class Recharge extends StatelessWidget {
                         onTap: listItems[index]['route']);
                   },),
 
-
-                MyText(text: 'News',size: 18.sp,weight: FontWeight.w600,),
-
-                InkWell(
-                  onTap: () {
-                    Get.to(()=> NewsDetailScreen({
-                      'title': "Profitez des soldes",
-                      'subtitle': "Gagnez jusqu’à 100.000 XOF",
-                      'description': "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
-                      'referralCode': "IOJLFH",
-                    }),);
-                  },
-                  child: NewsCard(
-                    title: "Profitez des soldes",
-                    subtitle: "Gagnez jusqu’à 100.000 XOF",
-                    description: "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
-                    referralCode: "IOJLFH",
-                  ),
-                )
+                //
+                // MyText(text: 'News',size: 18.sp,weight: FontWeight.w600,),
+                //
+                // InkWell(
+                //   onTap: () {
+                //     Get.to(()=> NewsDetailScreen({
+                //       'title': "Profitez des soldes",
+                //       'subtitle': "Gagnez jusqu’à 100.000 XOF",
+                //       'description': "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
+                //       'referralCode': "IOJLFH",
+                //     }),);
+                //   },
+                //   child: NewsCard(
+                //     title: "Profitez des soldes",
+                //     subtitle: "Gagnez jusqu’à 100.000 XOF",
+                //     description: "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
+                //     referralCode: "IOJLFH",
+                //   ),
+                // )
               ],
             ),
           ),

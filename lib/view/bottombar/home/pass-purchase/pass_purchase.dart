@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jelogo/constants/app_Colors.dart';
+import 'package:jelogo/core/utils.dart';
 import 'package:jelogo/view/bottombar/home/transfer.dart';
 import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
@@ -12,6 +13,7 @@ import 'package:jelogo/widgets/my_text.dart';
 import '../../../../constants/assets_images.dart';
 import '../../../../widgets/news_card.dart';
 import '../../../news_screen.dart';
+import 'orange.dart';
 
 class PassPurchase extends StatelessWidget {
   PassPurchase({super.key});
@@ -20,19 +22,33 @@ class PassPurchase extends StatelessWidget {
     {
       "icon": AssetsImages.image7,
       "label": "Orange Money",
-      "route": () => Get.to(Transfer()),
+      "route": () => Get.to(OrangeMoney(
+        title: 'Orange Money',
+        titleColor: Colors.orange,
+        bgColor: Colors.black,
+      )),
     },
     {
       "icon": AssetsImages.image8,
       "label": "Moov Africa",
-      "route": () => Get.to(Transfer()),
+      "route": () => Get.to(OrangeMoney(
+        title: 'Moov Africa',
+        titleColor: Colors.white,
+        bgColor: kSecondaryColor,
+      )),
     },
     {
       "icon": AssetsImages.image9,
       "label": "MTN Money",
-      "route": () => Get.to(Transfer()),
+      "route": () =>  Get.to(OrangeMoney(
+        title: 'MTN Money',
+        titleColor: Colors.black,
+        bgColor: Colors.orange,
+      )),
     },
   ];
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +58,7 @@ class PassPurchase extends StatelessWidget {
         titleSize: 20,
 
       ),
-      body: Scaffold(
+
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20,vertical: 16),
           child: SingleChildScrollView(
@@ -66,34 +82,31 @@ class PassPurchase extends StatelessWidget {
                         title: listItems[index]['label'],
                         onTap: listItems[index]['route']);
                   },),
-
-                MyText(text: 'News',size: 18.sp,weight: FontWeight.w600,),
-
-                InkWell(
-                  onTap: () {
-                    Get.to(()=> NewsDetailScreen({
-                      'title': "Profitez des soldes",
-                      'subtitle': "Gagnez jusqu’à 100.000 XOF",
-                      'description': "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
-                      'referralCode': "IOJLFH",
-                    }),);
-                  },
-                  child: NewsCard(
-                    title: "Profitez des soldes",
-                    subtitle: "Gagnez jusqu’à 100.000 XOF",
-                    description: "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
-                    referralCode: "IOJLFH",
-                  ),
-                )
+                //
+                // MyText(text: 'News',size: 18.sp,weight: FontWeight.w600,),
+                //
+                // InkWell(
+                //   onTap: () {
+                //     Get.to(()=> NewsDetailScreen({
+                //       'title': "Profitez des soldes",
+                //       'subtitle': "Gagnez jusqu’à 100.000 XOF",
+                //       'description': "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
+                //       'referralCode': "IOJLFH",
+                //     }),);
+                //   },
+                //   child: NewsCard(
+                //     title: "Profitez des soldes",
+                //     subtitle: "Gagnez jusqu’à 100.000 XOF",
+                //     description: "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
+                //     referralCode: "IOJLFH",
+                //   ),
+                // )
               ],
             ),
           ),
         ),
+      );
 
-
-
-      ),
-    );
   }
 }
 
@@ -178,3 +191,4 @@ class ReusableCard extends StatelessWidget {
     );
   }
 }
+

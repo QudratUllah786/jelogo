@@ -88,7 +88,7 @@ class InvoicePayment extends StatelessWidget {
                 );
               },
             ),
-            MyText(text: 'News',size: 18.sp,weight: FontWeight.w600,),
+         /*   MyText(text: 'News',size: 18.sp,weight: FontWeight.w600,),
 
             InkWell(
               onTap: () {
@@ -105,7 +105,7 @@ class InvoicePayment extends StatelessWidget {
                 description: "Recevez 500 XOF sur votre compte pour chaque utilisateur invité qui a un compte valide.",
                 referralCode: "IOJLFH",
               ),
-            )
+            )*/
 
 
           ],
