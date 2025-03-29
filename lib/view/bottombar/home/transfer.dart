@@ -7,6 +7,7 @@ import 'package:jelogo/view/auth/pin_screen.dart';
 import 'package:jelogo/view/bottombar/home/confirm.dart';
 import 'package:jelogo/widgets/blue_button.dart';
 import 'package:jelogo/widgets/custom_dropdown.dart';
+import 'package:jelogo/widgets/my_phone_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 import 'package:jelogo/widgets/my_text_field_widget.dart';
 
@@ -20,6 +21,7 @@ class Transfer extends StatefulWidget {
 
 class _TransferState extends State<Transfer> {
   bool isCheck = false;
+  final _formKey = GlobalKey<FormState>();
 
   final List<Map<String, String>> beneficiaries = [
     {"name": "Emma", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY6qtMj2fJlymAcGTWLvNtVSCULkLnWYCDcQ&s"},
@@ -48,12 +50,12 @@ class _TransferState extends State<Transfer> {
           
               SizedBox(height: 10,),
           
-              CustomDropdown(title: 'Select Debit Account', items: [
+             /* CustomDropdown(title: 'Select Debit Account', items: [
                 'Orange Money',
                 'Moov Money'
               ],onChanged: (value) {
           
-              },),
+              },),*/
           
               SizedBox(height: 10,),
           
@@ -139,7 +141,8 @@ class _TransferState extends State<Transfer> {
                                 children: [
                                   CircleAvatar(
                                     radius: 30.sp,
-                                    backgroundImage: NetworkImage(beneficiary["image"]!),
+                                  child: Icon(Icons.person_outline),
+                                  //  backgroundImage: NetworkImage(beneficiary["image"]!),
                                   ),
                                   SizedBox(height: 5.h),
                                   Text(
@@ -178,8 +181,12 @@ class _TransferState extends State<Transfer> {
                                //   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MyTextField(hintText: 'Capi Creative Design'),
-                    MyTextField(hintText: '0123456789109', keyboardType: TextInputType.number),
+                  //  MyTextField(hintText: 'Capi Creative Design'),
+
+
+                    MyPhoneTextField(formKey: _formKey),
+
+                //    MyTextField(hintText: '0123456789109', keyboardType: TextInputType.number),
                     MyTextField(hintText: 'Fcfa 1000'),
                     MyTextField(hintText: 'Fcfa 1000'),
                     MyText(

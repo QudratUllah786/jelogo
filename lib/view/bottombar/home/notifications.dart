@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jelogo/constants/assets_images.dart';
 import 'package:jelogo/main.dart';
 import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/my_text.dart';
@@ -22,7 +23,7 @@ class Notifications extends StatelessWidget {
               titleText: 'Payment Received',
               subTitle: 'You have received \$150 from John Doe.',
               time: '5 min ago',
-              Img: dummyImage,
+              Img: AssetsImages.logo,
               onTap: () {},
             ),
             SizedBox(height: 10.h),
@@ -31,7 +32,7 @@ class Notifications extends StatelessWidget {
               subTitle: 'Mike has requested an appointment.',
               time: '1 hour ago',
               iconImg: false,
-              Img: dummyImage,
+              Img: AssetsImages.logo,
               isRequest: true,
               onTap: () {},
               onAcceptTap: () {},
@@ -43,7 +44,7 @@ class Notifications extends StatelessWidget {
               iconImg: false,
               subTitle: 'Your recent service has been marked as completed.',
               time: 'Yesterday',
-              Img: dummyImage,
+              Img: AssetsImages.logo,
               onTap: () {},
             ),
           ],
@@ -105,7 +106,7 @@ class MyNotificationContainer extends StatelessWidget {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.sp),
-                        child: Image.network(Img,
+                        child: Image.asset(Img,
                             fit: iconImg ? BoxFit.cover : null),
                       ),
                     ),

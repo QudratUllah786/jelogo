@@ -10,6 +10,7 @@ import 'package:jelogo/view/bottombar/home/invoice-payment/transport.dart';
 import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
 
+import '../../../../constants/app_Colors.dart';
 import '../../../../widgets/my_text.dart';
 import '../../../../widgets/news_card.dart';
 import '../../../news_screen.dart';
@@ -18,7 +19,7 @@ class InvoicePayment extends StatelessWidget {
 
   static  List<Map<String,dynamic>> serviceList = [{
     'title':'Merchants',
-    'image':AssetsImages.accountDetail,
+    'image':AssetsImages.merchant,
     "route": () {
       Get.to(()=> Merchants());
     },
@@ -27,14 +28,14 @@ class InvoicePayment extends StatelessWidget {
    },
     {
     'title':'Transports',
-    'image':AssetsImages.accountDetail,
+    'image':AssetsImages.transport,
       "route": () {
       Get.to(()=> Transport());
       },
     },
     {
       'title':'Bills',
-      'image':AssetsImages.accountDetail,
+      'image':AssetsImages.bills,
       "route": () {
 
         Get.to(()=> Bills());
@@ -76,13 +77,27 @@ class InvoicePayment extends StatelessWidget {
                       children: [
                         MyText(text: serviceList[index]['title'],size: 16.sp,weight: FontWeight.w600     ,),
                         const SizedBox(height: 5), // Add spacing
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(15), // Apply rounded corners
-                          child: GeneralImageWidget(
-                            imagePath: serviceList[index]['image'],
-                            width: 151.w,
-                            height:170.h,
-                            fit: BoxFit.cover, // Ensure proper image scaling
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: kSecondaryColor.withValues(alpha: 0.1),
+                                // Soft shadow
+                                blurRadius: 10,
+                                // Spread of the shadow
+                                offset: Offset(2, 2), // Shadow position (X, Y)
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+
+                            borderRadius: BorderRadius.circular(15), // Apply rounded corners
+                            child: GeneralImageWidget(
+                              imagePath: serviceList[index]['image'],
+                              width: 151.w,
+                              height:170.h,
+                              fit: BoxFit.cover, // Ensure proper image scaling
+                            ),
                           ),
                         ),
                       ],

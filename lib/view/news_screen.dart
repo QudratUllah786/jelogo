@@ -76,7 +76,7 @@ class NewsDetailScreen extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.asset(
-                    AssetsImages.accountDetail, // Replace with your image
+                    AssetsImages.payment, // Replace with your image
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,

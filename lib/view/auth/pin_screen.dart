@@ -11,8 +11,9 @@ import '../bottombar/jelogo_bottom_bar.dart';
 
 class PinScreen extends StatefulWidget {
   final bool? fromTransfer;
+  final bool fromTopUp;
 
-  const PinScreen({super.key, this.fromTransfer = false});
+  const PinScreen({super.key, this.fromTransfer = false,this.fromTopUp = false});
 
   @override
   _PinScreenState createState() => _PinScreenState();
@@ -29,7 +30,7 @@ class _PinScreenState extends State<PinScreen> {
 
       if (pin.length == 4) {
         if (widget.fromTransfer == true) {
-          Get.to(Confirm());
+          Get.to(Confirm(topUp: widget.fromTopUp,));
           return;
         }
 

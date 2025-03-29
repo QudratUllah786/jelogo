@@ -20,7 +20,7 @@ class NewsCard extends StatelessWidget {
                 borderRadius:
                 const BorderRadius.vertical(top: Radius.circular(12)),
                 child: Image.asset(
-                  AssetsImages.accountDetail, // Replace with your network/local image
+                  AssetsImages.payment, // Replace with your network/local image
                   height: 150,
                   width: double.infinity,
                   fit: BoxFit.cover,

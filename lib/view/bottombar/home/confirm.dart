@@ -10,7 +10,8 @@ import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 
 class Confirm extends StatelessWidget {
-  const Confirm({super.key});
+  const Confirm({super.key, this.topUp = false});
+  final bool topUp;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class Confirm extends StatelessWidget {
               height: 20.h,
             ),
             MyText(
-              text: 'Transfer successful!',
+              text: topUp ?'Top up successful!' :'Transfer successful!',
               size: 16.sp,
               weight: FontWeight.w600,
               color: kSecondaryColor,
@@ -36,7 +37,7 @@ class Confirm extends StatelessWidget {
               height: 20.h,
             ),
             MyText(
-              text: 'You have successfully transferred',
+              text: topUp ? 'You have successfully top up': 'You have successfully transferred',
               size: 14.sp,
               weight: FontWeight.w500,
             ),
@@ -49,16 +50,22 @@ class Confirm extends StatelessWidget {
                   weight: FontWeight.w700,
                   color: Color(0xffFF4267),
                 ),
-                MyText(
-                  text: 'to ',
-                  size: 14.sp,
-                  weight: FontWeight.w500,
+                Visibility(
+                  visible: topUp == true? false:true,
+                  child: MyText(
+                    text: 'to ',
+                    size: 14.sp,
+                    weight: FontWeight.w500,
+                  ),
                 ),
-                MyText(
-                  text: 'Amanda',
-                  size: 14.sp,
-                  weight: FontWeight.w700,
-                  color: kSecondaryColor,
+                Visibility(
+                  visible: topUp == true? false:true,
+                  child: MyText(
+                    text: 'Amanda',
+                    size: 14.sp,
+                    weight: FontWeight.w700,
+                    color: kSecondaryColor,
+                  ),
                 ),
               ],
             ),

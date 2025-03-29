@@ -192,4 +192,26 @@ class AssetsImages {
   static const String cie = "assets/images/cie.png";
 
 
+  /// Assets for payment
+  /// assets/images/payment.jpg
+  static const String payment = "assets/images/payment.jpg";
+
+
+  /// Assets for merchant
+  /// assets/images/merchant.jpg
+  static const String merchant = "assets/images/merchant.jpg";
+
+  /// Assets for bills
+  /// assets/images/bills.jpg
+  static const String bills = "assets/images/bills.jpg";
+
+
+  /// Assets for transport
+  /// assets/images/transport.jpg
+  static const String transport = "assets/images/transport.jpg";
+
+
+
+
+
 }

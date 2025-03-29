@@ -11,6 +11,7 @@ import 'package:jelogo/widgets/my_text.dart';
 import 'package:jelogo/widgets/my_text_field_widget.dart';
 
 import '../../../../widgets/appbar.dart';
+import '../../../auth/pin_screen.dart';
 
 class RechargeTransfer extends StatefulWidget {
   const RechargeTransfer({super.key});
@@ -213,6 +214,8 @@ class _RechargeTransferState extends State<RechargeTransfer> {
                       BlueButton(
                         ButtonText: 'Confirm',
                         onTap: () {
+
+                          Get.to(()=> PinScreen(fromTransfer: true,fromTopUp: true,));
 
                        //   Get.to(Confirm());
 
