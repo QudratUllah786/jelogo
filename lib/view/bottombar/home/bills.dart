@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/view/bottombar/home/add_bill_detail.dart';
 import 'package:jelogo/widgets/appbar.dart';
 
 import '../../../constants/assets_images.dart';
+import '../../../widgets/my_text.dart';
 import 'invoice-payment/transport.dart';
 class Bills extends StatelessWidget {
    Bills({super.key});
@@ -13,7 +15,12 @@ class Bills extends StatelessWidget {
       "icon": AssetsImages.canal,
       "label": "Canal +",
       "route": () {
-        Get.to(()=> AddBillDetail(bgColor: Colors.black, title: 'Canal +'));
+
+        Get.to(()=> CanalDetail());
+
+        /// TODO
+
+
       },
     },
     {
@@ -71,6 +78,71 @@ class Bills extends StatelessWidget {
                     onTap: listItems[index]['route']);
               },)
           ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class CanalDetail extends StatefulWidget {
+  const CanalDetail({super.key});
+
+  @override
+  State<CanalDetail> createState() => _CanalDetailState();
+}
+
+class _CanalDetailState extends State<CanalDetail> {
+  List canalList = ['Reconduire mon abonnement actuel',
+  'Changer d\'offre',
+    'Consulter / Regulariser mon solde impaye '
+
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: simpleAppBar(
+        title: 'Canal +',
+        bgColor: Colors.black,
+        centerTitle: true,
+        titleColor: Colors.white,
+        haveLeading: false,
+      ),
+      body: PopScope(
+        canPop: false, // Prevent default back behavior
+        onPopInvoked: (didPop) {
+          if (!didPop) {
+            Get.close(2); // Close two screens when back button is pressed
+          }
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 0, vertical: 16),
+          child: ListView.builder(
+            itemCount: canalList.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  ListTile(
+                    onTap: () {
+
+                      Get.to(()=> AddBillDetail(bgColor: Colors.black, title: 'Canal +'));
+
+                    },
+                    title: MyText(text: canalList[index], weight: FontWeight.w500),
+                    trailing: Icon(
+                      Icons.navigate_next_outlined,
+                      size: 30.sp,
+                    ),
+                  ),
+                  Divider(
+                    thickness: 2,
+                    color: Colors.black,
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

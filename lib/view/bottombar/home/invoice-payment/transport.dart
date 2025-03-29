@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jelogo/constants/app_Colors.dart';
+import 'package:jelogo/constants/app_fonts.dart';
 import 'package:jelogo/view/bottombar/home/transfer.dart';
 import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
@@ -12,6 +13,7 @@ import 'package:jelogo/widgets/my_text.dart';
 import 'package:jelogo/widgets/my_text_field_widget.dart';
 
 import '../../../../constants/assets_images.dart';
+import '../../../../widgets/alert_dialog_box.dart';
 
 class Transport extends StatelessWidget {
   Transport({super.key});
@@ -20,7 +22,10 @@ class Transport extends StatelessWidget {
     {
       "icon": AssetsImages.yango,
       "label": "Yango",
-      "route": () {},
+      "route": () {
+
+
+      },
     },
     {
       "icon": AssetsImages.uber,
@@ -60,7 +65,18 @@ class Transport extends StatelessWidget {
                   return ReusableCard(
                       imagePath: listItems[index]['icon'],
                       title: listItems[index]['label'],
-                      onTap: listItems[index]['route']);
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomAlertDialog(
+                              message: "Le service est indisponible pour l'instant !!!",
+                              // Other optional parameters can be set here
+                            );
+                          },
+                        );
+
+                      },);
                 },)
             ],
           ),

@@ -6,6 +6,7 @@ import 'package:jelogo/constants/app_Colors.dart';
 import 'package:jelogo/view/bottombar/home/confirm.dart';
 import 'package:jelogo/widgets/blue_button.dart';
 import 'package:jelogo/widgets/custom_dropdown.dart';
+import 'package:jelogo/widgets/my_phone_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 import 'package:jelogo/widgets/my_text_field_widget.dart';
 
@@ -20,6 +21,7 @@ class RechargeTransfer extends StatefulWidget {
 
 class _RechargeTransferState extends State<RechargeTransfer> {
   bool isCheck = false;
+  final _formKey = GlobalKey<FormState>();
 
   final List<Map<String, String>> beneficiaries = [
     {"name": "Emma", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY6qtMj2fJlymAcGTWLvNtVSCULkLnWYCDcQ&s"},
@@ -48,12 +50,12 @@ class _RechargeTransferState extends State<RechargeTransfer> {
 
               SizedBox(height: 10,),
 
-              CustomDropdown(title: 'Select Debit Account', items: [
-                'Orange Money',
-                'Moov Money'
-              ],onChanged: (value) {
-
-              },),
+              // CustomDropdown(title: 'Select Debit Account', items: [
+              //   'Orange Money',
+              //   'Moov Money'
+              // ],onChanged: (value) {
+              //
+              // },),
 
               SizedBox(height: 10,),
 
@@ -139,7 +141,7 @@ class _RechargeTransferState extends State<RechargeTransfer> {
                                 children: [
                                   CircleAvatar(
                                     radius: 30.sp,
-                                    backgroundImage: NetworkImage(beneficiary["image"]!),
+                                   child: Icon(Icons.person_outline),
                                   ),
                                   SizedBox(height: 5.h),
                                   Text(
@@ -178,8 +180,9 @@ class _RechargeTransferState extends State<RechargeTransfer> {
                     //   mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MyTextField(hintText: 'Account Title'),
-                      MyTextField(hintText: 'Account Number', keyboardType: TextInputType.number),
+                   //   MyTextField(hintText: 'Account Title'),
+                      MyPhoneTextField(formKey: _formKey),
+                 //     MyTextField(hintText: 'Account Number', keyboardType: TextInputType.number),
                       MyTextField(hintText: 'Toup-up Amount'),
                       MyTextField(hintText: 'Total Amount'),
 

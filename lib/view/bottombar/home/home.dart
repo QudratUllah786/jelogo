@@ -36,7 +36,7 @@ class Home extends StatelessWidget {
     {
       "icon": AssetsImages.sending,
       "label": "Scan Sending",
-      "route": () => Get.to(()=>ScanSending()),
+      "route": () => Get.to(()=>QRScannerScreen()),
     },
     {
       "icon": AssetsImages.balance,

@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/constants/assets_images.dart';
 import 'package:jelogo/main.dart';
 import 'package:jelogo/view/bottombar/home/bills.dart';
+import 'package:jelogo/view/bottombar/home/invoice-payment/merchants.dart';
 import 'package:jelogo/view/bottombar/home/invoice-payment/transport.dart';
 import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
@@ -18,7 +19,9 @@ class InvoicePayment extends StatelessWidget {
   static  List<Map<String,dynamic>> serviceList = [{
     'title':'Merchants',
     'image':AssetsImages.accountDetail,
-    "route": () {},
+    "route": () {
+      Get.to(()=> Merchants());
+    },
 
 
    },
