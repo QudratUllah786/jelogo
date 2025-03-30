@@ -5,9 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jelogo/constants/app_colors.dart';
 import 'package:jelogo/constants/assets_images.dart';
-import 'package:jelogo/view/auth/forgetpassword/forget_password.dart';
 import 'package:jelogo/view/auth/pin_screen.dart';
-import 'package:jelogo/view/auth/sign_up.dart';
 import 'package:jelogo/view/bottombar/home/invoice-payment/invoice_payment.dart';
 import 'package:jelogo/view/bottombar/home/notifications.dart';
 import 'package:jelogo/view/bottombar/home/pass-purchase/pass_purchase.dart';
@@ -15,10 +13,8 @@ import 'package:jelogo/view/bottombar/home/payment_history.dart';
 import 'package:jelogo/view/bottombar/home/recharge/recharge.dart';
 import 'package:jelogo/view/bottombar/home/scan_sending.dart';
 import 'package:jelogo/view/bottombar/home/sending_money.dart';
-import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
-import 'package:jelogo/widgets/my_text_field_widget.dart';
 
 import '../../../constants/app_fonts.dart';
 import 'drawer/custom_drawer.dart';
@@ -36,7 +32,7 @@ class Home extends StatelessWidget {
     {
       "icon": AssetsImages.sending,
       "label": "Scan Sending",
-      "route": () => Get.to(()=>QRScannerScreen()),
+      "route": () => Get.to(()=>ScanSending()),
     },
     {
       "icon": AssetsImages.balance,

@@ -21,6 +21,8 @@ class Transfer extends StatefulWidget {
 
 class _TransferState extends State<Transfer> {
   bool isCheck = false;
+  bool isCheck1 = false;
+  String selectedOption = 'Orange Money';
   final _formKey = GlobalKey<FormState>();
 
   final List<Map<String, String>> beneficiaries = [
@@ -41,21 +43,31 @@ class _TransferState extends State<Transfer> {
           child: Column(
             children: [
           
-              CustomDropdown(title: 'Orange Money', items: [
+              CustomDropdown(
+
+                title: selectedOption, items: [
                 'Orange Money',
-                'Moov Money'
+                'Moov Money',
+                'MTN Money',
+                'Wave',
+                'Jelogo'
               ],onChanged: (value) {
-          
+
+                  setState(() {
+                    selectedOption = value!;
+                  });
+
+
               },),
           
               SizedBox(height: 10,),
           
-             /* CustomDropdown(title: 'Select Debit Account', items: [
+              CustomDropdown(title: 'Select Debit Account', items: [
                 'Orange Money',
                 'Moov Money'
               ],onChanged: (value) {
-          
-              },),*/
+
+              },),
           
               SizedBox(height: 10,),
           
@@ -196,7 +208,42 @@ class _TransferState extends State<Transfer> {
                       weight: FontWeight.w600,
                       size: 12.sp,
                     ),
-          
+
+                    Visibility(
+                      visible: selectedOption == 'Jelogo'
+                      ? false: true,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isCheck1 = !isCheck1;
+                              });
+                            },
+                            icon: Icon(
+                              isCheck1 ? Icons.check_box_outlined : Icons.check_box_outline_blank,
+                              color: isCheck1 ? kSecondaryColor : kTertiaryColor,
+                            ),
+                          ),
+                          MyText(
+                            text: 'I pay the fees 1.5%',
+                            weight: FontWeight.w500,
+                            size: 14.sp,
+                          )
+                        ],
+                      ),
+                    ),
+
+                    Visibility(
+                        visible: selectedOption == 'Jelogo',
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20.h,),
+                            Center(child: MyText(text: 'Free Transfer',color:Colors.green,size: 20,weight: FontWeight.w600,textAlign: TextAlign.center,)),
+                          ],
+                        )),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -218,7 +265,8 @@ class _TransferState extends State<Transfer> {
                         )
                       ],
                     ),
-          
+
+
                     SizedBox(height: 10.h), // Add spacing before button
                     //
                     BlueButton(

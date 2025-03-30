@@ -11,8 +11,6 @@ import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 
 import '../../../constants/assets_images.dart';
-import '../../../widgets/news_card.dart';
-import '../../news_screen.dart';
 class SendingMoney extends StatelessWidget {
    SendingMoney({super.key});
 

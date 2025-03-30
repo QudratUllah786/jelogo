@@ -1,99 +1,265 @@
 {
-  "signIn": "Sign In",
-  "welcomeBack": "Welcome Back!",
-  "helloSignIn": "Hello there, sign in to continue.",
-  "phoneNumber": "Phone Number",
-  "password": "Password",
-  "forgotPassword": "Forgot your password?",
-  "signInButton": "Sign In",
-  "dontHaveAccount": "Don't have an account?",
-  "signUp": "Sign Up",
-  "rememberMe": "Remember Me",
-  "orContinueWith": "Or continue with",
-  "googleSignIn": "Sign In with Google",
-  "appleSignIn": "Sign In with Apple",
-  "enterValidPhone": "Please enter a valid phone number.",
-  "enterPassword": "Please enter your password.",
-  "signInSuccess": "Sign in successful!",
-  "signInError": "Invalid phone number or password. Please try again.",
-  "loading": "Loading...",
-  "networkError": "Network error. Please check your connection and try again.",
-  "accountLocked": "Your account has been locked due to multiple failed attempts. Please try again later.",
-  "tooManyRequests": "Too many requests. Please wait a few moments before trying again.",
-  "enterOtp": "Enter the OTP sent to your phone.",
-  "verifyOtp": "Verify OTP",
-  "resendOtp": "Resend OTP",
-  "otpSent": "OTP has been sent successfully.",
-  "invalidOtp": "Invalid OTP. Please try again.",
-  "backToSignIn": "Back to Sign In",
-  "passwordReset": "Reset Password",
-  "passwordResetSuccess": "Your password has been reset successfully.",
-  "passwordResetError": "Unable to reset password. Please try again.",
-  "confirmPassword": "Confirm Password",
-  "passwordMismatch": "Passwords do not match. Please try again.",
-  "accountNotFound": "Account not found. Please check your phone number and try again.",
-  "sessionExpired": "Your session has expired. Please sign in again.",
-  "biometricSignIn": "Sign In with Biometrics",
-  "biometricError": "Biometric authentication failed. Please try again.",
-  "changeLanguage": "Change Language",
-  "selectLanguage": "Select your preferred language",
-  "signOut": "Sign Out",
-  "signOutConfirm": "Are you sure you want to sign out?",
-  "signOutSuccess": "You have been signed out successfully.",
-  "signOutError": "Sign out failed. Please try again.",
-  "sessionTimeout": "Session timed out. Please sign in again.",
-  "invalidCredentials": "Invalid credentials. Please check your details and try again.",
-  "accountDeactivated": "Your account has been deactivated. Please contact support for assistance.",
-  "reauthenticate": "For security reasons, please reauthenticate to continue.",
-  "twoFactorAuth": "Enable Two-Factor Authentication",
-  "twoFactorAuthDescription": "Add an extra layer of security to your account.",
-  "enable": "Enable",
-  "disable": "Disable",
-  "twoFactorEnabled": "Two-Factor Authentication enabled successfully.",
-  "twoFactorDisabled": "Two-Factor Authentication disabled successfully.",
-  "twoFactorError": "Error enabling Two-Factor Authentication. Please try again.",
-  "securitySettings": "Security Settings",
-  "updatePassword": "Update Password",
-  "currentPassword": "Current Password",
-  "newPassword": "New Password",
-  "updateSuccess": "Your settings have been updated successfully.",
-  "updateError": "Unable to update settings. Please try again.",
-  "enterEmail": "Enter your email address.",
-  "emailSent": "A verification email has been sent.",
-  "emailNotFound": "Email not found. Please check and try again.",
-  "emailVerification": "Verify Your Email",
-  "verificationPending": "Your email verification is pending.",
-  "verificationComplete": "Your email has been verified successfully.",
-  "verificationFailed": "Email verification failed. Please try again.",
-  "contactSupport": "Contact Support",
-  "supportDescription": "If you need further assistance, please contact our support team.",
-  "noNotifications": "No notifications available.",
-  "privacyPolicy": "Privacy Policy",
-  "termsOfService": "Terms of Service",
-  "scanQr": "Scan QR Code",
-  "scanInstruction": "Please align the QR Code within the frame to scan easily.",
-  "transactionDetail": "Transaction Detail",
-  "transactionDate": "Transaction Date",
-  "transactionType": "Transaction Type",
-  "transactionId": "Transaction ID",
-  "transactionStatus": "Transaction Status",
-  "amountReceived": "Amount Received",
-  "transactionFee": "Transaction Fee",
-  "sender": "Sender",
-  "receiver": "Receiver",
-  "success": "Success",
-  "failed": "Failed",
-  "moneyTransfer": "Money Transfer",
-  "cancel": "Cancel",
-  "retry": "Retry",
-  "changePassword": "Change Password",
-  "recentPassword": "Recent Password",
-  "newPasswordHint": "Enter your new password",
-  "confirmNewPassword": "Confirm New Password",
-  "changePasswordSuccess": "Your password has been changed successfully.",
-  "changePasswordError": "Failed to change password. Please try again.",
-  "profileSettings": "Profile Settings",
-  "updateProfile": "Update Profile",
-  "updateProfileSuccess": "Your profile has been updated successfully.",
-  "updateProfileError": "Failed to update profile. Please try again."
+  "purchase": {
+    "confirm_purchase": "Confirmer l'achat du forfait suivant :",
+    "confirm_self": "Confirmer pour soi même",
+    "confirm_other": "Confirmer pour un(e) autre",
+    "confirm": "Confirm"
+  },
+  "confirm_screen": {
+    "title": "Confirm",
+    "top_up_success": "Top up successful!",
+    "transfer_success": "Transfer successful!",
+    "top_up_message": "You have successfully topped up",
+    "transfer_message": "You have successfully transferred",
+    "amount": "Fcfa 1,000",
+    "to": "to",
+    "recipient": "Amanda",
+    "button_done": "Done"
+  },
+  "invoice_payment": {
+    "title": "Invoice Payments",
+    "services": "Invoice Payments & Services",
+    "merchants": "Merchants",
+    "transports": "Transports",
+    "bills": "Bills"
+  },
+  "merchants": {
+    "title": "Merchants",
+    "merchant_id": "Identifiant du Marchand",
+    "unavailable_service": "Le service est indisponible pour l'instant !!!"
+  },
+  "transport": {
+    "title": "Transport",
+    "unavailable_service": "Le service est indisponible pour l'instant !!!"
+  },
+  "bill_details": {
+    "title": "Add Bill Details",
+    "identifier_number": "Numero identifiant",
+    "confirm_button": "Confirm"
+  },
+  "pass_purchase": {
+    "title": "Pass Purchase",
+    "unit_transfer": "Unit Transfer & Pass Purchase",
+    "sending_money": "Sending Money",
+    "options": {
+      "orange_money": "Orange Money",
+      "moov_africa": "Moov Africa",
+      "mtn_money": "MTN Money"
+    }
+  },
+  "recharge": {
+    "title": "Sending Money",
+    "subtitle": "Top-up your balance from your carrier",
+    "options": {
+      "orange_money": "Orange Money",
+      "moov_money": "Moov Money",
+      "mtn_money": "MTN Money",
+      "wave": "Wave",
+      "banques": "Banques"
+    }
+  },
+  "change_password": {
+    "title": "Change password",
+    "new_password": "Type your new password",
+    "confirm_password": "Confirm password",
+    "button": "Change password"
+  },
+  "change_password_success": {
+    "title": "Change password successfully!",
+    "button": "Ok"
+  },
+  "forgot_password": {
+    "title": "Forgot password",
+    "phone_label": "Type your phone number",
+    "phone_hint": "(+1)",
+    "verification_text": "We texted you a code to verify your phone number",
+    "button": "Send"
+  },
+  "type_code": {
+    "title": "Forgot password",
+    "code_label": "Type a code",
+    "code_hint": "Code",
+    "resend_button": "Resend",
+    "verification_text": "We texted you a code to verify your phone number",
+    "phone_number": "(+1) 02543644",
+    "expiry_text": "This code will expire 10 minutes after this message. If you don't get a message.",
+    "button": "Change password"
+  },
+  "create_secret_code": {
+    "title": "Create Secret Code",
+    "label": "Please create a secret code",
+    "confirm_label": "Please confirm",
+    "hint": "***********",
+    "button": "OK"
+  },
+  "personal_information": {
+    "title": "Personal Information",
+    "gender_options": {
+      "male": "M",
+      "mme": "Mme",
+      "mile": "Mile"
+    },
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "address": "Address",
+    "date_of_birth": "Date of birth",
+    "button": "Sign up"
+  },
+  "auth": {
+    "sign_in": "Sign in"
+  },
+  "pin_screen": {
+    "title": "Enter your secret code",
+    "subtitle": "Please enter your security code",
+    "forgot_code": "Forgotten secret code",
+    "disconnect": "Disconnection"
+  },
+  "sign_up": {
+    "title": "Sign up",
+    "welcome": "Welcome to us",
+    "subtitle": "Hello there, create new account",
+    "terms_text": "By creating an account you agree to our",
+    "terms_conditions": "Terms and Conditions",
+    "button": "Sign up",
+    "existing_account": "Have an account?",
+    "sign_in": "Sign in"
+  },
+  "welcome_screen": {
+    "title": "Welcome to JELOGO, your registration is complete",
+    "button": "OK"
+  },
+  "credit_card": {
+    "title": "Good Evening Mr. Lorem",
+    "no_card": "You don’t have a registered credit card",
+    "add_card": "Add a credit card to make online payments",
+    "button": "Add a Credit Card"
+  },
+  "id_verification": {
+    "title": "ID Verification",
+    "choose_id": "Choose your ID",
+    "id_options": [
+      "CNI", "Passport", "Consular Card", "Driver’s License", "Others",
+      "Certificate of Identity", "Residence Permit", "Social Security Card",
+      "Voter ID", "Health Insurance Card"
+    ],
+    "upload_front": "Photo CNI Front",
+    "upload_back": "Photo CNI Back",
+    "upload_picture": "Upload Your Picture",
+    "button": "Add a Credit Card"
+  },
+  "drawer": {
+    "profile_name": "Sophia Rose",
+    "profile_email": "abcsc@gmail.com",
+    "menu": {
+      "home": "Home",
+      "history": "History",
+      "account": "Account",
+      "notifications": "Notifications",
+      "profile": "Profile",
+      "news": "News",
+      "coupon": "Coupon"
+    },
+    "invite_friend": "Invite a Friend",
+    "deactivate": "Deactivate"
+  },
+  {
+    "setting_change_password": {
+      "title": "Change password",
+      "subtitle": "Secure your account by updating your password",
+      "recent_password": {
+        "hint": "Recent password",
+        "label": "Recent password"
+      },
+      "new_password": {
+        "hint": "New password",
+        "label": "New password"
+      },
+      "confirm_password": {
+        "hint": "Confirm password",
+        "label": "Confirm password"
+      },
+      "button": "Change password"
+    }
+  },
+  {
+    "settings": {
+      "title": "Setting",
+      "user_name": "Push Puttichai",
+      "sections": {
+        "change_password": "Change Password",
+        "personal_information": "Personal Information",
+        "documents": "Documents",
+        "pricing_plan": "Pricing Plan",
+        "change_language": "Change Language"
+      }
+    }
+  },
+  {
+    "bottom_navigation": {
+      "home": "Home",
+      "card": "Card",
+      "settings": "Settings"
+    }
+  },
+  {
+    "banques": {
+      "title": "Banques",
+      "visa_account": "depuis un compte VISA",
+      "jelogo_account": "depuis un compte JELOGO",
+      "detail": {
+        "title": "Banques Detail",
+        "account_name": "Account Name",
+        "iban": "IBAN",
+        "amount": "Amount",
+        "confirm_button": "Confirm"
+      }
+    }
+  },
+{
+  "coupons_screen": {
+    "title": "Coupons",
+    "coupons": [
+      {
+        "title": "Summer Sale",
+        "expiry": "Oct 30, 2025",
+        "discount": "20%",
+        "code": "SUMMER20"
+      },
+      {
+        "title": "Winter Offer",
+        "expiry": "Dec 25, 2025",
+        "discount": "30%",
+        "code": "WINTER30"
+      }
+    ],
+    "copy_message": "Coupon code copied!"
+  }
+},
+{
+  "news_screen": {
+    "title": "News",
+    "news_list": [
+      {
+        "headline": "Mudryk will bring to Chelsea & reflects on 'valuable' victory",
+        "date": "Wed, Jan 18",
+        "author": "Lina Punk London",
+        "read_time": "10 min read",
+        "image": "AssetsImages.payment",
+        "content": [
+          {
+            "title": "WHAT HAPPENED?",
+            "text": "The new £89m ($109m) man was in attendance at Stamford Bridge as a bullet header from Kai Havertz was enough to secure Chelsea a crucial win. Potter underlined the importance of getting points on the board over implementing his style of play..."
+          },
+          {
+            "title": "WHAT THEY SAID:",
+            "text": "Today we are happy for the three points. Overall we played quite well, they had their moments as well but today was about getting the victory..."
+          }
+        ]
+      }
+    ]
+  }
+}
+
+
 }

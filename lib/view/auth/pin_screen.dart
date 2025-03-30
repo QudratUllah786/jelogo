@@ -56,12 +56,15 @@ class _PinScreenState extends State<PinScreen> {
           bgColor: Colors.grey[200],
           centerTitle: true,
           actions: [
-            MyText(
-              text: 'Disconnection',
-              color: Colors.redAccent,
-              size: 14.sp,
-              weight: FontWeight.w600,
-              paddingRight: 10,
+            Visibility(
+              visible: widget.fromTransfer == true? false:true,
+              child: MyText(
+                text: 'Disconnection',
+                color: Colors.redAccent,
+                size: 14.sp,
+                weight: FontWeight.w600,
+                paddingRight: 10,
+              ),
             )
           ]),
       backgroundColor: Colors.grey[200],
