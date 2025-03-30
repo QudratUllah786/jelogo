@@ -34,9 +34,11 @@ class MyTextField extends StatelessWidget {
         this.onPrefixTap,
         this.fillColor,
         this.hintColor,
+        this.readOnly,
         this.lableColor});
   String? hintText, labelText ;
   Icon ?suffixIcon;
+  bool?  readOnly;
   double? marginBottom, suffixIconSize, radius, prefixIconSize;
   bool? isObSecure, isEnabled, haveSuffix, havePrefix;
   int? maxLength, maxLines;
@@ -85,6 +87,7 @@ class MyTextField extends StatelessWidget {
               enabled: isEnabled,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: validator,
+              readOnly: readOnly?? false,
               maxLines: maxLines,
               maxLength: maxLength,
               onChanged: onChanged,

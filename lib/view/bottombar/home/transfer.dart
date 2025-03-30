@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -7,13 +9,17 @@ import 'package:jelogo/view/auth/pin_screen.dart';
 import 'package:jelogo/view/bottombar/home/confirm.dart';
 import 'package:jelogo/widgets/blue_button.dart';
 import 'package:jelogo/widgets/custom_dropdown.dart';
+import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_phone_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 import 'package:jelogo/widgets/my_text_field_widget.dart';
 
 import '../../../widgets/appbar.dart';
+
 class Transfer extends StatefulWidget {
-  const Transfer({super.key});
+  const Transfer({super.key, required this.label});
+
+  final String label;
 
   @override
   State<Transfer> createState() => _TransferState();
@@ -24,10 +30,20 @@ class _TransferState extends State<Transfer> {
   bool isCheck1 = false;
   String selectedOption = 'Orange Money';
   final _formKey = GlobalKey<FormState>();
+  TextEditingController _controller = TextEditingController();
+  FocusNode _focusNode = FocusNode();
 
   final List<Map<String, String>> beneficiaries = [
-    {"name": "Emma", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY6qtMj2fJlymAcGTWLvNtVSCULkLnWYCDcQ&s"},
-    {"name": "Justin", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY6qtMj2fJlymAcGTWLvNtVSCULkLnWYCDcQ&s"},
+    {
+      "name": "Emma",
+      "image":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY6qtMj2fJlymAcGTWLvNtVSCULkLnWYCDcQ&s"
+    },
+    {
+      "name": "Justin",
+      "image":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY6qtMj2fJlymAcGTWLvNtVSCULkLnWYCDcQ&s"
+    },
   ];
 
   @override
@@ -42,8 +58,22 @@ class _TransferState extends State<Transfer> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-          
-              CustomDropdown(
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(10.sp)),
+                alignment: Alignment.center,
+                height: 50.h,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                child: MyText(
+                  text: widget.label,
+                  size: 20.sp,
+                  color: Colors.orange,
+                  weight: FontWeight.w600,
+                ),
+              ),
+
+              /* CustomDropdown(
 
                 title: selectedOption, items: [
                 'Orange Money',
@@ -58,42 +88,46 @@ class _TransferState extends State<Transfer> {
                   });
 
 
-              },),
-          
-              SizedBox(height: 10,),
-          
-              CustomDropdown(title: 'Select Debit Account', items: [
-                'Orange Money',
-                'Moov Money'
-              ],onChanged: (value) {
+              },),*/
+              //
+              // SizedBox(height: 10,),
+              //
+              // CustomDropdown(title: 'Select Debit Account', items: [
+              //   'Orange Money',
+              //   'Moov Money'
+              // ],onChanged: (value) {
+              //
+              // },),
 
-              },),
-          
-              SizedBox(height: 10,),
-          
+              SizedBox(
+                height: 10,
+              ),
+              MyPhoneTextField(formKey: _formKey),
+
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  MyText(text: 'Choose beneficiary',
-                  size: 12.sp,
+                  MyText(
+                    text: 'Choose beneficiary',
+                    size: 12.sp,
                     weight: FontWeight.w600,
                     color: kSubheadingColor,
                   ),
-          
-          
-                  MyText(text: 'Find beneficiary',
+                  MyText(
+                    text: 'Find beneficiary',
                     size: 12.sp,
                     weight: FontWeight.w600,
-                  color: kSecondaryColor,
-          
-          
+                    color: kSecondaryColor,
                   )
-          
-          
                 ],
               ),
-          
-              SizedBox(height: 10,),
+
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
                   // Add Beneficiary Button
@@ -121,11 +155,12 @@ class _TransferState extends State<Transfer> {
                           color: Colors.grey.withOpacity(0.1),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.add, size: 40, color: Colors.white),
+                        child: const Icon(Icons.add,
+                            size: 40, color: Colors.white),
                       ),
                     ),
                   ),
-          
+
                   // Beneficiary List (Limited to 2 items)
                   Expanded(
                     child: SingleChildScrollView(
@@ -153,13 +188,15 @@ class _TransferState extends State<Transfer> {
                                 children: [
                                   CircleAvatar(
                                     radius: 30.sp,
-                                  child: Icon(Icons.person_outline),
-                                  //  backgroundImage: NetworkImage(beneficiary["image"]!),
+                                    child: Icon(Icons.person_outline),
+                                    //  backgroundImage: NetworkImage(beneficiary["image"]!),
                                   ),
                                   SizedBox(height: 5.h),
                                   Text(
                                     beneficiary["name"]!,
-                                    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ],
                               ),
@@ -171,119 +208,191 @@ class _TransferState extends State<Transfer> {
                   ),
                 ],
               ),
-          
-          
-              SizedBox(height: 10,),
-          
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.sp),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1), // Soft shadow
-                    blurRadius: 10, // Spread of the shadow
-                    offset: Offset(2, 2), // Shadow position (X, Y)
-                  ),
-                ],
-                color: Colors.white,
+
+              SizedBox(
+                height: 10,
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                               //   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                  //  MyTextField(hintText: 'Capi Creative Design'),
 
-
-                    MyPhoneTextField(formKey: _formKey),
-
-                //    MyTextField(hintText: '0123456789109', keyboardType: TextInputType.number),
-                    MyTextField(hintText: 'Fcfa 1000'),
-                    MyTextField(hintText: 'Fcfa 1000'),
-                    MyText(
-                      paddingLeft: 5.w,
-                      text: 'One thousand Fcfa',
-                      color: kSecondaryColor,
-                      weight: FontWeight.w600,
-                      size: 12.sp,
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.sp),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1), // Soft shadow
+                      blurRadius: 10, // Spread of the shadow
+                      offset: Offset(2, 2), // Shadow position (X, Y)
                     ),
+                  ],
+                  color: Colors.white,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    //   mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: MyText(
+                          text: 'Enter the amount',
+                          size: 16.sp,
+                          weight: FontWeight.w600,
+                        ),
+                      ),
 
-                    Visibility(
-                      visible: selectedOption == 'Jelogo'
-                      ? false: true,
-                      child: Row(
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            Future.delayed(Duration(milliseconds: 100), () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              FocusScope.of(context).requestFocus(_focusNode);
+                            });
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              GeneralImageWidget(
+                                imagePath: 'assets/images/cash.png',
+                                width: 30.w,
+                                height: 40.h,
+                              ),
+                              SizedBox(
+                                width: 80, // Adjust width as needed
+                                child: TextField(
+                                  controller: _controller,
+                                  focusNode: _focusNode,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  // Allow only numbers
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "0",
+                                  ),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Text("F cfa",
+                                  style: TextStyle(color: Colors.black54)),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      //  MyTextField(hintText: 'Capi Creative Design'),
+
+                      //    MyTextField(hintText: '0123456789109', keyboardType: TextInputType.number),
+
+                      Visibility(
+                        visible: widget.label == 'Jelogo' ? false : true,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  isCheck1 = !isCheck1;
+                                });
+                              },
+                              icon: Icon(
+                                isCheck1
+                                    ? Icons.check_box_outlined
+                                    : Icons.check_box_outline_blank,
+                                color:
+                                    isCheck1 ? kSecondaryColor : kTertiaryColor,
+                              ),
+                            ),
+                            MyText(
+                              text: 'I pay the fees 1.5%',
+                              weight: FontWeight.w600,
+                              size: 16.sp,
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+
+                      MyText(
+                        paddingLeft: 10.w,
+                        text: 'Total to pay: 0 F cfa',
+                        size: 16.sp,
+                        weight: FontWeight.w600,
+                      ),
+
+                      SizedBox(
+                        height: 10,
+                      ),
+                      MyText(
+                        paddingLeft: 10.w,
+                        text: 'Amount to send: 0 F cfa',
+                        size: 16.sp,
+                        weight: FontWeight.w600,
+                      ),
+
+                      Visibility(
+                          visible: widget.label == 'Jelogo',
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Center(
+                                  child: MyText(
+                                text: 'Free Transfer',
+                                color: Colors.green,
+                                size: 20,
+                                weight: FontWeight.w600,
+                                textAlign: TextAlign.center,
+                              )),
+                            ],
+                          )),
+
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           IconButton(
                             onPressed: () {
                               setState(() {
-                                isCheck1 = !isCheck1;
+                                isCheck = !isCheck;
                               });
                             },
                             icon: Icon(
-                              isCheck1 ? Icons.check_box_outlined : Icons.check_box_outline_blank,
-                              color: isCheck1 ? kSecondaryColor : kTertiaryColor,
+                              isCheck
+                                  ? Icons.check_box_outlined
+                                  : Icons.check_box_outline_blank,
+                              color: isCheck ? kSecondaryColor : kTertiaryColor,
                             ),
                           ),
                           MyText(
-                            text: 'I pay the fees 1.5%',
+                            text: 'Save to directory of beneficiary ',
                             weight: FontWeight.w500,
                             size: 14.sp,
                           )
                         ],
                       ),
-                    ),
 
-                    Visibility(
-                        visible: selectedOption == 'Jelogo',
-                        child: Column(
-                          children: [
-                            SizedBox(height: 20.h,),
-                            Center(child: MyText(text: 'Free Transfer',color:Colors.green,size: 20,weight: FontWeight.w600,textAlign: TextAlign.center,)),
-                          ],
-                        )),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              isCheck = !isCheck;
-                            });
-                          },
-                          icon: Icon(
-                            isCheck ? Icons.check_box_outlined : Icons.check_box_outline_blank,
-                            color: isCheck ? kSecondaryColor : kTertiaryColor,
-                          ),
-                        ),
-                        MyText(
-                          text: 'Save to directory of beneficiary ',
-                          weight: FontWeight.w500,
-                          size: 14.sp,
-                        )
-                      ],
-                    ),
-
-
-                    SizedBox(height: 10.h), // Add spacing before button
-                    //
-                    BlueButton(
-                      ButtonText: 'Confirm',
-                      onTap: () {
-
-                      Get.to(()=> PinScreen(fromTransfer: true,));
-
-                      },
-                    ),
-                  ],
+                      SizedBox(height: 10.h),
+                      // Add spacing before button
+                      //
+                      BlueButton(
+                        ButtonText: 'Confirm',
+                        onTap: () {
+                          Get.to(() => PinScreen(
+                                fromTransfer: true,
+                              ));
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            )
-              
-          
-          
+              )
             ],
           ),
         ),

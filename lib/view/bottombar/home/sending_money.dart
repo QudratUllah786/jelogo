@@ -18,22 +18,30 @@ class SendingMoney extends StatelessWidget {
     {
       "icon": AssetsImages.image7,
       "label": "Orange Money",
-      "route": () => Get.to(Transfer()),
+      "route": () => Get.to(Transfer(
+         label: "Orange Money",
+      )),
     },
     {
       "icon": AssetsImages.image8,
       "label": "Moov Money",
-      "route": () => Get.to(Transfer()),
+      "route": () => Get.to(Transfer(
+        label: "Moov Money",
+      )),
     },
     {
       "icon": AssetsImages.image9,
       "label": "MTN Money",
-      "route": () => Get.to(Transfer()),
+      "route": () => Get.to(Transfer(
+        label: "MTN Money",
+      )),
     },
     {
       "icon": AssetsImages.image10,
       "label": "Wave",
-      "route": () => Get.to(Transfer()),
+      "route": () => Get.to(Transfer(
+        label: "Wave",
+      )),
     },
     {
       "icon": AssetsImages.image11,
@@ -43,7 +51,9 @@ class SendingMoney extends StatelessWidget {
     {
       "icon": AssetsImages.image12,
       "label": "Jelogo",
-      "route": () => Get.to(Transfer()),
+      "route": () => Get.to(Transfer(
+        label: "Jelogo",
+      )),
     },
   ];
 
