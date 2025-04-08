@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/constants/app_colors.dart';
 import 'package:jelogo/constants/assets_images.dart';
+import 'package:jelogo/controller/auth_controller.dart';
 import 'package:jelogo/view/auth/forgetpassword/forget_password.dart';
 import 'package:jelogo/view/auth/pin_screen.dart';
 import 'package:jelogo/view/auth/sign_up.dart';
@@ -15,9 +18,19 @@ import 'package:jelogo/widgets/my_text_field_widget.dart';
 import '../../widgets/my_phone_widget.dart';
 import '../bottombar/jelogo_bottom_bar.dart';
 
-class SignIn extends StatelessWidget {
-   SignIn({super.key});
+class SignIn extends StatefulWidget {
+  SignIn({super.key});
+
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
+  final _authController = Get.put(AuthController());
+  TextEditingController phoneController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +45,6 @@ class SignIn extends StatelessWidget {
         haveLeading: false,
         leadingIconSize: 14.sp,
         leadingColor: kPrimaryColor,
-
-
       ),
       resizeToAvoidBottomInset: true,
       body: Column(
@@ -41,9 +52,8 @@ class SignIn extends StatelessWidget {
           Expanded(
             child: Container(
               width: double.infinity,
-                     //   height: MediaQuery.of(context).size.height * 0.9,
               decoration: const BoxDecoration(
-                color: Colors.white, // White background
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50),
                   topRight: Radius.circular(50),
@@ -70,94 +80,71 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 30.h),
-                
+
                     Center(
                       child: GeneralImageWidget(
                         imagePath: AssetsImages.authImage,
                       ),
                     ),
-                
+
                     SizedBox(height: 20.h),
-                
-                    /// Email Field
 
 
-
-                    MyPhoneTextField(formKey: _formKey),
-                    // MyTextField(
-                    //   hintText: 'Phone Number',
-                    //   keyboardType: TextInputType.phone,
-                    //
-                    // ),
-                    // MyTextField(
-                    //   // labelText: 'Email/Phone Number',
-                    //   hintText: 'Password',
-                    //   isObSecure: true,
-                    //   haveSuffix: true,
-                    //   suffixIcon: Icon(
-                    //     Icons.remove_red_eye_outlined,
-                    //     size: 20.sp,
-                    //   ),
-                    // ),
-                
-                    // SizedBox(height: 10.h),
-                    // Align(
-                    //   alignment: Alignment.centerRight,
-                    //   child: MyText(
-                    //     onTap: (){
-                    //
-                    //       Get.to(()=> ForgetPassword());
-                    //     },
-                    //     text: "Forgot your password?",
-                    //     size: 14,
-                    //     color: Colors.grey,
-                    //   ),
-                    // ),
-                
-                    SizedBox(height: 20.h),
-                
-                    // Sign In Button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50.h,
-                      child: ElevatedButton(
-                        onPressed: () {
-
-                          Get.to(()=> PinScreen());
-
+                      MyPhoneTextField(
+                        controller: phoneController,
+                        onChanged: (p0) {
+                          _authController.update(['phone']);
+                          _authController.validateForm(_formKey);
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: kLoginButtonColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                         formKey: _formKey,
+                      ),
+
+
+                    SizedBox(height: 20.h),
+
+                    Obx(
+                      () =>  SizedBox(
+                        width: double.infinity,
+                        height: 50.h,
+                        child: ElevatedButton(
+                          onPressed: _authController.isFormValid.value ? () {
+                            if (_formKey.currentState!.validate()) {
+                              Get.to(() => PinScreen());
+                            }
+                          } : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: _authController.isFormValid.value ? kSecondaryColor : kLoginButtonColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                        ),
-                        child: MyText(
-                          text: "Sign in",
-                          color: kPrimaryColor,
-                          weight: FontWeight.bold,
-                          size: 16,
+                          child: MyText(
+                            text: "Sign in",
+                            color: kPrimaryColor,
+                            weight: FontWeight.bold,
+                            size: 16,
+                          ),
                         ),
                       ),
                     ),
-                
-                    SizedBox(height: 100.h,),
+
+                    SizedBox(height: 100.h),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-
-                        MyText(text: 'Don\'t have an account? ',color: Color(0xff343434),),
-                        SizedBox(width: 10.w,),
-                        MyText(text: 'Sign up', color: kSecondaryColor,weight: FontWeight.w600,onTap: (){
-                          Get.to(()=>SignUp());
-
-                        },),
-
+                        MyText(text: 'Don\'t have an account? ', color: Color(0xff343434)),
+                        SizedBox(width: 10.w),
+                        MyText(
+                          text: 'Sign up',
+                          color: kSecondaryColor,
+                          weight: FontWeight.w600,
+                          onTap: () {
+                            Get.to(() => SignUp());
+                          },
+                        ),
                       ],
                     )
-
-                
                   ],
                 ),
               ),

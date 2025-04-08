@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:jelogo/constants/app_Colors.dart';
 
 import 'my_text.dart';
@@ -10,12 +12,15 @@ import 'my_text.dart';
 class MyPhoneTextField extends StatelessWidget {
   final TextEditingController? controller;
   final void Function(String?)? onSubmitted;
+  void Function(PhoneNumber)? onChanged;
+
   final GlobalKey<FormState> formKey;
 
-  MyPhoneTextField({
+   MyPhoneTextField({
     super.key,
     required this.formKey,
     this.controller,
+    this.onChanged,
     this.onSubmitted,
   });
 
@@ -35,6 +40,7 @@ class MyPhoneTextField extends StatelessWidget {
           key: formKey,
           child: IntlPhoneField(
             onSubmitted: onSubmitted,
+            onChanged: onChanged,
             controller: controller,
             cursorColor: kSecondaryColor,
             keyboardType: TextInputType.phone,
@@ -78,9 +84,6 @@ class MyPhoneTextField extends StatelessWidget {
               ),
               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
-            onCountryChanged: (country) {
-              // Handle country code change
-            },
           ),
         ),
       ],

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jelogo/constants/app_Colors.dart';
-import 'package:jelogo/core/utils.dart';
+import 'package:jelogo/utils/utils.dart';
 import 'package:jelogo/view/bottombar/home/transfer.dart';
 import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
