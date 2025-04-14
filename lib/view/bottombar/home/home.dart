@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jelogo/constants/app_colors.dart';
 import 'package:jelogo/constants/assets_images.dart';
+import 'package:jelogo/utils/global_instances.dart';
 import 'package:jelogo/view/auth/pin_screen.dart';
 import 'package:jelogo/view/bottombar/home/invoice-payment/invoice_payment.dart';
 import 'package:jelogo/view/bottombar/home/notifications.dart';
@@ -80,13 +81,15 @@ class Home extends StatelessWidget {
           ),
         ),
 
-        title: MyText(
-          text: 'Hi, Push Puttichai',
-          size: 16.sp,
-          color: kPrimaryColor,
-          weight: FontWeight.w500,
-          fontFamily: AppFonts.POPPINS,
-          letterSpacing: 0.3,
+        title: Obx(
+          () =>  MyText(
+            text: 'Hi ${userModelGlobal.value.firstName ?? ''} ${userModelGlobal.value.lastName ?? ''}',
+            size: 16.sp,
+            color: kPrimaryColor,
+            weight: FontWeight.w500,
+            fontFamily: AppFonts.POPPINS,
+            letterSpacing: 0.3,
+          ),
         ),
         actions: [
           IconButton(onPressed: () {

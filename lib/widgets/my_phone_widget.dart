@@ -14,6 +14,8 @@ class MyPhoneTextField extends StatelessWidget {
   final void Function(String?)? onSubmitted;
   void Function(PhoneNumber)? onChanged;
 
+  void Function(Country)? onCountryChanged;
+
   final GlobalKey<FormState> formKey;
 
    MyPhoneTextField({
@@ -22,6 +24,7 @@ class MyPhoneTextField extends StatelessWidget {
     this.controller,
     this.onChanged,
     this.onSubmitted,
+     this.onCountryChanged,
   });
 
   @override
@@ -45,6 +48,7 @@ class MyPhoneTextField extends StatelessWidget {
             cursorColor: kSecondaryColor,
             keyboardType: TextInputType.phone,
             autovalidateMode: AutovalidateMode.onUserInteraction,
+            onCountryChanged: onCountryChanged,
             style: TextStyle(
               fontSize: 14,
               color: Colors.black87,

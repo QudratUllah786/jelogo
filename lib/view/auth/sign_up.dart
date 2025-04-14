@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/constants/app_fonts.dart';
+import 'package:jelogo/controller/auth_controller.dart';
+import 'package:jelogo/utils/snackbars.dart';
 import 'package:jelogo/view/auth/pin_screen.dart';
 import 'package:jelogo/view/auth/type_code_signup.dart';
 import 'package:jelogo/widgets/my_phone_widget.dart';
@@ -22,9 +24,10 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final _authController = Get.find<AuthController>();
 
-  bool isCheck = false;
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,19 +110,36 @@ class _SignUpState extends State<SignUp> {
                     // ),
 
 
-                    MyPhoneTextField(formKey: _formKey),
+                    MyPhoneTextField(
+                      controller: _authController.phoneController,
+                      onCountryChanged: (p0) {
+
+                        _authController.signUpcountryCode.value = p0.dialCode;
+                      },
+                      onChanged: (p0) {
+                        _authController.update(['phone']);
+                        _authController.validateSignForm(_formKey);
+                      },
+                      formKey: _formKey,),
                             
                     SizedBox(height: 8.h),
                     Row(
                       children: [
-                            
-                        IconButton(
-                            onPressed: (){
-                          setState(() {
-                            isCheck = !isCheck;
-                          });
-                        }, icon: Icon(isCheck == true? Icons.check_box_outlined:Icons.check_box_outline_blank, color:isCheck == true? kSecondaryColor:kTertiaryColor,)),
-                            
+                        Obx(
+                          () => IconButton(
+                              onPressed: () {
+                                _authController.isCheck.value =
+                                    !_authController.isCheck.value;
+                              },
+                              icon: Icon(
+                                _authController.isCheck.value == true
+                                    ? Icons.check_box_outlined
+                                    : Icons.check_box_outline_blank,
+                                color: _authController.isCheck.value == true
+                                    ? kSecondaryColor
+                                    : kTertiaryColor,
+                              )),
+                        ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: RichText(
@@ -163,29 +183,37 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(height: 20.h),
                             
                     // Sign In Button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50.h,
-                      child: ElevatedButton(
-                        onPressed: () {
-
-                          Get.to(()=> TypeCodeSignUp());
-
-                        //  Get.to(()=> PinScreen());
+                    Obx(
+                          () =>  SizedBox(
+                        width: double.infinity,
+                        height: 50.h,
+                        child: ElevatedButton(
+                          onPressed: _authController.isSignUpFormValid.value ? () async {
+                            if (_formKey.currentState!.validate()) {
 
 
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff0ffF2F1F9),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                              if(_authController.isCheck.value == false){
+                                CustomSnackBars.instance.showToast(message: 'please check term and conditions');
+                                return;
+
+                              }
+
+
+                           await   _authController.sendSignUpOtp();
+                            }
+                          } : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: _authController.isSignUpFormValid.value  ? kSecondaryColor : kLoginButtonColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                        ),
-                        child: MyText(
-                          text: "Sign up",
-                          color: kPrimaryColor,
-                          weight: FontWeight.bold,
-                          size: 16,
+                          child: MyText(
+                            text: "Sign in",
+                            color: kPrimaryColor,
+                            weight: FontWeight.bold,
+                            size: 16,
+                          ),
                         ),
                       ),
                     ),

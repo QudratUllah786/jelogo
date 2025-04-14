@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:jelogo/controller/auth_controller.dart';
+import 'package:jelogo/utils/snackbars.dart';
+import 'package:jelogo/utils/validators.dart';
 import 'package:jelogo/view/auth/create_secret_code.dart';
 import 'package:jelogo/view/auth/forgetpassword/change_password.dart';
 import 'package:jelogo/widgets/blue_button.dart';
@@ -12,7 +15,9 @@ import '../../../widgets/appbar.dart';
 import '../../../widgets/my_text.dart';
 import '../../../widgets/my_text_field_widget.dart';
 class TypeCodeSignUp extends StatelessWidget {
-  const TypeCodeSignUp({super.key});
+   TypeCodeSignUp({super.key,});
+
+ final authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +56,8 @@ class TypeCodeSignUp extends StatelessWidget {
                       Flexible(
                         child: MyTextField(
                           hintText: 'Code',
+                          controller: authController.verifyOtpController,
+                          validator: (value) => ValidationService.instance.emptyValidator(value),
                         ),
                       ),
                       Flexible(
@@ -59,7 +66,9 @@ class TypeCodeSignUp extends StatelessWidget {
                           child: BlueButton(
                             width: 100,
                             ButtonText: 'Resend',
-                            onTap: () {},
+                            onTap: () async {
+                             await authController.sendSignUpOtp(resend: true);
+                            },
                           ),
                         ),
                       ),
@@ -75,7 +84,12 @@ class TypeCodeSignUp extends StatelessWidget {
                   Row(
                     children: [
                       MyText(text: 'phone number',weight: FontWeight.w500,),
-                      MyText(text: '(+1) 02543644',weight: FontWeight.w600,color: kSecondaryColor,),
+                      Obx(() => MyText(
+                            text:
+                                '(+${authController.signUpcountryCode.value}) ${authController.phoneController.text.trim()}',
+                            weight: FontWeight.w600,
+                            color: kSecondaryColor,
+                          )),
                     ],
                   ),
 
@@ -85,8 +99,16 @@ class TypeCodeSignUp extends StatelessWidget {
                   MyText(text: 'This code will expired 10 minutes after this message. If you don\'t get a message.',weight: FontWeight.w500,),
 
                   SizedBox(height: 20.h,),
-                  BlueButton(ButtonText: 'Sign up', onTap: (){
-                    Get.to(()=>CreateSecretCode());
+                  BlueButton(ButtonText: 'Sign up', onTap: () async {
+                    if(authController.verifyOtpController.text.isEmpty){
+
+                      CustomSnackBars.instance.showToast(message: 'please type code');
+                      return;
+                    }
+                    await authController.otpVerification();
+
+
+
 
                   })
 

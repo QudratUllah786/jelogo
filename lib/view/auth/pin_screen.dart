@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/constants/app_Colors.dart';
+import 'package:jelogo/controller/auth_controller.dart';
+import 'package:jelogo/view/auth/forgetpassword/forget_password.dart';
 import 'package:jelogo/widgets/appbar.dart';
 
 import '../../widgets/my_text.dart';
@@ -21,20 +23,23 @@ class PinScreen extends StatefulWidget {
 
 class _PinScreenState extends State<PinScreen> {
   String pin = "";
+  final _authController = Get.find<AuthController>();
 
-  void _onNumberPress(String value) {
+  Future<void> _onNumberPress(String value) async {
     if (pin.length < 4) {
       setState(() {
         pin += value;
       });
-
       if (pin.length == 4) {
         if (widget.fromTransfer == true) {
           Get.to(Confirm(topUp: widget.fromTopUp,));
           return;
         }
 
-        Get.offAll(() => JelogoBottomBar());
+       await _authController.login(password: pin);
+
+
+
       }
     }
   }
@@ -127,6 +132,9 @@ class _PinScreenState extends State<PinScreen> {
             const SizedBox(height: 30),
 
             MyText(
+              onTap:() {
+                Get.to(()=> ForgetPassword());
+              },
               text: "Forgotten secret code",
               size: 14,
               color: Colors.lightBlue,

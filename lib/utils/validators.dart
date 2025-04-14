@@ -55,25 +55,25 @@ class ValidationService {
       return 'Password is required';
     }
 
-    if (password.length < 8) {
-      return 'Password must be at least 8 characters long';
+    if (password.length != 4) {
+      return 'Password must be exactly 4 characters long';
     }
 
-    if (password.isUpperCase() == false) {
-      return 'Password must contain at least one uppercase letter';
-    }
-
-    if (password.isLowerCase() == false) {
-      return 'Password must contain at least one lowercase letter';
-    }
-
-    if (password.isContainDigit() == false) {
-      return 'Password must contain at least one digit';
-    }
-
-    if (password.isContainSpecialCharacter() == false) {
-      return 'Password must contain at least one special character';
-    }
+    // if (password.isUpperCase() == false) {
+    //   return 'Password must contain at least one uppercase letter';
+    // }
+    //
+    // if (password.isLowerCase() == false) {
+    //   return 'Password must contain at least one lowercase letter';
+    // }
+    //
+    // if (password.isContainDigit() == false) {
+    //   return 'Password must contain at least one digit';
+    // }
+    //
+    // if (password.isContainSpecialCharacter() == false) {
+    //   return 'Password must contain at least one special character';
+    // }
 
     return null; // Return null if the password is valid
   }

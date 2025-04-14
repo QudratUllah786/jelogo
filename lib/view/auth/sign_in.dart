@@ -28,7 +28,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   final _authController = Get.put(AuthController());
-  TextEditingController phoneController = TextEditingController();
+  // TextEditingController phoneController = TextEditingController();
 
 
 
@@ -91,11 +91,14 @@ class _SignInState extends State<SignIn> {
 
 
                       MyPhoneTextField(
-                        controller: phoneController,
+                        controller: _authController.loginPhoneCtrl,
                         onChanged: (p0) {
                           _authController.update(['phone']);
-                          _authController.validateForm(_formKey);
+                          _authController.validateForm(_formKey,_authController.loginPhoneCtrl,_authController.isFormValid);
                         },
+                         onCountryChanged: (p0) {
+                           _authController.signInCountryCode/**/.value = p0.dialCode;
+                         },
                          formKey: _formKey,
                       ),
 
