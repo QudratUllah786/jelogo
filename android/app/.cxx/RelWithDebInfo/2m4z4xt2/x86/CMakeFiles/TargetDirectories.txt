@@ -1,0 +1,2 @@
+C:/Users/MR.Laptops/StudioProjects/jelogo/android/app/.cxx/RelWithDebInfo/2m4z4xt2/x86/CMakeFiles/edit_cache.dir
+C:/Users/MR.Laptops/StudioProjects/jelogo/android/app/.cxx/RelWithDebInfo/2m4z4xt2/x86/CMakeFiles/rebuild_cache.dir

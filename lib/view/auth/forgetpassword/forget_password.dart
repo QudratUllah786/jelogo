@@ -24,7 +24,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-
       appBar: simpleAppBar(title:'Forgot password'),
       body: Padding(
         padding: AppSizes.HORIZONTAL,

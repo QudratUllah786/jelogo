@@ -42,6 +42,7 @@ class MyPhoneTextField extends StatelessWidget {
         Form(
           key: formKey,
           child: IntlPhoneField(
+            initialCountryCode: 'CI',
             onSubmitted: onSubmitted,
             onChanged: onChanged,
             controller: controller,

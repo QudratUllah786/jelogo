@@ -18,6 +18,7 @@ import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 
 import '../../../constants/app_fonts.dart';
+import '../../../local_storage/local_storage.dart';
 import 'drawer/custom_drawer.dart';
 
 class Home extends StatelessWidget {
@@ -83,6 +84,8 @@ class Home extends StatelessWidget {
 
         title: Obx(
           () =>  MyText(
+              onTap: () async {
+              },
             text: 'Hi ${userModelGlobal.value.firstName ?? ''} ${userModelGlobal.value.lastName ?? ''}',
             size: 16.sp,
             color: kPrimaryColor,

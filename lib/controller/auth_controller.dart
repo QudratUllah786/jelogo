@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:jelogo/api/api_service.dart';
 import 'package:jelogo/core/constants/endpoints.dart';
+import 'package:jelogo/local_storage/local_storage.dart';
 import 'package:jelogo/model/auth/send_signup_otp_model.dart';
 import 'package:jelogo/model/user/user_model.dart';
 import 'package:jelogo/utils/dialogs.dart';
@@ -12,6 +13,7 @@ import 'package:jelogo/utils/snackbars.dart';
 import 'package:jelogo/view/bottombar/jelogo_bottom_bar.dart';
 
 import '../view/auth/create_secret_code.dart';
+import '../view/auth/forgetpassword/change_password_success.dart';
 import '../view/auth/forgetpassword/type_code.dart';
 import '../view/auth/type_code_signup.dart';
 import '../view/auth/welcome_screen.dart';
@@ -21,9 +23,9 @@ class AuthController extends GetxController{
 
   RxBool isFormValid = false.obs;
   RxBool isSignUpFormValid = false.obs;
-  RxString signUpcountryCode = ''.obs;
-  RxString signInCountryCode = ''.obs;
-  RxString forgotPassCountryCode = ''.obs;
+  RxString signUpcountryCode = '225'.obs;
+  RxString signInCountryCode = '225'.obs;
+  RxString forgotPassCountryCode = '225'.obs;
   RxBool isCheck = false.obs;
   TextEditingController phoneController = TextEditingController();
   TextEditingController verifyOtpController = TextEditingController();
@@ -36,7 +38,9 @@ class AuthController extends GetxController{
   TextEditingController loginPhoneCtrl = TextEditingController();
   TextEditingController loginPassCtrl = TextEditingController();
   TextEditingController forgetPassPhone = TextEditingController();
-
+  TextEditingController forgotPassCodeCtrl = TextEditingController();
+  TextEditingController forgotSecretCodeController = TextEditingController();
+  TextEditingController forgotConfSecretCodeController = TextEditingController();
 
   RxBool passVisible = false.obs;
   RxBool confPassVisible = false.obs;
@@ -112,7 +116,20 @@ class AuthController extends GetxController{
 
   }
 
+  Future<bool> showAccount() async {
+    DialogService.instance.showProgressDialog();
 
+    final res = await APIService.instance.
+    get(showAccountUrl, false);
+    DialogService.instance.hideLoading();
+    if (res.$1 != null && res.$2 == 200) {
+      UserModel userModel = UserModel.fromJson(res.$1 as Map<String, dynamic>);
+      userModelGlobal.value = userModel.data?.user! ?? User();
+      return true;
+    }
+
+    return false;
+  }
 
   createAccount()async{
 
@@ -144,6 +161,9 @@ class AuthController extends GetxController{
       UserModel userModel = UserModel.fromJson(response.$1!);
       userModelGlobal.value = userModel.data?.user! ?? User();
       accessToken.value = userModel.data?.tokens?.accessToken??'';
+
+     await LocalStorageService.instance.write(key: 'accessToken', value: accessToken.value);
+
       Get.to(()=> WelcomeScreen());
       CustomSnackBars.instance
           .showSuccessSnackbar(title: 'Success', message: response.$1?['message'] ?? '');
@@ -171,13 +191,19 @@ class AuthController extends GetxController{
 
     final res = await APIService.instance.post(signInUrl, body, true,successCode: 201,showResult: true);
 
+    DialogService.instance.hideLoading();
+
     if(res.$1 != null && res.$2 == 201){
       UserModel userModel = UserModel.fromJson(res.$1!);
       userModelGlobal.value = userModel.data?.user! ?? User();
       accessToken.value = userModel.data?.tokens?.accessToken??'';
+      log('access:${accessToken.value.toString()}');
      Get.offAll(()=> JelogoBottomBar());
       CustomSnackBars.instance
           .showSuccessSnackbar(title: 'Success', message: res.$1?['message'] ?? '');
+     await LocalStorageService.instance.write(key: 'accessToken', value: userModel.data?.tokens?.accessToken??'');
+     String token = await LocalStorageService.instance.read(key: 'accessToken');
+     log('token:${token.toString()}');
       return;
 
     }
@@ -218,6 +244,36 @@ class AuthController extends GetxController{
   }
 
 
-  /// TODO forgot passwo varify otp
+  updatePassword()async {
+    DialogService.instance.showProgressDialog();
+    String ?token = await LocalStorageService.instance.read(key: 'accessToken');
+    log('token:${token.toString()}');
+    accessToken.value = token.toString();
+    log('token:${accessToken.value.toString()}');
+
+    var body = {
+      "phone":forgetPassPhone.text.trim(),
+      "countryCode":forgotPassCountryCode.value.toString(),
+      "password": forgotSecretCodeController.text.trim(),
+      "code":forgotPassCodeCtrl.text.trim(),
+    };
+
+    log('body:${body.toString()}');
+
+   final res = await APIService.instance.post(resetPassUrl, body, true,showResult: true,successCode: 201);
+
+    if(res.$1 != null && res.$2 == 201){
+       Get.to(()=> ChangePasswordSuccess());
+
+      CustomSnackBars.instance
+          .showSuccessSnackbar(title: 'Success', message: res.$1?['message'] ?? '');
+      return;
+
+    }
+
+    CustomSnackBars.instance
+        .showFailureSnackbar(title: 'Ohh', message: res.$1?['message'] ?? '');
+
+  }
 
 }

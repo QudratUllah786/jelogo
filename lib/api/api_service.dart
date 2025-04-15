@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:jelogo/utils/global_instances.dart';
 
 import '../enum/network_status.dart';
 import '../utils/network_connectivity.dart';
@@ -14,12 +15,12 @@ Map<String, String> basicHeaderInfo() => {
 
 Future<Map<String, String>> bearerHeaderInfo() async {
   // String accessToken = box.read('token');
-  String accessToken = "";
+  // String accessToken = "";
 
   return {
     HttpHeaders.acceptHeader: "application/json",
     HttpHeaders.contentTypeHeader: "application/json",
-    HttpHeaders.authorizationHeader: "Bearer $accessToken",
+    HttpHeaders.authorizationHeader: "Bearer ${accessToken.value}",
   };
 }
 

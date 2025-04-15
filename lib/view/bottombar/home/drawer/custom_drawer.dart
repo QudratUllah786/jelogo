@@ -6,6 +6,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/constants/app_Colors.dart';
+import 'package:jelogo/constants/assets_images.dart';
+import 'package:jelogo/core/binding/app_binding.dart';
+import 'package:jelogo/local_storage/local_storage.dart';
+import 'package:jelogo/main.dart';
+import 'package:jelogo/model/user/user_model.dart';
+import 'package:jelogo/utils/dialogs.dart';
+import 'package:jelogo/utils/global_instances.dart';
+import 'package:jelogo/view/auth/sign_in.dart';
 import 'package:jelogo/view/bottombar/home/notifications.dart';
 import 'package:jelogo/view/bottombar/settings/personal_information.dart';
 import 'package:jelogo/view/bottombar/settings/settings.dart';
@@ -29,14 +37,16 @@ class CustomDrawer extends StatelessWidget {
           child: Column(
             children: [
               /// Profile Section
-              UserAccountsDrawerHeader(
-                accountName: MyText(text: 'Sophia Rose',weight: FontWeight.w700,size: 16.sp,),
-                accountEmail: MyText(text:"abcsc@gmail.com",color: Color(0xff6C7072),),
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage("https://randomuser.me/api/portraits/women/57.jpg"),
+              Obx(
+                () =>  UserAccountsDrawerHeader(
+                  accountName: MyText(text: userModelGlobal.value.name??'',weight: FontWeight.w700,size: 16.sp,),
+                  accountEmail: MyText(text:userModelGlobal.value.email?? "",color: Color(0xff6C7072),),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundImage: AssetImage(AssetsImages.dummyImage),
+                  ),
+                  decoration: BoxDecoration(color: Colors.white),
+
                 ),
-                decoration: BoxDecoration(color: Colors.white),
-          
               ),
           
               /// Drawer Menu Items
@@ -51,7 +61,7 @@ class CustomDrawer extends StatelessWidget {
           
                 Get.to(()=> PersonalInformation(
                   isAccount: true,
-                ));
+                ),binding: ProfileBindings());
           
           
           
@@ -100,7 +110,13 @@ class CustomDrawer extends StatelessWidget {
                   borderColor: Colors.red,
                   ButtonText: 'Deactivate',
           
-                  onTap: () {
+                  onTap: () async {
+
+                    DialogService.instance.showProgressDialog();
+                    await LocalStorageService.instance.deleteKey(key: 'accessToken');
+                    userModelGlobal.value = User();
+                    Get.offAll(()=> SignIn(),binding: AuthBindings());
+                    DialogService.instance.hideLoading();
                   },),
               ),
             ],

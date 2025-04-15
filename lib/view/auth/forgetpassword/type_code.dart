@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:jelogo/controller/auth_controller.dart';
+import 'package:jelogo/utils/snackbars.dart';
 import 'package:jelogo/view/auth/forgetpassword/change_password.dart';
 import 'package:jelogo/widgets/blue_button.dart';
 
@@ -12,7 +14,8 @@ import '../../../widgets/my_text.dart';
 import '../../../widgets/my_text_field_widget.dart';
 
 class TypeCode extends StatelessWidget {
-  const TypeCode({super.key});
+  final authController = Get.find<AuthController>();
+   TypeCode({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +59,9 @@ class TypeCode extends StatelessWidget {
                       Flexible(
                         child: MyTextField(
                           hintText: 'Code',
+                          controller: authController.forgotPassCodeCtrl,
+                          keyboardType: TextInputType.number,
+
                         ),
                       ),
                       Flexible(
@@ -64,7 +70,12 @@ class TypeCode extends StatelessWidget {
                           child: BlueButton(
                             width: 100,
                             ButtonText: 'Resend',
-                            onTap: () {},
+                            onTap: () async {
+
+
+
+                            await  authController.sendForgotPassOtp(resend: true);
+                            },
                           ),
                         ),
                       ),
@@ -77,18 +88,20 @@ class TypeCode extends StatelessWidget {
                     text: 'We texted you a code to verify your',
                     weight: FontWeight.w500,
                   ),
-                  Row(
-                    children: [
-                      MyText(
-                        text: 'phone number',
-                        weight: FontWeight.w500,
-                      ),
-                      MyText(
-                        text: '(+1) 02543644',
-                        weight: FontWeight.w600,
-                        color: kSecondaryColor,
-                      ),
-                    ],
+                  Obx(
+                    () =>  Row(
+                      children: [
+                        MyText(
+                          text: 'phone number',
+                          weight: FontWeight.w500,
+                        ),
+                        MyText(
+                          text: '(+${authController.forgotPassCountryCode.value}) ${authController.forgetPassPhone.text}',
+                          weight: FontWeight.w600,
+                          color: kSecondaryColor,
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 10.h,
@@ -104,6 +117,15 @@ class TypeCode extends StatelessWidget {
                   BlueButton(
                       ButtonText: 'Change password',
                       onTap: () {
+                        if(authController.forgotPassCodeCtrl.text.isEmpty){
+                          CustomSnackBars.instance.showToast(message: 'please type code');
+                          return;
+                        }
+
+
+
+
+
                         Get.to(() => ChangePassword());
                       })
                 ],

@@ -15,6 +15,7 @@ import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 import 'package:jelogo/widgets/my_text_field_widget.dart';
 
+import '../../local_storage/local_storage.dart';
 import '../../widgets/my_phone_widget.dart';
 import '../bottombar/jelogo_bottom_bar.dart';
 
@@ -65,6 +66,9 @@ class _SignInState extends State<SignIn> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyText(
+                      onTap: () async {
+                    String ?token = await LocalStorageService.instance.read(key: 'accessToken');
+                      log('token:$token');                      },
                       text: 'Welcome Back',
                       weight: FontWeight.bold,
                       size: 24.sp,

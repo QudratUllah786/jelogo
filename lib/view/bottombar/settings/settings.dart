@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:jelogo/core/binding/app_binding.dart';
 import 'package:jelogo/main.dart';
+import 'package:jelogo/utils/global_instances.dart';
 import 'package:jelogo/view/bottombar/settings/change_language.dart';
 import 'package:jelogo/view/bottombar/settings/personal_information.dart';
 import 'package:jelogo/view/bottombar/settings/setting_change_password.dart';
@@ -81,7 +83,7 @@ class Settings extends StatelessWidget {
 
                         InkWell(
                           onTap: () {
-                            Get.to(()=>PersonalInformation());
+                            Get.to(()=>PersonalInformation(),binding: ProfileBindings());
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -188,11 +190,13 @@ class Settings extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 10.h,),
-                      MyText(
-                        text: 'Push Puttichai',
-                        color: kSecondaryColor,
-                        size: 16.sp,
-                        weight: FontWeight.w600,
+                      Obx(
+                        () =>  MyText(
+                          text:  '${userModelGlobal.value.firstName??''} ${userModelGlobal.value.lastName??''}',
+                          color: kSecondaryColor,
+                          size: 16.sp,
+                          weight: FontWeight.w600,
+                        ),
                       )
                     ],
                   ),
