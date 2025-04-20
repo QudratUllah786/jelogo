@@ -10,6 +10,7 @@ import 'package:jelogo/utils/dialogs.dart';
 import 'package:jelogo/utils/global_instances.dart';
 import 'package:jelogo/utils/snackbars.dart';
 
+import '../local_storage/secure_storage.dart';
 import '../model/user/user_model.dart';
 import '../view/auth/sign_in.dart';
 
@@ -51,6 +52,10 @@ class ProfileController extends GetxController{
       return;
     }
     if(res.$1 != null && res.$2 == 401){
+
+      String ?refreshToken = await SecureStorageService.instance.read(key: 'refreshToken');
+
+      accessToken.value = refreshToken??'';
       CustomSnackBars.instance.showFailureSnackbar(title: 'ohh', message: 'Session expired login again');
       await LocalStorageService.instance.deleteKey(key: 'accessToken');
       userModelGlobal.value = User();

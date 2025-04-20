@@ -10,7 +10,8 @@ import 'package:jelogo/widgets/blue_button.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 class ChangePasswordSuccess extends StatelessWidget {
-  const ChangePasswordSuccess({super.key});
+  final bool fromTransfer;
+  const ChangePasswordSuccess({super.key, this.fromTransfer = false});
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,12 @@ class ChangePasswordSuccess extends StatelessWidget {
             SizedBox(height: 30,),
 
             BlueButton(ButtonText: 'Ok', onTap: (){
+
+              if(fromTransfer){
+
+                Get.close(5);
+                return;
+              }
 
               Get.offAll(()=> SignIn());
 

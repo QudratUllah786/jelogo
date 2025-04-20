@@ -1,25 +1,29 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
+import 'package:flutter_native_contact_picker/model/contact.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/constants/app_Colors.dart';
+import 'package:jelogo/controller/transfer_controller.dart';
+import 'package:jelogo/utils/snackbars.dart';
 import 'package:jelogo/view/auth/pin_screen.dart';
-import 'package:jelogo/view/bottombar/home/confirm.dart';
 import 'package:jelogo/widgets/blue_button.dart';
-import 'package:jelogo/widgets/custom_dropdown.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_phone_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
-import 'package:jelogo/widgets/my_text_field_widget.dart';
 
+import '../../../local_storage/local_storage.dart';
 import '../../../widgets/appbar.dart';
 
 class Transfer extends StatefulWidget {
-  const Transfer({super.key, required this.label});
+  const Transfer({super.key, required this.label,required this.slug, this.fee =  false});
 
   final String label;
+  final String slug;
+  final bool fee;
 
   @override
   State<Transfer> createState() => _TransferState();
@@ -30,9 +34,11 @@ class _TransferState extends State<Transfer> {
   bool isCheck1 = false;
   String selectedOption = 'Orange Money';
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _controller = TextEditingController();
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
+  final FlutterNativeContactPicker _contactPicker = FlutterNativeContactPicker();
+  final _transferController = Get.find<TransferController>();
+  Contact? _contact;
   final List<Map<String, String>> beneficiaries = [
     {
       "name": "Emma",
@@ -102,7 +108,7 @@ class _TransferState extends State<Transfer> {
               SizedBox(
                 height: 10,
               ),
-              MyPhoneTextField(formKey: _formKey),
+              MyPhoneTextField(formKey: _formKey,controller: _transferController.phoneCtrl,),
 
               SizedBox(
                 height: 10,
@@ -131,32 +137,39 @@ class _TransferState extends State<Transfer> {
               Row(
                 children: [
                   // Add Beneficiary Button
-                  Padding(
-                    padding: EdgeInsets.only(right: 10.w),
-                    child: Container(
-                      width: 100.w,
-                      height: 120.h,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.sp),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: Offset(2, 2),
-                          ),
-                        ],
-                      ),
+                  InkWell(
+                    onTap: () async {
+                       _contact = await _contactPicker.selectPhoneNumber();
+
+
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 10.w),
                       child: Container(
-                        height: 60.h,
-                        width: 60.w,
+                        width: 100.w,
+                        height: 120.h,
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.1),
-                          shape: BoxShape.circle,
+                          borderRadius: BorderRadius.circular(15.sp),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.1),
+                              blurRadius: 10,
+                              offset: Offset(2, 2),
+                            ),
+                          ],
                         ),
-                        child: const Icon(Icons.add,
-                            size: 40, color: Colors.white),
+                        child: Container(
+                          height: 60.h,
+                          width: 60.w,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.add,
+                              size: 40, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -260,7 +273,7 @@ class _TransferState extends State<Transfer> {
                               SizedBox(
                                 width: 80, // Adjust width as needed
                                 child: TextField(
-                                  controller: _controller,
+                                  controller: _transferController.amountCtrl,
                                   focusNode: _focusNode,
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
@@ -383,9 +396,38 @@ class _TransferState extends State<Transfer> {
                       //
                       BlueButton(
                         ButtonText: 'Confirm',
-                        onTap: () {
+                        onTap: () async {
+
+
+                          if(_transferController.phoneCtrl.text.isEmpty){
+                            return CustomSnackBars.instance.showToast(message: 'please type phone no');
+                          }
+
+                          if(_transferController.amountCtrl.text.isEmpty){
+                            return CustomSnackBars.instance.showToast(message: 'please enter amount');
+                          }
+
+
+
+                          if(widget.fee == true){
+                            if(!isCheck1){
+                              CustomSnackBars.instance.showToast(message: 'please select fees');
+                              return;
+                            }
+                          }
+
+                          if(isCheck && _contact != null){
+                         //   List<Map<String, dynamic>> jsonList = [contactToJson(_contact!)];
+                          //  await LocalStorageService.instance.write(key: 'beneficiary', value: jsonList);
+                          }
+
+
+                      //   await _transferController.paymentTransfer(withFee: true, slug: widget.slug);
+
                           Get.to(() => PinScreen(
-                                fromTransfer: true,
+                            fromTransfer: true,
+                            slug: widget.slug,
+                            isFee: widget.fee,
                               ));
                         },
                       ),

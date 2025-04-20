@@ -377,8 +377,8 @@ class _From_dateState extends State<From_date> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: widget.selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2050),
+      firstDate: DateTime(1970),
+      lastDate: DateTime(2030),
     );
 
     if (pickedDate != null) {

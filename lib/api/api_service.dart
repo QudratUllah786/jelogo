@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:jelogo/utils/global_instances.dart';
+import 'package:http_parser/http_parser.dart';
 
 import '../enum/network_status.dart';
 import '../utils/network_connectivity.dart';
@@ -840,6 +841,128 @@ class APIService {
     } catch (e) {
       log("this exception occurred while calling post API with multipart: $e");
 
+      return (
+        null,
+        null,
+        "Failure",
+        "Something Went Wrong! Try Again",
+      );
+    }
+  }
+
+  Future<(Map<String, dynamic>?, int?, String?, String?)> postOrderCard(
+      String url,
+      String documentTypeId,
+      String frontCardPath,
+      String backCardPath,
+      String selfiePath,
+      {int code = 200,
+      bool showResult = false}) async {
+    try {
+      /* --------------- check if the device is connected to internet --------------- */
+      bool isConnected = await isConnectedToInternet();
+      if (isConnected == false) {
+        return (
+          null,
+          null,
+          "No Internet Connection",
+          "Please check your internet connection and try again!"
+        );
+      }
+
+      // Creating a multipart request
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(url),
+      );
+
+      // Add bearer token header
+      request.headers.addAll(await bearerHeaderInfo());
+
+      // Add document type field
+      request.fields['documentTypeId'] = documentTypeId;
+
+      // Add the three required files with their specific field names
+      try {
+        request.files.add(await http.MultipartFile.fromPath(
+          'cardFront',
+          frontCardPath,
+          contentType: MediaType('image', 'png'),
+        ));
+
+        request.files.add(await http.MultipartFile.fromPath(
+          'cardBack',
+          backCardPath,
+          contentType: MediaType('image', 'png'),
+        ));
+
+        request.files.add(await http.MultipartFile.fromPath(
+          'selfie',
+          selfiePath,
+          contentType: MediaType('image', 'png'),
+        ));
+      } catch (e) {
+        print('Error uploading file: $e');
+        return (
+          null,
+          null,
+          "Failure",
+          "Error uploading files: $e",
+        );
+      }
+
+      http.StreamedResponse response = await request.send();
+      var jsonData = await http.Response.fromStream(response);
+
+      if (showResult) {
+        log("response: ${jsonData.body}");
+        log("status code: ${response.statusCode}");
+      }
+
+      if (response.statusCode == code) {
+        return (
+          jsonDecode(jsonData.body) as Map<String, dynamic>,
+          response.statusCode,
+          null,
+          null
+        );
+      } else {
+        log('Order Card API call failed with status code ($url): ${response.statusCode}');
+        return (
+          jsonDecode(jsonData.body) as Map<String, dynamic>,
+          response.statusCode,
+          "Failure",
+          "Something Went Wrong! Try Again",
+        );
+      }
+    } on SocketException {
+      log('Error Alert on Socket Exception ($url)');
+      return (
+        null,
+        null,
+        "Failure",
+        "Please check your internet connection and try again"
+      );
+    } on TimeoutException {
+      log('Error Alert on timeout Exception ($url)');
+      return (
+        null,
+        null,
+        "Request Timeout",
+        "Request timeout, please try again"
+      );
+    } on http.ClientException catch (err, stackrace) {
+      log("Client exception occurred for url: $url");
+      log(err.toString());
+      log(stackrace.toString());
+      return (
+        null,
+        null,
+        "Failure",
+        "Something Went Wrong! Try Again",
+      );
+    } catch (e) {
+      log("this exception occurred while calling order card API: $e");
       return (
         null,
         null,

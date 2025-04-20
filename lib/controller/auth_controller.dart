@@ -1,10 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:jelogo/api/api_service.dart';
+import 'package:jelogo/core/common/functions.dart';
 import 'package:jelogo/core/constants/endpoints.dart';
 import 'package:jelogo/local_storage/local_storage.dart';
+import 'package:jelogo/local_storage/secure_storage.dart';
 import 'package:jelogo/model/auth/send_signup_otp_model.dart';
 import 'package:jelogo/model/user/user_model.dart';
 import 'package:jelogo/utils/dialogs.dart';
@@ -12,6 +15,7 @@ import 'package:jelogo/utils/global_instances.dart';
 import 'package:jelogo/utils/snackbars.dart';
 import 'package:jelogo/view/bottombar/jelogo_bottom_bar.dart';
 
+import '../core/binding/app_binding.dart';
 import '../view/auth/create_secret_code.dart';
 import '../view/auth/forgetpassword/change_password_success.dart';
 import '../view/auth/forgetpassword/type_code.dart';
@@ -116,20 +120,7 @@ class AuthController extends GetxController{
 
   }
 
-  Future<bool> showAccount() async {
-    DialogService.instance.showProgressDialog();
 
-    final res = await APIService.instance.
-    get(showAccountUrl, false);
-    DialogService.instance.hideLoading();
-    if (res.$1 != null && res.$2 == 200) {
-      UserModel userModel = UserModel.fromJson(res.$1 as Map<String, dynamic>);
-      userModelGlobal.value = userModel.data?.user! ?? User();
-      return true;
-    }
-
-    return false;
-  }
 
   createAccount()async{
 
@@ -163,6 +154,7 @@ class AuthController extends GetxController{
       accessToken.value = userModel.data?.tokens?.accessToken??'';
 
      await LocalStorageService.instance.write(key: 'accessToken', value: accessToken.value);
+     await SecureStorageService.instance.write(key: 'refreshToken', value: userModel.data?.tokens?.refreshToken??'');
 
       Get.to(()=> WelcomeScreen());
       CustomSnackBars.instance
@@ -197,13 +189,17 @@ class AuthController extends GetxController{
       UserModel userModel = UserModel.fromJson(res.$1!);
       userModelGlobal.value = userModel.data?.user! ?? User();
       accessToken.value = userModel.data?.tokens?.accessToken??'';
+     await showAccount();
       log('access:${accessToken.value.toString()}');
-     Get.offAll(()=> JelogoBottomBar());
+     Get.offAll(()=> JelogoBottomBar(),binding: BottomBarBindings());
       CustomSnackBars.instance
           .showSuccessSnackbar(title: 'Success', message: res.$1?['message'] ?? '');
      await LocalStorageService.instance.write(key: 'accessToken', value: userModel.data?.tokens?.accessToken??'');
+      await SecureStorageService.instance.write(key: 'refreshToken', value: userModel.data?.tokens?.refreshToken??'');
      String token = await LocalStorageService.instance.read(key: 'accessToken');
+     String ?refreshToken = await SecureStorageService.instance.read(key: 'refreshToken');
      log('token:${token.toString()}');
+     log('refreshToken:${refreshToken?.toString()}');
       return;
 
     }
@@ -216,7 +212,7 @@ class AuthController extends GetxController{
   }
 
 
-  sendForgotPassOtp({bool resend = false}) async {
+  sendForgotPassOtp({bool resend = false,bool fromTransfer = false}) async {
     DialogService.instance.showProgressDialog();
     Map<String, dynamic> body = {
       "phone": forgetPassPhone.text.trim(),
@@ -234,7 +230,7 @@ class AuthController extends GetxController{
           title: 'Success', message: sendSignOtpModel.message ?? '');
       if(resend == false)
       {
-        Get.to(()=> TypeCode());
+        Get.to(()=> TypeCode(fromTransfer: fromTransfer,));
       }
       return;
     }
@@ -244,7 +240,7 @@ class AuthController extends GetxController{
   }
 
 
-  updatePassword()async {
+  resetPassword({bool fromTransfer = false})async {
     DialogService.instance.showProgressDialog();
     String ?token = await LocalStorageService.instance.read(key: 'accessToken');
     log('token:${token.toString()}');
@@ -262,9 +258,10 @@ class AuthController extends GetxController{
 
    final res = await APIService.instance.post(resetPassUrl, body, true,showResult: true,successCode: 201);
 
+   User user = User.fromJson(res.$1!['data']);
+   userModelGlobal.value = user;
     if(res.$1 != null && res.$2 == 201){
-       Get.to(()=> ChangePasswordSuccess());
-
+       Get.to(()=> ChangePasswordSuccess(fromTransfer: fromTransfer,));
       CustomSnackBars.instance
           .showSuccessSnackbar(title: 'Success', message: res.$1?['message'] ?? '');
       return;

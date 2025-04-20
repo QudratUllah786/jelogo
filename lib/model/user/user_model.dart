@@ -63,6 +63,7 @@ class User {
   final String? birthDate;
   final String? address;
   final String? gender;
+  final String? password;
   final String? indicatif;
   final String? notificationToken;
   final String? createdAt;
@@ -71,6 +72,7 @@ class User {
   User({
     this.id,
     this.email,
+    this.password,
     this.name,
     this.lastName,
     this.firstName,
@@ -95,6 +97,7 @@ class User {
       lastName: json['lastName'],
       firstName: json['firstName'],
       phone: json['phone'],
+      password: json['password'],
       countryCode: json['countryCode'],
       isVerified: json['isVerified'],
       avatar: json['avatar'],
@@ -120,6 +123,7 @@ class User {
       if(isVerified!= null) 'isVerified': isVerified,
       if(avatar!= null) 'avatar': avatar,
       if(birthDate!= null) 'birthDate': birthDate,
+      if(password!= null) 'password':password,
       if(address!= null) 'address': address,
       if(gender!= null) 'gender': gender,
       if(indicatif!= null)'indicatif': indicatif,

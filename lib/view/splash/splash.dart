@@ -11,6 +11,7 @@ import 'package:jelogo/view/auth/sign_in.dart';
 import 'package:jelogo/view/bottombar/jelogo_bottom_bar.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
 
+import '../../core/binding/app_binding.dart';
 import '../../core/common/functions.dart';
 import '../../local_storage/local_storage.dart';
 
@@ -33,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
         final isAvailable =  await showAccount();
         if (isAvailable) {
           // await NotificationService.instance.setDeviceToken();
-          Get.offAll(()=> JelogoBottomBar());
+          Get.offAll(()=> JelogoBottomBar(),binding: BottomBarBindings());
 
         }
         else {

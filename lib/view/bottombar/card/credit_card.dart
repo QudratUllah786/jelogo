@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/constants/assets_images.dart';
+import 'package:jelogo/core/binding/app_binding.dart';
 import 'package:jelogo/view/bottombar/card/add_id.dart';
 import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/blue_button.dart';
@@ -73,7 +74,7 @@ class CreditCard extends StatelessWidget {
                 SizedBox(height: 150.h,),
 
                 BlueButton(ButtonText: 'Add a Credit Card', onTap: () {
-                  Get.to(()=>AddId() );
+                  Get.to(()=>AddId(),binding: CardBindings());
                 },)
               ],
             ),

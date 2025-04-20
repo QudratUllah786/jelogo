@@ -93,6 +93,7 @@ class PersonalInformation extends StatelessWidget {
 
                   Obx(
                     () =>  From_date(label: 'Date of birth',
+
                     onDateSelected: (p0) {
                       authController.dob.value = p0;
                     },

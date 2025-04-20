@@ -15,7 +15,8 @@ import '../../../widgets/my_text_field_widget.dart';
 
 class TypeCode extends StatelessWidget {
   final authController = Get.find<AuthController>();
-   TypeCode({super.key});
+   TypeCode({super.key, this.fromTransfer = false});
+   final bool fromTransfer;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +127,7 @@ class TypeCode extends StatelessWidget {
 
 
 
-                        Get.to(() => ChangePassword());
+                        Get.to(() => ChangePassword(fromTransfer: fromTransfer,));
                       })
                 ],
               ),

@@ -12,8 +12,9 @@ import 'package:jelogo/widgets/my_phone_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 import 'package:jelogo/widgets/my_text_field_widget.dart';
 class ForgetPassword extends StatefulWidget {
-  const ForgetPassword({super.key});
+  const ForgetPassword({super.key, this.fromTransfer = false});
 
+  final bool fromTransfer;
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
 }
@@ -70,7 +71,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       CustomSnackBars.instance.showToast(message: 'please add phone no');
                       return;
                     }
-                   await _authController.sendForgotPassOtp();
+                   await _authController.sendForgotPassOtp(
+                     fromTransfer: widget.fromTransfer
+                   );
 
                   })
 

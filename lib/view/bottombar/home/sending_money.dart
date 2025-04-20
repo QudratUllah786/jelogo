@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jelogo/constants/app_Colors.dart';
+import 'package:jelogo/core/binding/app_binding.dart';
 import 'package:jelogo/view/bottombar/home/transfer.dart';
 import 'package:jelogo/view/banques.dart';
 import 'package:jelogo/widgets/appbar.dart';
@@ -20,40 +21,51 @@ class SendingMoney extends StatelessWidget {
       "label": "Orange Money",
       "route": () => Get.to(Transfer(
          label: "Orange Money",
-      )),
+        slug: "ORANGECI",
+        fee: true,
+      ),binding: TransferBindings()),
     },
     {
       "icon": AssetsImages.image8,
       "label": "Moov Money",
       "route": () => Get.to(Transfer(
+        fee: true,
         label: "Moov Money",
-      )),
+        slug: "MOOVCI",
+      ),binding: TransferBindings()),
     },
     {
       "icon": AssetsImages.image9,
       "label": "MTN Money",
       "route": () => Get.to(Transfer(
+        fee: true,
+        slug: "MTNCI",
         label: "MTN Money",
-      )),
+      ),binding: TransferBindings()),
     },
     {
       "icon": AssetsImages.image10,
       "label": "Wave",
       "route": () => Get.to(Transfer(
+        fee: true,
         label: "Wave",
-      )),
+        slug: "WAVECI",
+      ),binding: TransferBindings()),
     },
     {
       "icon": AssetsImages.image11,
       "label": "Banques",
-      "route": () => Get.to(Banques()),
+      "route": () => Get.to(Banques(
+      ),binding: TransferBindings()),
     },
     {
       "icon": AssetsImages.image12,
       "label": "Jelogo",
       "route": () => Get.to(Transfer(
         label: "Jelogo",
-      )),
+        slug: "JELOGO",
+        fee: false,
+      ),binding: TransferBindings()),
     },
   ];
 

@@ -42,7 +42,7 @@ class _RechargeTransferState extends State<RechargeTransfer> {
           child: Column(
             children: [
 
-              CustomDropdown(title: 'Orange Money', items: [
+              CustomStringDrop(title: 'Orange Money', items: [
                 'Orange Money',
                 'Moov Money'
               ],onChanged: (value) {

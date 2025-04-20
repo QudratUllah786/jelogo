@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_native_contact_picker/model/contact.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:jelogo/utils/snackbars.dart';
 
 import '../../api/api_service.dart';
@@ -10,6 +12,7 @@ import '../../model/user/user_model.dart';
 import '../../utils/dialogs.dart';
 import '../../utils/global_instances.dart';
 import '../constants/endpoints.dart';
+
 // import 'functions.dart' as GetStorage;
 
 Future<bool> showAccount() async {
@@ -49,6 +52,23 @@ Future<void> getUserData() async {
     accessToken.value = '';
   }
 }
+
+
+// // 1. Convert Contact to a Map manually
+// Map<String, dynamic> contactToJson(Contact contact) {
+//   return {
+//     'fullName': contact.fullName,
+//     'phoneNumber': contact.selectedPhoneNumber,
+//   };
+// }
+//
+// // 2. Convert Map back to Contact
+// Contact contactFromJson(Map<String, dynamic> json) {
+//   return Contact(
+//     fullName: json['fullName'],
+//     selectedPhoneNumber: Contact(selectedPhoneNumber: json['phoneNumber']),
+//   );
+// }
 
 
 Future<void> init() async {

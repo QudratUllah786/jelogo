@@ -7,6 +7,8 @@ import 'package:jelogo/constants/assets_images.dart';
 import 'package:jelogo/view/bottombar/jelogo_bottom_bar.dart';
 import 'package:jelogo/widgets/blue_button.dart';
 import 'package:jelogo/widgets/my_text.dart';
+
+import '../../core/binding/app_binding.dart';
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
@@ -34,7 +36,7 @@ class WelcomeScreen extends StatelessWidget {
 
 
             BlueButton(ButtonText: 'OK', onTap: () {
-              Get.offAll(()=> JelogoBottomBar());
+              Get.offAll(()=> JelogoBottomBar(),binding: BottomBarBindings());
             },)
 
 

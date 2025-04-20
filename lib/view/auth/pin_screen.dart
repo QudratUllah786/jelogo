@@ -1,9 +1,16 @@
+import 'dart:developer';
+
+import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/constants/app_Colors.dart';
 import 'package:jelogo/controller/auth_controller.dart';
+import 'package:jelogo/controller/transfer_controller.dart';
+import 'package:jelogo/core/binding/app_binding.dart';
+import 'package:jelogo/utils/global_instances.dart';
+import 'package:jelogo/utils/snackbars.dart';
 import 'package:jelogo/view/auth/forgetpassword/forget_password.dart';
 import 'package:jelogo/widgets/appbar.dart';
 
@@ -14,16 +21,23 @@ import '../bottombar/jelogo_bottom_bar.dart';
 class PinScreen extends StatefulWidget {
   final bool? fromTransfer;
   final bool fromTopUp;
+  final bool isFee;
+  final String slug;
 
-  const PinScreen({super.key, this.fromTransfer = false,this.fromTopUp = false});
+  const PinScreen({super.key, this.fromTransfer = false,this.fromTopUp = false, this.isFee = false, this.slug=''});
 
   @override
   _PinScreenState createState() => _PinScreenState();
 }
 
 class _PinScreenState extends State<PinScreen> {
+
+
+
   String pin = "";
-  final _authController = Get.find<AuthController>();
+
+
+
 
   Future<void> _onNumberPress(String value) async {
     if (pin.length < 4) {
@@ -32,11 +46,21 @@ class _PinScreenState extends State<PinScreen> {
       });
       if (pin.length == 4) {
         if (widget.fromTransfer == true) {
-          Get.to(Confirm(topUp: widget.fromTopUp,));
+          bool isMatch = BCrypt.checkpw(pin, userModelGlobal.value.password??'');
+
+          if(!isMatch){
+            return CustomSnackBars.instance.showFailureSnackbar(title: 'Failure', message: 'le mot de passe ne correspond pas');
+          }
+
+  final isTransfer =await Get.find<TransferController>().paymentTransfer(withFee: widget.isFee, slug: widget.slug);
+
+          if(isTransfer){
+            Get.to(Confirm(topUp: widget.fromTopUp,));
+          }
           return;
         }
 
-       await _authController.login(password: pin);
+       await Get.find<AuthController>().login(password: pin);
 
 
 
@@ -133,7 +157,9 @@ class _PinScreenState extends State<PinScreen> {
 
             MyText(
               onTap:() {
-                Get.to(()=> ForgetPassword());
+                Get.to(()=> ForgetPassword(
+                  fromTransfer: true,
+                ),binding: AuthBindings());
               },
               text: "Forgotten secret code",
               size: 14,

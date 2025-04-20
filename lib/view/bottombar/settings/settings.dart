@@ -106,7 +106,7 @@ class Settings extends StatelessWidget {
 
                         InkWell(
                           onTap: () {
-                            Get.to(()=> PersonalInformation(isDocument: true,));
+                            Get.to(()=> PersonalInformation(isDocument: true,),binding: ProfileBindings());
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

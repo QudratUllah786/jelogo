@@ -3,10 +3,13 @@ import 'package:jelogo/constants/assets_images.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 
+import '../model/document/document_model.dart';
+
+
 class CustomDropdown extends StatefulWidget {
   final String title;
-  final List<String> items;
-  final ValueChanged<String?>? onChanged;
+  final List<DocumentModel> items;
+  final ValueChanged<DocumentModel?>? onChanged;
 
   const CustomDropdown({
     super.key,
@@ -20,8 +23,62 @@ class CustomDropdown extends StatefulWidget {
 }
 
 class _CustomDropdownState extends State<CustomDropdown> {
-  String? selectedValue;
+  DocumentModel? selectedValue;
 
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<DocumentModel>(
+          value: selectedValue,
+          isExpanded: true,
+          hint: MyText(
+            text: widget.title,
+          ),
+          icon: GeneralImageWidget(
+            imagePath: AssetsImages.navigationIcon,
+          ),
+          items: widget.items.map((DocumentModel item) {
+            return DropdownMenuItem<DocumentModel>(
+              value: item,
+              child: Text(item.name ?? 'Unnamed'),
+            );
+          }).toList(),
+          onChanged: (DocumentModel? newValue) {
+            setState(() {
+              selectedValue = newValue;
+            });
+            if (widget.onChanged != null) {
+              widget.onChanged!(newValue);
+            }
+          },
+        ),
+      ),
+    );
+  }
+}
+
+
+class CustomStringDrop extends StatefulWidget {
+  final String title;
+  final List<String> items;
+  final ValueChanged<String?>? onChanged;
+  const CustomStringDrop({    super.key,
+    required this.title,
+    required this.items,
+    this.onChanged,});
+
+  @override
+  State<CustomStringDrop> createState() => _CustomStringDropState();
+}
+
+class _CustomStringDropState extends State<CustomStringDrop> {
+  String? selectedValue;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,7 +92,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
           value: selectedValue,
           isExpanded: true,
           hint: MyText(
-         text: widget.title,
+            text: widget.title,
           ),
           icon: GeneralImageWidget(
             imagePath: AssetsImages.navigationIcon,
@@ -59,3 +116,13 @@ class _CustomDropdownState extends State<CustomDropdown> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+

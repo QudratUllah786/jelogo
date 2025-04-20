@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jelogo/constants/app_Colors.dart';
 
 class UploadButton extends StatelessWidget {
   final String title;
-  final String? imagePath; // Nullable image path
+  final File? imagePath; // Nullable image path
   final Color titleColor;
   final Color backgroundColor;
   final Color iconColor;
@@ -48,10 +50,10 @@ class UploadButton extends StatelessWidget {
             ),
             width: width.w,
             height: height.h,
-            child: imagePath != null
+            child: (imagePath != null && imagePath!.path.isNotEmpty)
                 ? ClipRRect(
               borderRadius: BorderRadius.circular(16.sp),
-              child: Image.network(
+              child: Image.file(
                 imagePath!,
                 width: width.w,
                 height: height.h,

@@ -226,7 +226,7 @@ class _SignUpState extends State<SignUp> {
                             
                         MyText(text: 'Have an account? ',color: Color(0xff343434),),
                         SizedBox(width: 10.w,),
-                        MyText(text: 'Sign in', color: kSecondaryColor,weight: FontWeight.w600,onTap: (){
+                        MyText(text: 'Sign up', color: kSecondaryColor,weight: FontWeight.w600,onTap: (){
                             
                           Get.back();
                             

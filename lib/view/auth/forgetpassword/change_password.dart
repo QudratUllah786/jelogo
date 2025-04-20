@@ -13,9 +13,10 @@ import '../../../widgets/appbar.dart';
 import '../../../widgets/blue_button.dart';
 import '../../../widgets/my_text.dart';
 class ChangePassword extends StatelessWidget {
-   ChangePassword({super.key});
+   ChangePassword({super.key, this.fromTransfer = false});
   final authController = Get.find<AuthController>();
    final _formKey = GlobalKey<FormState>();
+   final bool fromTransfer;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,7 @@ class ChangePassword extends StatelessWidget {
                           return;
                         }
 
-                       await authController.updatePassword();
+                       await authController.resetPassword(fromTransfer: fromTransfer);
 
 
 

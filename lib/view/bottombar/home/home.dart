@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jelogo/constants/app_colors.dart';
 import 'package:jelogo/constants/assets_images.dart';
+import 'package:jelogo/controller/home_controller.dart';
 import 'package:jelogo/utils/global_instances.dart';
 import 'package:jelogo/view/auth/pin_screen.dart';
 import 'package:jelogo/view/bottombar/home/invoice-payment/invoice_payment.dart';
@@ -58,6 +59,7 @@ class Home extends StatelessWidget {
     },
   ];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -208,21 +210,23 @@ class Home extends StatelessWidget {
 
                         ),
                         // Balance and Eye Icon
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            MyText(
-                              text: "\$45.500,12",
-                              size: 28.sp,
-                              color: Colors.white,
-                              weight: FontWeight.w600,
-                            ),
-                            Image.asset(
-                              AssetsImages.eye,
-                              height: Get.height * 0.04,
-                              width: Get.height * 0.04,
-                            ),
-                          ],
+                        Obx(
+                          () =>  Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              MyText(
+                                text: "\$${homeController.walletBalance.value.balance?.toString()??'0'}",
+                                size: 28.sp,
+                                color: Colors.white,
+                                weight: FontWeight.w600,
+                              ),
+                              Image.asset(
+                                AssetsImages.eye,
+                                height: Get.height * 0.04,
+                                width: Get.height * 0.04,
+                              ),
+                            ],
+                          ),
                         ),
                         // Card Number and Logo
                         Row(
