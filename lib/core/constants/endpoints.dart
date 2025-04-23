@@ -15,3 +15,5 @@ const String showWalletBalanceUrl ='$baseUrl/wallet/balance';
 const String getAllDocUrl = '$baseUrl/doc/type/get-all';
 const String createOrderUrl = '$baseUrl/order-card/create';
 const String paymentTransferUrl = '$baseUrl/payment/transfer';
+const String addBeneficiaryUrl = '$baseUrl/beneficiary';
+const String getMyBeneficiaryUrl = '$baseUrl/beneficiary/my';

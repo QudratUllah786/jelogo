@@ -10,11 +10,13 @@ import 'package:jelogo/constants/app_Colors.dart';
 import 'package:jelogo/controller/transfer_controller.dart';
 import 'package:jelogo/utils/snackbars.dart';
 import 'package:jelogo/view/auth/pin_screen.dart';
+import 'package:jelogo/view/bottombar/home/beneficiary.dart';
 import 'package:jelogo/widgets/blue_button.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_phone_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 
+import '../../../core/common/functions.dart';
 import '../../../local_storage/local_storage.dart';
 import '../../../widgets/appbar.dart';
 
@@ -108,7 +110,11 @@ class _TransferState extends State<Transfer> {
               SizedBox(
                 height: 10,
               ),
-              MyPhoneTextField(formKey: _formKey,controller: _transferController.phoneCtrl,),
+              MyPhoneTextField(
+                formKey: _formKey,
+                controller: _transferController.phoneCtrl,
+              //  readOnly: true,
+              ),
 
               SizedBox(
                 height: 10,
@@ -123,6 +129,7 @@ class _TransferState extends State<Transfer> {
                     color: kSubheadingColor,
                   ),
                   MyText(
+                    onTap: () => Get.to(()=> Beneficiary()),
                     text: 'Find beneficiary',
                     size: 12.sp,
                     weight: FontWeight.w600,
@@ -139,9 +146,26 @@ class _TransferState extends State<Transfer> {
                   // Add Beneficiary Button
                   InkWell(
                     onTap: () async {
-                       _contact = await _contactPicker.selectPhoneNumber();
+                      _contact = await _contactPicker.selectPhoneNumber();
+                      final rawNumber = _contact?.selectedPhoneNumber ?? '';
 
+                      log('contact (raw): $rawNumber');
 
+                      // Remove all non-digit characters except +
+                      String cleanedNumber =
+                          rawNumber.replaceAll(RegExp(r'[^\d+]'), '');
+
+                      // Remove country code (e.g., +225)
+                      if (cleanedNumber.startsWith('+225')) {
+                        cleanedNumber = cleanedNumber.replaceFirst('+225', '');
+                      }
+
+                      // Remove any remaining spaces just in case
+                      String finalNumber = cleanedNumber.replaceAll(' ', '');
+
+                      log('contact (without country code, no spaces): $finalNumber');
+
+                      _transferController.phoneCtrl.text = finalNumber;
                     },
                     child: Padding(
                       padding: EdgeInsets.only(right: 10.w),
@@ -175,47 +199,57 @@ class _TransferState extends State<Transfer> {
                   ),
 
                   // Beneficiary List (Limited to 2 items)
-                  Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: beneficiaries.take(2).map((beneficiary) {
-                          return Padding(
-                            padding: EdgeInsets.only(right: 10.w),
-                            child: Container(
-                              width: 100.w,
-                              height: 120.h,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.sp),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.1),
-                                    blurRadius: 10,
-                                    offset: Offset(2, 2),
+                  Obx(
+                    () =>  Visibility(
+                      visible: _transferController.myBeneficiaryList.isNotEmpty,
+                      child: Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: _transferController.myBeneficiaryList.take(2).map((beneficiary) {
+                              return Padding(
+                                padding: EdgeInsets.only(right: 10.w),
+                                child: InkWell(
+                                  onTap: () {
+                                    _transferController.phoneCtrl.text = beneficiary.phone?.trim()??'';
+                                  },
+                                  child: Container(
+                                    width: 100.w,
+                                    height: 120.h,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15.sp),
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.1),
+                                          blurRadius: 10,
+                                          offset: Offset(2, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 30.sp,
+                                          child: Icon(Icons.person_outline),
+                                          //  backgroundImage: NetworkImage(beneficiary["image"]!),
+                                        ),
+                                        SizedBox(height: 5.h),
+                                        Text(
+                                          beneficiary.name??'',
+                                          style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 30.sp,
-                                    child: Icon(Icons.person_outline),
-                                    //  backgroundImage: NetworkImage(beneficiary["image"]!),
-                                  ),
-                                  SizedBox(height: 5.h),
-                                  Text(
-                                    beneficiary["name"]!,
-                                    style: TextStyle(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -275,6 +309,17 @@ class _TransferState extends State<Transfer> {
                                 child: TextField(
                                   controller: _transferController.amountCtrl,
                                   focusNode: _focusNode,
+                                   onChanged: (value) {
+                                     _transferController.amountToSend.value = value;
+                                     _transferController.amountInPercent.value = double.parse(value).toDouble();
+
+                                     if(isCheck1){
+
+                                       _transferController.amountInPercent.value = addOnePointFivePercent(value);
+
+                                     }
+
+                                   },
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly
@@ -308,9 +353,26 @@ class _TransferState extends State<Transfer> {
                           children: [
                             IconButton(
                               onPressed: () {
+
+                                if(_transferController.amountCtrl.text.isEmpty){
+                                  return CustomSnackBars.instance.showFailureSnackbar(title: 'ohh', message: 'please enter amount to pay');
+                                }
+
                                 setState(() {
                                   isCheck1 = !isCheck1;
                                 });
+
+                                if(isCheck1 ==  true){
+                                  log('true');
+                                  _transferController.amountInPercent.value =   addOnePointFivePercent(_transferController.amountCtrl.text.trim());
+                                }
+                                if(isCheck1 == false){
+                                  log('false');
+                                  _transferController.amountInPercent.value = double.parse(_transferController.amountCtrl.text);
+
+                                }
+
+
                               },
                               icon: Icon(
                                 isCheck1
@@ -332,21 +394,25 @@ class _TransferState extends State<Transfer> {
                         height: 10,
                       ),
 
-                      MyText(
-                        paddingLeft: 10.w,
-                        text: 'Total to pay: 0 F cfa',
-                        size: 16.sp,
-                        weight: FontWeight.w600,
+                      Obx(
+                        () =>  MyText(
+                          paddingLeft: 10.w,
+                          text: 'Total to pay: ${ _transferController.amountInPercent.value.toStringAsFixed(1)} F cfa',
+                          size: 16.sp,
+                          weight: FontWeight.w600,
+                        ),
                       ),
 
                       SizedBox(
                         height: 10,
                       ),
-                      MyText(
-                        paddingLeft: 10.w,
-                        text: 'Amount to send: 0 F cfa',
-                        size: 16.sp,
-                        weight: FontWeight.w600,
+                      Obx(
+                        () =>  MyText(
+                          paddingLeft: 10.w,
+                          text: 'Amount to send: ${_transferController.amountToSend.value} F cfa',
+                          size: 16.sp,
+                          weight: FontWeight.w600,
+                        ),
                       ),
 
                       Visibility(
@@ -372,6 +438,20 @@ class _TransferState extends State<Transfer> {
                         children: [
                           IconButton(
                             onPressed: () {
+
+
+                              if(!_transferController.myBeneficiaryList.any((element) => element.phone == _transferController.phoneCtrl.text,))
+                              {
+                                return CustomSnackBars.instance.showFailureSnackbar(title: 'ohh', message: 'you cannot add this no in beneficiary');
+                              }
+
+
+                              if(_transferController.myBeneficiaryList.any((element) => element.phone?.trim() == _transferController.phoneCtrl.text.trim(),)){
+
+
+                                return CustomSnackBars.instance.showToast(message: 'this is already in beneficiary list');
+                              }
+
                               setState(() {
                                 isCheck = !isCheck;
                               });
@@ -417,6 +497,9 @@ class _TransferState extends State<Transfer> {
                           }
 
                           if(isCheck && _contact != null){
+
+                           await _transferController.addBeneficiary(name: _contact?.fullName??'');
+
                          //   List<Map<String, dynamic>> jsonList = [contactToJson(_contact!)];
                           //  await LocalStorageService.instance.write(key: 'beneficiary', value: jsonList);
                           }

@@ -13,6 +13,7 @@ class MyPhoneTextField extends StatelessWidget {
   final TextEditingController? controller;
   final void Function(String?)? onSubmitted;
   void Function(PhoneNumber)? onChanged;
+  final bool readOnly;
 
   void Function(Country)? onCountryChanged;
 
@@ -22,6 +23,7 @@ class MyPhoneTextField extends StatelessWidget {
     super.key,
     required this.formKey,
     this.controller,
+     this.readOnly = false,
     this.onChanged,
     this.onSubmitted,
      this.onCountryChanged,
@@ -43,6 +45,7 @@ class MyPhoneTextField extends StatelessWidget {
           key: formKey,
           child: IntlPhoneField(
             initialCountryCode: 'CI',
+            readOnly:readOnly ,
             onSubmitted: onSubmitted,
             onChanged: onChanged,
             controller: controller,

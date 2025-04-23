@@ -74,3 +74,25 @@ Future<void> getUserData() async {
 Future<void> init() async {
 
 }
+
+double addOnePointFivePercent(String amountStr) {
+  // Convert string to double
+  double amount = double.tryParse(amountStr) ?? 0.0;
+
+  // Calculate 1.5% of the amount
+  double percentage = amount * 0.015;
+
+  // Return the total
+  return amount + percentage;
+}
+double removePointFivePercent(String amountStr) {
+  // Convert string to double
+  double amount = double.tryParse(amountStr) ?? 0.0;
+
+  // Calculate 1.5% of the amount
+  double percentage = amount * 0.015;
+
+  // Return the total
+  return amount - percentage;
+}
+

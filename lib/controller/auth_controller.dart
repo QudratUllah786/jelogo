@@ -22,9 +22,7 @@ import '../view/auth/forgetpassword/type_code.dart';
 import '../view/auth/type_code_signup.dart';
 import '../view/auth/welcome_screen.dart';
 
-class AuthController extends GetxController{
-
-
+class AuthController extends GetxController {
   RxBool isFormValid = false.obs;
   RxBool isSignUpFormValid = false.obs;
   RxString signUpcountryCode = '225'.obs;
@@ -44,30 +42,27 @@ class AuthController extends GetxController{
   TextEditingController forgetPassPhone = TextEditingController();
   TextEditingController forgotPassCodeCtrl = TextEditingController();
   TextEditingController forgotSecretCodeController = TextEditingController();
-  TextEditingController forgotConfSecretCodeController = TextEditingController();
+  TextEditingController forgotConfSecretCodeController =
+      TextEditingController();
 
   RxBool passVisible = false.obs;
   RxBool confPassVisible = false.obs;
   Rx<DateTime> dob = DateTime.now().obs;
   RxString selectedGender = 'MALE'.obs;
-  void validateForm(GlobalKey<FormState> formKey, TextEditingController controller,RxBool formVar) {
+
+  void validateForm(GlobalKey<FormState> formKey,
+      TextEditingController controller, RxBool formVar) {
     if (controller.text.trim().isEmpty) {
       formVar.value = false;
       return;
     }
 
-
-
-
     isFormValid.value = formKey.currentState?.validate() ?? false;
   }
 
   void validateSignForm(GlobalKey<FormState> formKey) {
-
     isSignUpFormValid.value = formKey.currentState?.validate() ?? false;
-
   }
-
 
   sendSignUpOtp({bool resend = false}) async {
     DialogService.instance.showProgressDialog();
@@ -85,45 +80,38 @@ class AuthController extends GetxController{
 
       CustomSnackBars.instance.showSuccessSnackbar(
           title: 'Success', message: sendSignOtpModel.message ?? '');
-     if(resend == false)
-       {
-         Get.to(()=> TypeCodeSignUp());
-       }
+      if (resend == false) {
+        Get.to(() => TypeCodeSignUp());
+      }
       return;
     }
     CustomSnackBars.instance
         .showFailureSnackbar(title: 'Ohh', message: 'something went wrong');
-
   }
-
 
   otpVerification() async {
     DialogService.instance.showProgressDialog();
     Map<String, dynamic> body = {
       "phone": phoneController.text.trim(),
       "countryCode": signUpcountryCode.value,
-      "code":verifyOtpController.text.trim()
+      "code": verifyOtpController.text.trim()
     };
-    final response = await APIService.instance
-        .post(verifySignupOtpUrl, body, true, showResult: true, successCode: 201);
+    final response = await APIService.instance.post(
+        verifySignupOtpUrl, body, true,
+        showResult: true, successCode: 201);
     DialogService.instance.hideLoading();
 
     if (response.$1 != null && response.$2 == 201) {
       CustomSnackBars.instance.showSuccessSnackbar(
-          title: 'Success', message:response.$1?['message'] ?? '');
-      Get.to(()=> CreateSecretCode());
+          title: 'Success', message: response.$1?['message'] ?? '');
+      Get.to(() => CreateSecretCode());
       return;
     }
-    CustomSnackBars.instance
-        .showFailureSnackbar(title: 'Ohh', message: response.$1?['message'] ?? '');
-
-
+    CustomSnackBars.instance.showFailureSnackbar(
+        title: 'Ohh', message: response.$1?['message'] ?? '');
   }
 
-
-
-  createAccount()async{
-
+  createAccount() async {
     DialogService.instance.showProgressDialog();
 
     Map<String, dynamic> userMap = User(
@@ -139,40 +127,35 @@ class AuthController extends GetxController{
 
     userMap['password'] = secretCodeController.text.trim();
 
-
-
     log('user:$userMap');
-    
-    final response = await APIService.instance.post(createAccountUrl, userMap, true,successCode: 201);
- //   log('res:${response.$1!}');
+
+    final response = await APIService.instance
+        .post(createAccountUrl, userMap, true, successCode: 201);
+    //   log('res:${response.$1!}');
     log('res:${response.toString()}');
     DialogService.instance.hideLoading();
-    if(response.$1!= null && response.$2 == 201){
-
+    if (response.$1 != null && response.$2 == 201) {
       UserModel userModel = UserModel.fromJson(response.$1!);
       userModelGlobal.value = userModel.data?.user! ?? User();
-      accessToken.value = userModel.data?.tokens?.accessToken??'';
+      accessToken.value = userModel.data?.tokens?.accessToken ?? '';
 
-     await LocalStorageService.instance.write(key: 'accessToken', value: accessToken.value);
-     await SecureStorageService.instance.write(key: 'refreshToken', value: userModel.data?.tokens?.refreshToken??'');
+      await LocalStorageService.instance
+          .write(key: 'accessToken', value: accessToken.value);
+      await SecureStorageService.instance.write(
+          key: 'refreshToken',
+          value: userModel.data?.tokens?.refreshToken ?? '');
 
-      Get.to(()=> WelcomeScreen());
-      CustomSnackBars.instance
-          .showSuccessSnackbar(title: 'Success', message: response.$1?['message'] ?? '');
+      Get.to(() => WelcomeScreen());
+      CustomSnackBars.instance.showSuccessSnackbar(
+          title: 'Success', message: response.$1?['message'] ?? '');
       return;
     }
 
-
-    CustomSnackBars.instance
-        .showFailureSnackbar(title: 'Ohh', message: response.$1?['message'] ?? '');
-
-
+    CustomSnackBars.instance.showFailureSnackbar(
+        title: 'Ohh', message: response.$1?['message'] ?? '');
   }
 
-
-
-  login({required String password}) async{
-
+  login({required String password}) async {
     DialogService.instance.showProgressDialog();
 
     var body = {
@@ -181,38 +164,39 @@ class AuthController extends GetxController{
       "password": password
     };
 
-    final res = await APIService.instance.post(signInUrl, body, true,successCode: 201,showResult: true);
+    final res = await APIService.instance
+        .post(signInUrl, body, true, successCode: 201, showResult: true);
 
     DialogService.instance.hideLoading();
 
-    if(res.$1 != null && res.$2 == 201){
+    if (res.$1 != null && res.$2 == 201) {
       UserModel userModel = UserModel.fromJson(res.$1!);
       userModelGlobal.value = userModel.data?.user! ?? User();
-      accessToken.value = userModel.data?.tokens?.accessToken??'';
-     await showAccount();
+      accessToken.value = userModel.data?.tokens?.accessToken ?? '';
+      await showAccount();
       log('access:${accessToken.value.toString()}');
-     Get.offAll(()=> JelogoBottomBar(),binding: BottomBarBindings());
-      CustomSnackBars.instance
-          .showSuccessSnackbar(title: 'Success', message: res.$1?['message'] ?? '');
-     await LocalStorageService.instance.write(key: 'accessToken', value: userModel.data?.tokens?.accessToken??'');
-      await SecureStorageService.instance.write(key: 'refreshToken', value: userModel.data?.tokens?.refreshToken??'');
-     String token = await LocalStorageService.instance.read(key: 'accessToken');
-     String ?refreshToken = await SecureStorageService.instance.read(key: 'refreshToken');
-     log('token:${token.toString()}');
-     log('refreshToken:${refreshToken?.toString()}');
+      Get.offAll(() => JelogoBottomBar(), binding: BottomBarBindings());
+      CustomSnackBars.instance.showSuccessSnackbar(
+          title: 'Success', message: res.$1?['message'] ?? '');
+      await LocalStorageService.instance.write(
+          key: 'accessToken', value: userModel.data?.tokens?.accessToken ?? '');
+      await SecureStorageService.instance.write(
+          key: 'refreshToken',
+          value: userModel.data?.tokens?.refreshToken ?? '');
+      String token =
+          await LocalStorageService.instance.read(key: 'accessToken');
+      String? refreshToken =
+          await SecureStorageService.instance.read(key: 'refreshToken');
+      log('token:${token.toString()}');
+      log('refreshToken:${refreshToken?.toString()}');
       return;
-
     }
 
     CustomSnackBars.instance
         .showFailureSnackbar(title: 'Ohh', message: res.$1?['message'] ?? '');
-
-
-
   }
 
-
-  sendForgotPassOtp({bool resend = false,bool fromTransfer = false}) async {
+  sendForgotPassOtp({bool resend = false, bool fromTransfer = false}) async {
     DialogService.instance.showProgressDialog();
     Map<String, dynamic> body = {
       "phone": forgetPassPhone.text.trim(),
@@ -224,53 +208,52 @@ class AuthController extends GetxController{
 
     if (response.$1 != null && response.$2 == 201) {
       SendSignOtpModel sendSignOtpModel =
-      SendSignOtpModel.fromJson(response.$1!);
+          SendSignOtpModel.fromJson(response.$1!);
 
       CustomSnackBars.instance.showSuccessSnackbar(
           title: 'Success', message: sendSignOtpModel.message ?? '');
-      if(resend == false)
-      {
-        Get.to(()=> TypeCode(fromTransfer: fromTransfer,));
+      if (resend == false) {
+        Get.to(() => TypeCode(
+              fromTransfer: fromTransfer,
+            ));
       }
       return;
     }
     CustomSnackBars.instance
         .showFailureSnackbar(title: 'Ohh', message: 'something went wrong');
-
   }
 
-
-  resetPassword({bool fromTransfer = false})async {
+  resetPassword({bool fromTransfer = false}) async {
     DialogService.instance.showProgressDialog();
-    String ?token = await LocalStorageService.instance.read(key: 'accessToken');
+    String? token = await LocalStorageService.instance.read(key: 'accessToken');
     log('token:${token.toString()}');
     accessToken.value = token.toString();
     log('token:${accessToken.value.toString()}');
 
     var body = {
-      "phone":forgetPassPhone.text.trim(),
-      "countryCode":forgotPassCountryCode.value.toString(),
+      "phone": forgetPassPhone.text.trim(),
+      "countryCode": forgotPassCountryCode.value.toString(),
       "password": forgotSecretCodeController.text.trim(),
-      "code":forgotPassCodeCtrl.text.trim(),
+      "code": forgotPassCodeCtrl.text.trim(),
     };
 
     log('body:${body.toString()}');
 
-   final res = await APIService.instance.post(resetPassUrl, body, true,showResult: true,successCode: 201);
+    final res = await APIService.instance
+        .post(resetPassUrl, body, true, showResult: true, successCode: 201);
 
-   User user = User.fromJson(res.$1!['data']);
-   userModelGlobal.value = user;
-    if(res.$1 != null && res.$2 == 201){
-       Get.to(()=> ChangePasswordSuccess(fromTransfer: fromTransfer,));
-      CustomSnackBars.instance
-          .showSuccessSnackbar(title: 'Success', message: res.$1?['message'] ?? '');
+    User user = User.fromJson(res.$1!['data']);
+    userModelGlobal.value = user;
+    if (res.$1 != null && res.$2 == 201) {
+      Get.to(() => ChangePasswordSuccess(
+            fromTransfer: fromTransfer,
+          ));
+      CustomSnackBars.instance.showSuccessSnackbar(
+          title: 'Success', message: res.$1?['message'] ?? '');
       return;
-
     }
 
     CustomSnackBars.instance
         .showFailureSnackbar(title: 'Ohh', message: res.$1?['message'] ?? '');
-
   }
-
 }
