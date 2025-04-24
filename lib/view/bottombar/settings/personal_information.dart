@@ -93,39 +93,27 @@ class _PersonalInformationState extends State<PersonalInformation> {
             SizedBox(height: 20.h),
             _buildToggleButtons(),
             SizedBox(height: 80.h),
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  width: 320.w,
-                  height: 149.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.sp),
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage(AssetsImages.documentImage))
-                  ),
-                ),
-                Positioned(
-                  right: -10.w, // Adjust to move left
-                  top: 120.h, // Adjust this to move it up
-                  child: Container(
-                    width: 40.w,
-                    height: 40.h,
+            Obx(
+              () => profileController.documents.isEmpty?
+              MyText(text: 'no documents'):
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount:  profileController.documents.length,
+
+                  itemBuilder: (context,index) {
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 5),
+                    width: 320.w,
+                    height: 149.h,
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: kSecondaryColor,
+                      borderRadius: BorderRadius.circular(15.sp),
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(profileController.documents[index].url?? dummyImage))
                     ),
-                    child: Center(
-                      child: GeneralImageWidget(
-                        imagePath: AssetsImages.imageAdd,
-                      ),
-                    ),
-                  ),
-                )
-
-
-              ],
+                  );
+                }
+              ),
             )
           ],
         )
@@ -154,10 +142,19 @@ class _PersonalInformationState extends State<PersonalInformation> {
         ),
         BlueButton(
           ButtonText: 'Documents',
-          onTap: () {
-            setState(() {
+          onTap: () async {
+
+         //   await   profileController.getDocuments();
+
+            setState(()  {
+
+
               isDocument = true;
               isAccount = false;
+
+              /// TODO document api
+
+
             });
           },
           width: 155.w,

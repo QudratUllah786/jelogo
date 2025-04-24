@@ -68,6 +68,7 @@ class User {
   final String? notificationToken;
   final String? createdAt;
   final String? updatedAt;
+  final List<DocumentModel>? documents; // ✅ new field
 
   User({
     this.id,
@@ -87,6 +88,7 @@ class User {
     this.notificationToken,
     this.createdAt,
     this.updatedAt,
+    this.documents, // ✅ add to constructor
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -108,31 +110,39 @@ class User {
       notificationToken: json['notificationToken'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
+      documents: json['documents'] != null
+          ? (json['documents'] as List)
+          .map((e) => DocumentModel.fromJson(e))
+          .toList()
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-     if(id!= null) 'id': id,
-      if(email!= null)  'email': email,
-      if(name!= null) 'name': name,
-      if(lastName!= null) 'lastName': lastName,
-      if(firstName!= null) 'firstName': firstName,
-      if(phone!= null) 'phone': phone,
-      if(countryCode!= null)  'countryCode': countryCode,
-      if(isVerified!= null) 'isVerified': isVerified,
-      if(avatar!= null) 'avatar': avatar,
-      if(birthDate!= null) 'birthDate': birthDate,
-      if(password!= null) 'password':password,
-      if(address!= null) 'address': address,
-      if(gender!= null) 'gender': gender,
-      if(indicatif!= null)'indicatif': indicatif,
-      if(notificationToken!= null) 'notificationToken': notificationToken,
-      if(createdAt!= null)  'createdAt': createdAt,
-      if(updatedAt!= null) 'updatedAt': updatedAt,
+      if (id != null) 'id': id,
+      if (email != null) 'email': email,
+      if (name != null) 'name': name,
+      if (lastName != null) 'lastName': lastName,
+      if (firstName != null) 'firstName': firstName,
+      if (phone != null) 'phone': phone,
+      if (countryCode != null) 'countryCode': countryCode,
+      if (isVerified != null) 'isVerified': isVerified,
+      if (avatar != null) 'avatar': avatar,
+      if (birthDate != null) 'birthDate': birthDate,
+      if (password != null) 'password': password,
+      if (address != null) 'address': address,
+      if (gender != null) 'gender': gender,
+      if (indicatif != null) 'indicatif': indicatif,
+      if (notificationToken != null) 'notificationToken': notificationToken,
+      if (createdAt != null) 'createdAt': createdAt,
+      if (updatedAt != null) 'updatedAt': updatedAt,
+      if (documents != null)
+        'documents': documents!.map((doc) => doc.toJson()).toList(),
     };
   }
 }
+
 
 class Tokens {
   final String? accessToken;
@@ -154,6 +164,56 @@ class Tokens {
     return {
       'access_token': accessToken,
       'refresh_token': refreshToken,
+    };
+  }
+}
+
+
+
+class DocumentModel {
+  final String? id;
+  final String? name;
+  final String? userId;
+  final String? documentTypeId;
+  final String? url;
+  final bool? isVerified;
+  final String? createdAt;
+  final String? updatedAt;
+
+  DocumentModel({
+    this.id,
+    this.name,
+    this.userId,
+    this.documentTypeId,
+    this.url,
+    this.isVerified,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory DocumentModel.fromJson(Map<String, dynamic> json) {
+    return DocumentModel(
+      id: json['id'],
+      name: json['name'],
+      userId: json['userId'],
+      documentTypeId: json['documentTypeId'],
+      url: json['url'],
+      isVerified: json['isVerified'],
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (userId != null) 'userId': userId,
+      if (documentTypeId != null) 'documentTypeId': documentTypeId,
+      if (url != null) 'url': url,
+      if (isVerified != null) 'isVerified': isVerified,
+      if (createdAt != null) 'createdAt': createdAt,
+      if (updatedAt != null) 'updatedAt': updatedAt,
     };
   }
 }

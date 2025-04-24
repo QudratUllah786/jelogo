@@ -105,7 +105,7 @@ class Settings extends StatelessWidget {
                         SizedBox(height: 2.h,),
 
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
                             Get.to(()=> PersonalInformation(isDocument: true,),binding: ProfileBindings());
                           },
                           child: Row(

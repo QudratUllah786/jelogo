@@ -17,7 +17,7 @@ import '../view/auth/sign_in.dart';
 class ProfileController extends GetxController{
 
   var profilePicture = ''.obs;
-  
+  RxList<DocumentModel> documents = <DocumentModel>[].obs;
   TextEditingController userNameCtrl = TextEditingController();
   TextEditingController accNoCtrl = TextEditingController();
   TextEditingController mobileNoCtrl = TextEditingController();
@@ -80,8 +80,38 @@ class ProfileController extends GetxController{
   }
 
 
+  Future<bool> getDocuments() async {
+    DialogService.instance.showProgressDialog();
+
+    final data = await APIService.instance
+        .get("$showAccountUrl/${userModelGlobal.value.phone ?? ''}", false);
+
+    log('data:$data');
+
+    DialogService.instance.hideLoading();
+    if (data.$1 != null && data.$2 == 200) {
+      if (data.$1?['status'] == true) {
+        User user = User.fromJson(data.$1?["data"]);
+        documents.value = user.documents ?? [];
+        return true;
+      } else {
+        log('failed to get documents:${data.$1?['message']}');
+        // CustomSnackBars.instance.showFailureSnackbar(title: 'Failure', message: data.$1?['message']);
+      }
+
+      return false;
+    }
+
+    log('failed to get documents:${data.$1?['message']}');
+    //  CustomSnackBars.instance.showFailureSnackbar(title: 'Failure', message: data.$1?['message']);
+    return false;
+  }
+
   @override
   void onReady() {
+
+
+    getDocuments();
     accNoCtrl.text = '12345';
     userNameCtrl.text = userModelGlobal.value.name??'';
     emailCtrl.text = userModelGlobal.value.email??'';
