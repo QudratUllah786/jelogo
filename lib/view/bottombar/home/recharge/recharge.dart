@@ -11,6 +11,7 @@ import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
 
 import '../../../../constants/assets_images.dart';
+import '../../../../core/binding/app_binding.dart';
 import '../../../../widgets/news_card.dart';
 import '../../../banques.dart';
 import '../../../news_screen.dart';
@@ -21,27 +22,47 @@ class Recharge extends StatelessWidget {
     {
       "icon": AssetsImages.image7,
       "label": "Orange Money",
-      "route": () => Get.to(RechargeTransfer()),
+      "route": () => Get.to(RechargeTransfer(
+        slug: "ORANGECI",
+        label: "Orange Money",
+      ),binding: TransferBindings()),
     },
     {
       "icon": AssetsImages.image8,
       "label": "Moov Money",
-      "route": () => Get.to(RechargeTransfer()),
+      "route": () => Get.to(RechargeTransfer(
+        label: "Moov Money",
+        slug: "MOOVCI",
+      ),
+          binding: TransferBindings()
+      ),
     },
     {
       "icon": AssetsImages.image9,
       "label": "MTN Money",
-      "route": () => Get.to(RechargeTransfer()),
+      "route": () => Get.to(RechargeTransfer(
+        label: "MTN Money",
+        slug: "MTNCI",
+      ),
+          binding: TransferBindings()
+      ),
     },
     {
       "icon": AssetsImages.image10,
       "label": "Wave",
-      "route": () => Get.to(RechargeTransfer ()),
+      "route": () => Get.to(RechargeTransfer (
+        label: "Wave",
+        slug: "WAVECI",
+      ),
+          binding: TransferBindings()
+      ),
     },
     {
       "icon": AssetsImages.image11,
       "label": "Banques",
-      "route": () => Get.to(Banques()),
+      "route": () => Get.to(Banques(),
+          binding: TransferBindings()
+      ),
     },
   ];
 

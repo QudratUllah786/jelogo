@@ -28,7 +28,7 @@ class TransferController extends GetxController{
     var body = {
 
       "amount": amountCtrl.text.trim(),
-      "amountToPay": amountCtrl.text.trim(),
+      "amountToPay":  amountInPercent.value.toStringAsFixed(1),
       "withFee": withFee,
       "operatorSlug": slug,
       "phoneNumber":phoneCtrl.text.trim(),
@@ -65,8 +65,52 @@ class TransferController extends GetxController{
     return false;
   }
 
+  Future<bool> rechargeWallet({required bool withFee,required String slug,required String pin}) async {
+
+    DialogService.instance.showProgressDialog();
 
 
+    var body = {
+
+      "amount": int.parse(amountCtrl.text.trim()),
+      "amountToPay":  double.parse(amountInPercent.value.toStringAsFixed(1)).toInt(),
+      "withFee": withFee,
+      "operatorSlug": slug,
+      "phoneNumber":phoneCtrl.text.trim(),
+      "codeOtp":pin,
+      "transactionTypeSlug": "TRANSFERT"
+
+
+    };
+
+    log('body of:${body}');
+
+    final data = await APIService.instance.post(rechargeBalanceUrl, body, false);
+
+    log('data:${data}');
+
+    DialogService.instance.hideLoading();
+    if(data.$1 != null && data.$2 == 201 ){
+
+      if(data.$1?['status'] == true ){
+
+        CustomSnackBars.instance.showSuccessSnackbar(title: 'Success', message: data.$1?['message']);
+        Get.close(1);
+        return true;
+
+      }else{
+        CustomSnackBars.instance.showFailureSnackbar(title: 'Failure', message: data.$1?['message']);
+      }
+
+
+
+      return false;
+    }
+
+
+    CustomSnackBars.instance.showFailureSnackbar(title: 'Failure', message: data.$1?['message']);
+    return false;
+  }
 
   Future<void> addBeneficiary ({required String name}) async{
     

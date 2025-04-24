@@ -52,12 +52,28 @@ class _PinScreenState extends State<PinScreen> {
             return CustomSnackBars.instance.showFailureSnackbar(title: 'Failure', message: 'le mot de passe ne correspond pas');
           }
 
-  final isTransfer =await Get.find<TransferController>().paymentTransfer(withFee: widget.isFee, slug: widget.slug);
+          if(widget.fromTransfer == true && widget.fromTopUp == true){
 
-          if(isTransfer){
-            Get.to(Confirm(topUp: widget.fromTopUp,));
+
+            final isTransfer =await Get.find<TransferController>().rechargeWallet(withFee: widget.isFee, slug: widget.slug,pin:pin);
+
+            if(isTransfer){
+              Get.to(Confirm(topUp: widget.fromTopUp,));
+            }
+            return;
+
           }
-          return;
+
+          if(widget.fromTransfer == true && widget.fromTransfer == false){
+
+            final isTransfer =await Get.find<TransferController>().paymentTransfer(withFee: widget.isFee, slug: widget.slug);
+
+            if(isTransfer){
+              Get.to(Confirm(topUp: widget.fromTopUp,));
+            }
+            return;
+          }
+
         }
 
        await Get.find<AuthController>().login(password: pin);

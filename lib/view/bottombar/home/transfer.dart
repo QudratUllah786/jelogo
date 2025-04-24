@@ -489,12 +489,12 @@ class _TransferState extends State<Transfer> {
 
 
 
-                          if(widget.fee == true){
-                            if(!isCheck1){
-                              CustomSnackBars.instance.showToast(message: 'please select fees');
-                              return;
-                            }
-                          }
+                          // if(widget.fee == true){
+                          //   if(!isCheck1){
+                          //     CustomSnackBars.instance.showToast(message: 'please select fees');
+                          //     return;
+                          //   }
+                          // }
 
                           if(isCheck && _contact != null){
 
@@ -510,7 +510,7 @@ class _TransferState extends State<Transfer> {
                           Get.to(() => PinScreen(
                             fromTransfer: true,
                             slug: widget.slug,
-                            isFee: widget.fee,
+                            isFee: isCheck1,
                               ));
                         },
                       ),

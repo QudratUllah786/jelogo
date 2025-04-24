@@ -17,3 +17,4 @@ const String createOrderUrl = '$baseUrl/order-card/create';
 const String paymentTransferUrl = '$baseUrl/payment/transfer';
 const String addBeneficiaryUrl = '$baseUrl/beneficiary';
 const String getMyBeneficiaryUrl = '$baseUrl/beneficiary/my';
+const String rechargeBalanceUrl = '$baseUrl/payment/recharge-wallet';
