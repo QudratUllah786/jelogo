@@ -9,6 +9,8 @@ import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/blue_button.dart';
 import 'package:jelogo/widgets/general_image_widget.dart';
 import 'package:jelogo/widgets/my_text.dart';
+
+import '../../../core/common/functions.dart';
 class ChangePasswordSuccess extends StatelessWidget {
   final bool fromTransfer;
   const ChangePasswordSuccess({super.key, this.fromTransfer = false});
@@ -37,7 +39,8 @@ class ChangePasswordSuccess extends StatelessWidget {
 
               if(fromTransfer){
 
-                Get.close(5);
+                Get.close(6);
+                showAccount();
                 return;
               }
 

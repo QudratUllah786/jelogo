@@ -92,7 +92,7 @@ class Home extends StatelessWidget {
           () =>  MyText(
               onTap: () async {
               },
-            text: 'Hi ${userModelGlobal.value.firstName ?? ''} ${userModelGlobal.value.lastName ?? ''}',
+            text: 'Hi ${userModelGlobal.value.name ?? ''}',
             size: 16.sp,
             color: kPrimaryColor,
             weight: FontWeight.w500,

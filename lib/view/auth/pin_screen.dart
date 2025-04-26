@@ -48,6 +48,7 @@ class _PinScreenState extends State<PinScreen> {
       });
       if (pin.length == 4) {
         if (widget.fromTransfer == true) {
+          log('pass:${userModelGlobal.value.password??''}');
           bool isMatch = BCrypt.checkpw(pin, userModelGlobal.value.password??'');
 
           if(!isMatch){

@@ -195,7 +195,10 @@ class Settings extends StatelessWidget {
                       SizedBox(height: 10.h,),
                       Obx(
                         () =>  MyText(
-                          text:  '${userModelGlobal.value.firstName??''} ${userModelGlobal.value.lastName??''}',
+                         // text:  '${userModelGlobal.value.firstName??''} ${userModelGlobal.value.lastName??''}',
+                          text:  userModelGlobal.value.name??'',
+
+
                           color: kSecondaryColor,
                           size: 16.sp,
                           weight: FontWeight.w600,

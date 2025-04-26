@@ -48,6 +48,7 @@ class ProfileController extends GetxController{
       CustomSnackBars.instance.showSuccessSnackbar(title: 'Success', message: res.$1?['message']);
       User user = User.fromJson(res.$1!['data']);
       userModelGlobal.value = user;
+      log('userModelGlobal:${userModelGlobal.value.toJson()}');
       Get.close(1);
       return;
     }
