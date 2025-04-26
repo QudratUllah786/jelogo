@@ -1,0 +1,6 @@
+enum OrderEnum{
+
+  PENDING,
+  COMPLETED
+
+}

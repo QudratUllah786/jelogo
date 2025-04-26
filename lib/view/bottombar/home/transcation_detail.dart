@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jelogo/enum/transaction_enum.dart';
+import 'package:jelogo/model/transaction_model/transaction_model.dart';
 import 'package:jelogo/widgets/my_text.dart';
 
 import '../../../constants/app_Colors.dart';
 import '../../../constants/assets_images.dart';
+import '../../../core/common/functions.dart';
 import '../../../widgets/appbar.dart';
 import '../../../widgets/general_image_widget.dart';
 
 class TransactionDetail extends StatelessWidget {
   final bool isPositive;
+  final TransactionModel transactionModel;
 
-  const TransactionDetail({super.key, required this.isPositive});
+  const TransactionDetail({super.key, required this.isPositive,required this.transactionModel});
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +94,7 @@ class TransactionDetail extends StatelessWidget {
                         size: 16.sp,
                         weight: FontWeight.w600),
                     MyText(
-                        text: '10/01/2025  22:20',
+                        text: formatDateTime(transactionModel.createdAt?.toString()?? DateTime.now().toString()),
                         size: 12.sp,
                         weight: FontWeight.w400),
                   ],
@@ -128,7 +132,7 @@ class TransactionDetail extends StatelessWidget {
                         size: 16.sp,
                         weight: FontWeight.w600),
                     MyText(
-                        text: 'Money Transfer',
+                        text:  'Money ${transactionModel.action == TransactionEnum.DEPOSIT.name? 'Deposit':'Transfer'}',
                         size: 12.sp,
                         weight: FontWeight.w400),
                     SizedBox(
@@ -137,7 +141,7 @@ class TransactionDetail extends StatelessWidget {
                     MyText(
                         text: 'Sender', size: 16.sp, weight: FontWeight.w600),
                     MyText(
-                        text: '12222333545555',
+                        text: transactionModel.userId??'',
                         size: 12.sp,
                         weight: FontWeight.w400),
                     SizedBox(
@@ -148,7 +152,7 @@ class TransactionDetail extends StatelessWidget {
                         size: 16.sp,
                         weight: FontWeight.w600),
                     MyText(
-                        text: '50 FCFA', size: 12.sp, weight: FontWeight.w400),
+                        text: '${transactionModel.amount?.toString() ??''} FCFA', size: 12.sp, weight: FontWeight.w400),
                     SizedBox(
                       height: 20.h,
                     ),
@@ -157,7 +161,7 @@ class TransactionDetail extends StatelessWidget {
                         size: 16.sp,
                         weight: FontWeight.w600),
                     MyText(
-                        text: '5.1 FCFA', size: 12.sp, weight: FontWeight.w400),
+                        text: '${transactionModel.fee?.toString()??''} FCFA', size: 12.sp, weight: FontWeight.w400),
                     SizedBox(
                       height: 20.h,
                     ),
@@ -166,7 +170,7 @@ class TransactionDetail extends StatelessWidget {
                         size: 16.sp,
                         weight: FontWeight.w600),
                     MyText(
-                        text: 'CMy455533DEFESLA567899',
+                        text:transactionModel.id?? '',
                         size: 12.sp,
                         weight: FontWeight.w400),
                   ],

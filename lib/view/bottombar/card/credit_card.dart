@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/constants/assets_images.dart';
+import 'package:jelogo/controller/home_controller.dart';
 import 'package:jelogo/core/binding/app_binding.dart';
+import 'package:jelogo/enum/order_enum.dart';
 import 'package:jelogo/view/bottombar/card/add_id.dart';
 import 'package:jelogo/widgets/appbar.dart';
 import 'package:jelogo/widgets/blue_button.dart';
@@ -12,8 +14,9 @@ import 'package:jelogo/widgets/my_text.dart';
 
 import '../../../constants/app_Colors.dart';
 class CreditCard extends StatelessWidget {
-  const CreditCard({super.key});
+   CreditCard({super.key});
 
+  final homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
 
@@ -62,20 +65,36 @@ class CreditCard extends StatelessWidget {
 
                 SizedBox(height: 30.h,),
 
-                MyText(text: 'You don’t have a registered credit card',size: 16.sp,
-                weight: FontWeight.w600,
+                Obx(
+                 () =>  MyText(text: homeController.myOrders.isNotEmpty && homeController.myOrders[0].status == OrderEnum.PENDING.name?"Your request to order a card is pending":
+
+                 homeController.myOrders.isNotEmpty && homeController.myOrders[0].status == OrderEnum.COMPLETED.name?"Your request to order a card is completed":
+                 'You don’t have a registered credit card',size: 16.sp,
+                  weight: FontWeight.w600,
+                  ),
                 ),
-                MyText(
-                  textAlign: TextAlign.center,
-                  text: 'Add a credit card to make online\n payments',size: 16.sp,
-                  weight: FontWeight.w400,
+                Obx(
+                  () =>  Visibility(
+                    visible: (homeController.myOrders.isNotEmpty && homeController.myOrders[0].status != OrderEnum.PENDING.name) ||  (homeController.myOrders.isNotEmpty && homeController.myOrders[0].status != OrderEnum.COMPLETED.name)? false:true,
+                    child: MyText(
+                      textAlign: TextAlign.center,
+                      text: 'Add a credit card to make online\n payments',size: 16.sp,
+                      weight: FontWeight.w400,
+                    ),
+                  ),
                 ),
 
                 SizedBox(height: 150.h,),
 
-                BlueButton(ButtonText: 'Add a Credit Card', onTap: () {
-                  Get.to(()=>AddId(),binding: CardBindings());
-                },)
+                Obx(
+                  () =>  Visibility(
+                    visible: (homeController.myOrders.isNotEmpty && homeController.myOrders[0].status != OrderEnum.PENDING.name) ||
+                        ( homeController.myOrders.isNotEmpty && homeController.myOrders[0].status != OrderEnum.COMPLETED.name)? false:true,
+                    child: BlueButton(ButtonText: 'Add a Credit Card', onTap: () {
+                      Get.to(()=>AddId(),binding: CardBindings());
+                    },),
+                  ),
+                )
               ],
             ),
           ),

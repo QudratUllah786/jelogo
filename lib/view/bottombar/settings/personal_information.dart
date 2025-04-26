@@ -177,48 +177,49 @@ class _PersonalInformationState extends State<PersonalInformation> {
               height: 100.h,
               radius: 100.sp,
               imagePath: AssetsImages.dummyImage,
+              url: userModelGlobal.value.avatar?? dummyImage,
               file: File(profileController.profilePicture.value),
               fit: BoxFit.cover,
             ),
           ),
-          Positioned(
-            // left:0,
-            right: 0,
-            top: 60.h,
-            bottom: 0,
-            child: InkWell(
-              onTap: () {
-                ImagePickerService.instance.openProfilePickerBottomSheet(context: context,
-                    onCameraPick: () async {
-                      XFile? image = await ImagePickerService.instance.pickImageFromCamera();
-                      if(image!= null){
-                        profileController.profilePicture.value = image.path;
-                       // profileController.updateProfilePicture(context);
-                      }                    },
-                    onGalleryPick: () async {
-                      XFile? image =    await  ImagePickerService.instance.pickSingleImageFromGallery();
-                      if(image!= null){
-                        profileController.profilePicture.value = image.path;
-                        // profileController.updateProfilePicture(context);
-                      }
-
-                    },);
-              },
-              child: Container(
-                width: 30.w,
-                alignment: Alignment.center,
-                height: 30.h,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: kSecondaryColor,
-                ),
-                child: GeneralImageWidget(
-
-                  imagePath: AssetsImages.imageAdd,
-                ),
-              ),
-            ),
-          )
+          // Positioned(
+          //   // left:0,
+          //   right: 0,
+          //   top: 60.h,
+          //   bottom: 0,
+          //   child: InkWell(
+          //     // onTap: () {
+          //     //   ImagePickerService.instance.openProfilePickerBottomSheet(context: context,
+          //     //       onCameraPick: () async {
+          //     //         XFile? image = await ImagePickerService.instance.pickImageFromCamera();
+          //     //         if(image!= null){
+          //     //           profileController.profilePicture.value = image.path;
+          //     //          // profileController.updateProfilePicture(context);
+          //     //         }                    },
+          //     //       onGalleryPick: () async {
+          //     //         XFile? image =    await  ImagePickerService.instance.pickSingleImageFromGallery();
+          //     //         if(image!= null){
+          //     //           profileController.profilePicture.value = image.path;
+          //     //           // profileController.updateProfilePicture(context);
+          //     //         }
+          //     //
+          //     //       },);
+          //     // },
+          //     child: Container(
+          //       width: 30.w,
+          //       alignment: Alignment.center,
+          //       height: 30.h,
+          //       decoration: BoxDecoration(
+          //         shape: BoxShape.circle,
+          //         color: kSecondaryColor,
+          //       ),
+          //       child: GeneralImageWidget(
+          //
+          //         imagePath: AssetsImages.imageAdd,
+          //       ),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
@@ -259,6 +260,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
               SizedBox(height: 10.h),
               _buildEditableInfoRow('Mobile Phone', '+${userModelGlobal.value.countryCode??''} ${ userModelGlobal.value.phone??''}',
                validator:ValidationService.instance.emptyValidator,
+                readOnly: true,
                 controller: profileController.mobileNoCtrl,
                 keyboardType: TextInputType.phone,
               ),

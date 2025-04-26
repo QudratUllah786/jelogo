@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:jelogo/controller/home_controller.dart';
 import 'package:jelogo/core/constants/endpoints.dart';
 
 import '../api/api_service.dart';
@@ -77,6 +78,7 @@ DialogService.instance.hideLoading();
       if(data.$1?['status'] == true ){
 
         CustomSnackBars.instance.showSuccessSnackbar(title: 'Success', message: data.$1?['message']);
+        Get.find<HomeController>().getMyOrder();
         Get.close(1);
 
       }else{
@@ -92,9 +94,9 @@ DialogService.instance.hideLoading();
     CustomSnackBars.instance.showFailureSnackbar(title: 'Failure', message: data.$1?['message']);
     return;
   }
-  
-  
-  
+
+
+
   
 
   @override

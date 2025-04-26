@@ -440,10 +440,10 @@ class _TransferState extends State<Transfer> {
                             onPressed: () {
 
 
-                              if(!_transferController.myBeneficiaryList.any((element) => element.phone == _transferController.phoneCtrl.text,))
-                              {
-                                return CustomSnackBars.instance.showFailureSnackbar(title: 'ohh', message: 'you cannot add this no in beneficiary');
-                              }
+                              // if(_transferController.myBeneficiaryList.any((element) => element.phone == _transferController.phoneCtrl.text,))
+                              // {
+                              //   return CustomSnackBars.instance.showFailureSnackbar(title: 'ohh', message: 'you cannot add this no in beneficiary');
+                              // }
 
 
                               if(_transferController.myBeneficiaryList.any((element) => element.phone?.trim() == _transferController.phoneCtrl.text.trim(),)){
@@ -498,7 +498,7 @@ class _TransferState extends State<Transfer> {
 
                           if(isCheck && _contact != null){
 
-                           await _transferController.addBeneficiary(name: _contact?.fullName??'');
+                           await _transferController.addBeneficiary(name: _contact?.fullName?? _transferController.phoneCtrl.text.trim());
 
                          //   List<Map<String, dynamic>> jsonList = [contactToJson(_contact!)];
                           //  await LocalStorageService.instance.write(key: 'beneficiary', value: jsonList);

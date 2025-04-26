@@ -4,13 +4,15 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:jelogo/constants/app_sizes.dart';
 import 'package:jelogo/constants/assets_images.dart';
+import 'package:jelogo/controller/auth_controller.dart';
 import 'package:jelogo/view/bottombar/jelogo_bottom_bar.dart';
 import 'package:jelogo/widgets/blue_button.dart';
 import 'package:jelogo/widgets/my_text.dart';
 
 import '../../core/binding/app_binding.dart';
+import '../../core/common/functions.dart';
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,8 @@ class WelcomeScreen extends StatelessWidget {
             SizedBox(height: 50.h,),
 
 
-            BlueButton(ButtonText: 'OK', onTap: () {
+            BlueButton(ButtonText: 'OK', onTap: () async{
+                 await showAccount();
               Get.offAll(()=> JelogoBottomBar(),binding: BottomBarBindings());
             },)
 

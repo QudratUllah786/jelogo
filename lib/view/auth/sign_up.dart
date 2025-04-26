@@ -209,7 +209,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           child: MyText(
-                            text: "Sign in",
+                            text: "Sign up",
                             color: kPrimaryColor,
                             weight: FontWeight.bold,
                             size: 16,
@@ -226,7 +226,7 @@ class _SignUpState extends State<SignUp> {
                             
                         MyText(text: 'Have an account? ',color: Color(0xff343434),),
                         SizedBox(width: 10.w,),
-                        MyText(text: 'Sign up', color: kSecondaryColor,weight: FontWeight.w600,onTap: (){
+                        MyText(text: 'Sign in', color: kSecondaryColor,weight: FontWeight.w600,onTap: (){
                             
                           Get.back();
                             

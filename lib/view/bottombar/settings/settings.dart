@@ -182,11 +182,14 @@ class Settings extends StatelessWidget {
                   child: Column(
                     children: [
                       Center(
-                        child: GeneralImageWidget(
-                          imagePath: AssetsImages.dummyImage,
-                          radius: 50.sp,
-                          width: 100.w,
-                          height: 100.h,
+                        child: Obx(
+                      ()=> GeneralImageWidget(
+                            imagePath: AssetsImages.dummyImage,
+                            url: userModelGlobal.value.avatar??dummyImage,
+                            radius: 50.sp,
+                            width: 100.w,
+                            height: 100.h,
+                          ),
                         ),
                       ),
                       SizedBox(height: 10.h,),

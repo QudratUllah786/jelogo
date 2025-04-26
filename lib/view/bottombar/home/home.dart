@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:jelogo/constants/app_colors.dart';
 import 'package:jelogo/constants/assets_images.dart';
 import 'package:jelogo/controller/home_controller.dart';
+import 'package:jelogo/core/binding/app_binding.dart';
+import 'package:jelogo/main.dart';
 import 'package:jelogo/utils/global_instances.dart';
 import 'package:jelogo/view/auth/pin_screen.dart';
 import 'package:jelogo/view/bottombar/home/invoice-payment/invoice_payment.dart';
@@ -55,7 +57,7 @@ class Home extends StatelessWidget {
     {
       "icon": AssetsImages.history,
       "label": "History",
-      "route": () => Get.to(PaymentHistory()),
+      "route": () => Get.to(PaymentHistory(),binding: TransactionBindings()),
     },
   ];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -78,8 +80,10 @@ class Home extends StatelessWidget {
 
           child: Padding(
             padding: EdgeInsets.only(left: 12.w),
-            child: CircleAvatar(
-              backgroundImage: AssetImage(AssetsImages.dummyImage),
+            child: Obx(
+              () =>  CircleAvatar(
+                backgroundImage: NetworkImage(userModelGlobal.value.avatar?? dummyImage),
+              ),
             ),
           ),
         ),

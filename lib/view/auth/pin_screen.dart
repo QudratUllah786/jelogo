@@ -14,6 +14,8 @@ import 'package:jelogo/utils/snackbars.dart';
 import 'package:jelogo/view/auth/forgetpassword/forget_password.dart';
 import 'package:jelogo/widgets/appbar.dart';
 
+import '../../core/common/functions.dart';
+import '../../local_storage/local_storage.dart';
 import '../../widgets/my_text.dart';
 import '../bottombar/home/confirm.dart';
 import '../bottombar/jelogo_bottom_bar.dart';
@@ -64,7 +66,7 @@ class _PinScreenState extends State<PinScreen> {
 
           }
 
-          if(widget.fromTransfer == true && widget.fromTransfer == false){
+          if(widget.fromTransfer == true && widget.fromTopUp == false){
 
             final isTransfer =await Get.find<TransferController>().paymentTransfer(withFee: widget.isFee, slug: widget.slug);
 
@@ -211,9 +213,53 @@ class _PinScreenState extends State<PinScreen> {
                   ];
 
                   return InkWell(
-                    onTap: () {
+                    onTap: () async {
                       if (keys[index] == "꩜") {
-                        // Handle fingerprint
+                         if(widget.fromTopUp == false && widget.fromTransfer == false)
+                        {
+                          final String? pass = await LocalStorageService.instance.read(key: 'password');
+                          if(pass != null && pass.isNotEmpty){
+                            final isAuthenticate = await authenticate();
+                            if(isAuthenticate){
+                              await   Get.find<AuthController>().login(password: pass);
+                              return;
+                            }
+                          }
+                        }
+
+
+                         final isAuthenticate = await authenticate();
+                         if(isAuthenticate){
+
+                             if(widget.fromTransfer == true && widget.fromTopUp == true){
+
+
+                               final isTransfer =await Get.find<TransferController>().rechargeWallet(withFee: widget.isFee, slug: widget.slug,pin:pin);
+
+                               if(isTransfer){
+                                 Get.to(Confirm(topUp: widget.fromTopUp,));
+                               }
+                               return;
+
+                             }
+
+                             if(widget.fromTransfer == true && widget.fromTopUp == false){
+
+                               final isTransfer =await Get.find<TransferController>().paymentTransfer(withFee: widget.isFee, slug: widget.slug);
+
+                               if(isTransfer){
+                                 Get.to(Confirm(topUp: widget.fromTopUp,));
+                               }
+                               return;
+                             }
+
+
+                         }
+
+
+                        return CustomSnackBars.instance.showFailureSnackbar(title: 'Ohh', message: 'you need to type secret code');
+
+
                       } else if (keys[index] == "⌫") {
                         _onDelete();
                       } else {

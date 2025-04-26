@@ -14,6 +14,7 @@ import 'package:jelogo/utils/dialogs.dart';
 import 'package:jelogo/utils/global_instances.dart';
 import 'package:jelogo/utils/snackbars.dart';
 import 'package:jelogo/view/bottombar/jelogo_bottom_bar.dart';
+import 'package:local_auth/local_auth.dart';
 
 import '../core/binding/app_binding.dart';
 import '../view/auth/create_secret_code.dart';
@@ -111,6 +112,10 @@ class AuthController extends GetxController {
         title: 'Ohh', message: response.$1?['message'] ?? '');
   }
 
+
+  RxString  authStatus = "Not authenticated".obs;
+
+
   createAccount() async {
     DialogService.instance.showProgressDialog();
 
@@ -141,9 +146,16 @@ class AuthController extends GetxController {
 
       await LocalStorageService.instance
           .write(key: 'accessToken', value: accessToken.value);
+      await LocalStorageService.instance.write(
+          key: 'email', value: loginPhoneCtrl.text.trim());
+
+      await LocalStorageService.instance.write(
+          key: 'password', value: loginPassCtrl.text.trim());
+
       await SecureStorageService.instance.write(
           key: 'refreshToken',
           value: userModel.data?.tokens?.refreshToken ?? '');
+
 
       Get.to(() => WelcomeScreen());
       CustomSnackBars.instance.showSuccessSnackbar(
@@ -180,6 +192,15 @@ class AuthController extends GetxController {
           title: 'Success', message: res.$1?['message'] ?? '');
       await LocalStorageService.instance.write(
           key: 'accessToken', value: userModel.data?.tokens?.accessToken ?? '');
+
+      await LocalStorageService.instance.write(
+          key: 'password', value: password.toString());
+
+
+      final pass = await LocalStorageService.instance.read(key: 'password');
+
+      log('pass:${pass.toString()}');
+
       await SecureStorageService.instance.write(
           key: 'refreshToken',
           value: userModel.data?.tokens?.refreshToken ?? '');
@@ -241,7 +262,8 @@ class AuthController extends GetxController {
 
     final res = await APIService.instance
         .post(resetPassUrl, body, true, showResult: true, successCode: 201);
-
+    await LocalStorageService.instance.write(
+        key: 'password', value: forgotSecretCodeController.text.trim());
     User user = User.fromJson(res.$1!['data']);
     userModelGlobal.value = user;
     if (res.$1 != null && res.$2 == 201) {

@@ -42,7 +42,7 @@ class CustomDrawer extends StatelessWidget {
                   accountName: MyText(text: userModelGlobal.value.name??'',weight: FontWeight.w700,size: 16.sp,),
                   accountEmail: MyText(text:userModelGlobal.value.email?? "",color: Color(0xff6C7072),),
                   currentAccountPicture: CircleAvatar(
-                    backgroundImage: AssetImage(AssetsImages.dummyImage),
+                    backgroundImage: NetworkImage(userModelGlobal.value.avatar?? dummyImage),
                   ),
                   decoration: BoxDecoration(color: Colors.white),
 
@@ -54,7 +54,7 @@ class CustomDrawer extends StatelessWidget {
                 Get.back();
               }),
               DrawerListTile(icon: Icons.history, title: "History", onTap: () {
-                Get.to(PaymentHistory());
+                Get.to(()=>PaymentHistory(),binding: TransactionBindings());
               }),
               DrawerListTile(icon: Icons.account_balance_wallet_outlined, title: "Account", onTap: () {
           

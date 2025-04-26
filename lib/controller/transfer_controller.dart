@@ -150,9 +150,8 @@ class TransferController extends GetxController{
 
 
   Future<void> getMyBeneficiary () async{
-
+    myBeneficiaryList.clear();
     DialogService.instance.showProgressDialog();
-
 
     final data =  await APIService.instance.get(getMyBeneficiaryUrl,false);
 
@@ -163,6 +162,7 @@ class TransferController extends GetxController{
       if(data.$1?['status'] == true ){
 
         log(data.$1?['message']);
+        log('message:${data.$1?['data']}');
         for(var i in data.$1?['data']){
           BeneficiaryModel beneficiaryModel = BeneficiaryModel.fromJson(i);
           myBeneficiaryList.add(beneficiaryModel);

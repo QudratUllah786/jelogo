@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:jelogo/api/api_service.dart';
 import 'package:jelogo/core/constants/endpoints.dart';
+import 'package:jelogo/model/order_model.dart';
 import 'package:jelogo/model/wallet/wallet_balance.dart';
 import 'package:jelogo/utils/dialogs.dart';
 
@@ -12,6 +15,7 @@ class HomeController extends GetxController{
 
 
   Rx<WalletBalance> walletBalance = WalletBalance().obs;
+  RxList<OrderModel> myOrders = <OrderModel>[].obs;
 
   Future<bool> showAccount() async {
     DialogService.instance.showProgressDialog();
@@ -61,9 +65,44 @@ class HomeController extends GetxController{
   }
 
 
+  getMyOrder() async{
+
+
+    myOrders.clear();
+    final response = await APIService.instance.get(myOrderUrl, false);
+    final data = response.$1;
+    final statusCode = response.$2;
+
+    if (data != null && statusCode == 200) {
+
+      log('data:${data}');
+
+      if (data['status'] == true) {
+        for(var i  in data['data']){
+          OrderModel orderModel = OrderModel.fromJson(i);
+          myOrders.add(orderModel);
+        }
+
+      } else {
+
+        log('error in getting my order:${ data['error'] ?? 'Unknown error'}');
+
+     //   CustomSnackBars.instance.showToast(message: data['error'] ?? 'Unknown error');
+      }
+
+      return;
+    }
+  }
+
+
+
+
+
+
   @override
   void onReady() {
     showWalletBalance();
+    getMyOrder();
     super.onReady();
   }
 
