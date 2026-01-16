@@ -48,71 +48,74 @@ class _PaymentHistoryState extends State<PaymentHistory> {
       appBar: simpleAppBar(title: 'Payment history'),
       body: Padding(
         padding:EdgeInsets.only(left: 16.w,top: 10.h),
-        child: Column(
-          children: [
-            // SizedBox(
-            //   height: 50.h,
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal,
-            //     shrinkWrap: true,
-            //     itemCount: PaymentHistory.monthsList.length,
-            //     itemBuilder:  (context, index) {
-            //       bool isSelected = selectedMonthIndex == index;
-            //     return Padding(
-            //       padding:  EdgeInsets.only(right: 5.w),
-            //       child: InkWell(
-            //         onTap: () {
-            //           setState(() {
-            //             selectedMonthIndex = index;
-            //           });
-            //         },
-            //         child: Container(
-            //           alignment: Alignment.center,
-            //           width: 100.w,
-            //           height: 44.h,
-            //           decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(15.sp),
-            //             color: isSelected? kSecondaryColor:kLoginButtonColor ,
-            //           ),
-            //           child: MyText(text:PaymentHistory.monthsList[index],color:isSelected? kPrimaryColor:kTertiaryColor,
-            //             size: 15.sp,weight: FontWeight.w500,),
-            //         ),
-            //       ),
-            //     );
-            //   },),
-            // ),
-            //
-            // SizedBox(height: 30.h,),
-
-            Obx(
-              () =>
-
-
-                _transactionController.myTransactions.isEmpty?
-
-                    Center(
-                      child: MyText(text: 'no transaction history'),
-                    ):
-
-                ListView.builder(
-                padding:EdgeInsets.only(right: 16.w) ,
-                shrinkWrap: true,
-                itemCount: _transactionController.myTransactions.length,
-                itemBuilder:(context, index) {
-                return PaymentTile(
-                   paymentType: _transactionController.myTransactions[index].action == TransactionEnum.TRANSFER_TO_WALLET.name ? 'Transfer':'Deposit',
-                  onTap: () {
-                    Get.to(()=>TransactionDetail(
-                      transactionModel:  _transactionController.myTransactions[index],
-                        isPositive: _transactionController.myTransactions[index].status == TransactionEnum.COMPLETED.name));
-                  },
-                amount:_transactionController.myTransactions[index].amount?.toString() ??'',
-                date: formatDateTime(_transactionController.myTransactions[index].createdAt.toString()),
-                isPositive: _transactionController.myTransactions[index].status == TransactionEnum.COMPLETED.name,
-                );
-              },),
-            )
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // SizedBox(
+              //   height: 50.h,
+              //   child: ListView.builder(
+              //     scrollDirection: Axis.horizontal,
+              //     shrinkWrap: true,
+              //     itemCount: PaymentHistory.monthsList.length,
+              //     itemBuilder:  (context, index) {
+              //       bool isSelected = selectedMonthIndex == index;
+              //     return Padding(
+              //       padding:  EdgeInsets.only(right: 5.w),
+              //       child: InkWell(
+              //         onTap: () {
+              //           setState(() {
+              //             selectedMonthIndex = index;
+              //           });
+              //         },
+              //         child: Container(
+              //           alignment: Alignment.center,
+              //           width: 100.w,
+              //           height: 44.h,
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(15.sp),
+              //             color: isSelected? kSecondaryColor:kLoginButtonColor ,
+              //           ),
+              //           child: MyText(text:PaymentHistory.monthsList[index],color:isSelected? kPrimaryColor:kTertiaryColor,
+              //             size: 15.sp,weight: FontWeight.w500,),
+              //         ),
+              //       ),
+              //     );
+              //   },),
+              // ),
+              //
+              // SizedBox(height: 30.h,),
+          
+              Obx(
+                () =>
+          
+          
+                  _transactionController.myTransactions.isEmpty?
+          
+                      Center(
+                        child: MyText(text: 'no transaction history'),
+                      ):
+          
+                  ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                  padding:EdgeInsets.only(right: 16.w) ,
+                  shrinkWrap: true,
+                  itemCount:8,
+                  itemBuilder:(context, index) {
+                  return PaymentTile(
+                     paymentType: _transactionController.myTransactions[index].action == TransactionEnum.TRANSFER_TO_WALLET.name ? 'Transfer':'Deposit',
+                    onTap: () {
+                      Get.to(()=>TransactionDetail(
+                        transactionModel:  _transactionController.myTransactions[index],
+                          isPositive: _transactionController.myTransactions[index].status == TransactionEnum.COMPLETED.name));
+                    },
+                  amount:_transactionController.myTransactions[index].amount?.toString() ??'',
+                  date: formatDateTime(_transactionController.myTransactions[index].createdAt.toString()),
+                  isPositive: _transactionController.myTransactions[index].status == TransactionEnum.COMPLETED.name,
+                  );
+                },),
+              )
+            ],
+          ),
         ),
       ),
     );
